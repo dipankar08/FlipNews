@@ -80,7 +80,7 @@ def get_all_data_for_a_seed(seed):
             ares['source'] = 'sangbadpratidin'
             ares['categories']= seed['categories']
             ares['tags']= seed['categories']
-            ares['rand_id']= ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20)) 
+            ares['rand_id']= hashlib.sha224(ares['url']).hexdigest()#''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20)) 
             res.append(ares)
         return res
     except Exception, e:
