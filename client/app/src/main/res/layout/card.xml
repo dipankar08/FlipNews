@@ -1,0 +1,64 @@
+<LinearLayout android:id="@+id/LinearLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:background="#ff0000" >
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#000"
+            android:src="@drawable/mamatha" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4"
+         >
+        <TextView android:text="Some text"
+            android:id="@+id/text1"
+            android:layout_width="fill_parent"
+            android:padding="8dp"
+            android:textSize="28sp"
+            android:textAlignment="center"
+            android:layout_height="wrap_content"/>
+        <ScrollView
+            android:id="@+id/SCROLLER_ID"
+            android:layout_below="@id/text1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scrollbars="vertical"
+            android:fillViewport="true">
+            <TextView android:text="Some text\n hello"
+                android:id="@+id/text2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1.0"
+                android:textSize="18sp"
+                android:padding="8dp"
+                android:lineSpacingExtra="5dp"
+                 />
+        </ScrollView>
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/below_btn"
+            android:layout_below="@id/text2">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:id="@+id/text3"
+                android:text="Powered by "
+                android:paddingRight="10dp"
+                />
+    </RelativeLayout>
+</LinearLayout>
