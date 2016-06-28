@@ -2,14 +2,31 @@ from flask import Flask, request
 import pickle
 import pdb
 import json
-data = None
-with open('data.pkl', 'rb') as handle:
-  data = pickle.load(handle)
+import crawler
+data = [{'state':'No data'}]
+#with open('data.pkl', 'rb') as handle:
+#  data = pickle.load(handle)
 
 #pdb.set_trace()
 
 from flask import Flask, Response
 app = Flask(__name__)
+
+###############  Multi thread to get the data ##############
+import threading
+def schedule():
+    # do something here ...
+    print '*'*50
+    print 'Running Scheduler....'
+    import time
+    print 'Time:', time.ctime() # 'Mon Oct 18 13:35:29 2010'
+    print '*'*50
+    global data
+    data = crawler.CrawlAll();
+    print '*'*50
+    # call f() again in 60 seconds
+    threading.Timer(60*60*2, schedule).start() #Run every 2 hours
+
 
 @app.route('/news')
 def hello_world():
@@ -25,4 +42,5 @@ def hello_world():
     except Exception,e:
        print e
 if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=7777, debug=True)
+    schedule()
+    app.run(host='0.0.0.0', port=7777, debug=True)

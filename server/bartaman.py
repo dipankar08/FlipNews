@@ -3,10 +3,7 @@ from bs4 import BeautifulSoup
 #Add your seed link here
 import pdb
 ROOT = 'http://zeenews.india.com'
-master_config={
-    'allowled':['zeenews'],
-    'max_news_in_each_cata':6,
-}
+from masterConfig import mconfig
 
 def get_artical_info(url): #Working..
     print 'getting',url
@@ -68,7 +65,7 @@ def get_all_data_for_a_seed(seed):
     ii =0;
     for l in links:
         ii = ii+1
-        if(ii > master_config['max_news_in_each_cata'] ):
+        if(ii > mconfig['max_news_in_each_cata'] ):
             break;
         ares = get_artical_info(l)
         if not ares:
