@@ -12,7 +12,8 @@ def CrawlAll():
         handaler = v['handaler']
         for sd in seeds:
             data = handaler(sd)
-            allres += data
+            if data:
+                allres += data
     print 'Total', len(allres)
     return allres
     
