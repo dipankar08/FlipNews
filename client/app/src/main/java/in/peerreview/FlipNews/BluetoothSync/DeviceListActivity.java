@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews;
+package in.peerreview.FlipNews.BluetoothSync;
 
 
 import java.lang.reflect.Method;
@@ -15,6 +15,9 @@ import android.content.IntentFilter;
 
 import android.widget.ListView;
 import android.widget.Toast;
+
+import in.peerreview.FlipNews.BluetoothSync.DeviceListAdapter;
+import in.peerreview.FlipNews.R;
 
 /**
  * Device list.

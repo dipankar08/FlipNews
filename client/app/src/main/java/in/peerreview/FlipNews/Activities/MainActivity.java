@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews;
+package in.peerreview.FlipNews.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -32,6 +32,13 @@ import android.widget.TextView;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+
+import in.peerreview.FlipNews.BluetoothSync.DeviceListActivity;
+import in.peerreview.FlipNews.ServerProxy.BackendController;
+import in.peerreview.FlipNews.BluetoothSync.BluetoothConnector;
+import in.peerreview.FlipNews.BluetoothSync.BluetoothShare;
+import in.peerreview.FlipNews.R;
+import in.peerreview.FlipNews.Utils.Notification;
 
 public class MainActivity extends Activity {
     private ViewFlipper flipper;
