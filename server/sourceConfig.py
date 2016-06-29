@@ -3,10 +3,6 @@ import zeenews
 import pratidin
 import bartaman
 
-master_config={
-    'allowled':['sangbadpratidin','anandabazar','zeenews'],
-    'max_news_in_each_cata':10,
-}
 
 config = {
     'bartaman': {

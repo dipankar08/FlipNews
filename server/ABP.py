@@ -1,3 +1,4 @@
+import hashlib
 import requests
 from bs4 import BeautifulSoup 
 #Add your seed link here
@@ -8,23 +9,27 @@ seeds = {
     }
  
 def get_artical_info(url):
-    print 'getting',url
-    html = requests.get(url)
-    if html.status_code != 200:
-        print 'Error: Can;t retrive artical'
-        return None
-    #pdb.set_trace();
-    soup = BeautifulSoup(html.text)
+    try:
+        print 'getting',url
+        html = requests.get(url)
+        if html.status_code != 200:
+            print 'Error: Can;t retrive artical'
+            return None
+        #pdb.set_trace();
+        soup = BeautifulSoup(html.text)
+         
+        story_container =  soup.find("div", { "id" : "story_container" }) 
      
-    story_container =  soup.find("div", { "id" : "story_container" }) 
- 
-    title = story_container.find('h1').text
-    date =  story_container.find("div", { "class" : "publish_date" }).text
-    details =  story_container.find("div", { "class" : "articleBody" }).text
-    #pdb.set_trace()
-    images = [ m.get('src') for m in story_container.find_all('img') if m.get('src').startswith('http://images1.') and m.get('src').endswith('jpg')]
-    head_image = images[0] if len(images) > 0 else None
-    return {'title':title,'date':date,'details':details,'images':images,'head_image':head_image}
+        title = story_container.find('h1').text
+        date =  story_container.find("div", { "class" : "publish_date" }).text
+        details =  story_container.find("div", { "class" : "articleBody" }).text
+        #pdb.set_trace()
+        images = [ m.get('src') for m in story_container.find_all('img') if m.get('src').startswith('http://images1.') and m.get('src').endswith('jpg')]
+        head_image = images[0] if len(images) > 0 else None
+        return {'title':title,'date':date,'details':details,'images':images,'head_image':head_image}
+    except Exception, e:
+        print 'Error in (get_artical_info): ',url,str(e)
+        return None
       
  
 def get_all_artical_links(url):
@@ -57,23 +62,26 @@ def get_all_artical_links(url):
 #All Interface must implemnets this...
 import random,string
 def get_all_data_for_a_seed(seed):
-    links = get_all_artical_links(seed['url'])
-    if not links:
+    try:
+        links = get_all_artical_links(seed['url'])
+        if not links:
+            return None
+        res = []
+        #pdb.set_trace()
+        for l in links:
+            ares = get_artical_info(l)
+            if not ares:
+                continue
+            ares['url'] = l
+            ares['source'] = 'Anadabazar'
+            ares['categories']= seed['categories']
+            ares['tags']= seed['categories']
+            ares['rand_id']= hashlib.sha224(ares['url']).hexdigest()#''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20)) 
+            res.append(ares)
+        return res
+    except Exception, e:
+        print 'Error(get_all_data_for_a_seed)',seed,str(e)
         return None
-    res = []
-    #pdb.set_trace()
-    for l in links:
-        ares = get_artical_info(l)
-        if not ares:
-            continue
-        ares['url'] = l
-        ares['source'] = 'Anadabazar'
-        ares['categories']= seed['categories']
-        ares['tags']= seed['categories']
-        ares['rand_id']= ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20)) 
-        res.append(ares)
-    return res
- 
  
          
 #test Public API
