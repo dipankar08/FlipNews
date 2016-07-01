@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews;
+package in.peerreview.FlipNews.storage;
 
 import org.json.JSONException;
 import org.json.JSONObject;

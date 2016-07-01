@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews;
+package in.peerreview.FlipNews.ServerProxy;
 
 import android.content.Context;
 import android.util.Log;
@@ -18,6 +18,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import in.peerreview.FlipNews.Activities.MainActivity;
+import in.peerreview.FlipNews.R;
+import in.peerreview.FlipNews.Utils.Notification;
+import in.peerreview.FlipNews.storage.CacheManager;
+import in.peerreview.FlipNews.storage.DataSource;
+import in.peerreview.FlipNews.storage.FileSaveLoad;
 
 /**
  * Created by ddutta on 6/19/2016.
@@ -186,7 +192,7 @@ class BackendAPI {
 }
 
 class HttpUtils {
-    private static final String BASE_URL = "http://dipankar.ngrok.io/news";
+    private static final String BASE_URL = "http://peerreview.in:5555/news";
 
 
     private static AsyncHttpClient client = new AsyncHttpClient();

@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews;
+package in.peerreview.FlipNews.BluetoothSync;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

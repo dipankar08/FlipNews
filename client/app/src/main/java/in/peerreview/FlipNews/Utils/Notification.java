@@ -1,8 +1,10 @@
-package in.peerreview.FlipNews;
+package in.peerreview.FlipNews.Utils;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.widget.Toast;
+
+import in.peerreview.FlipNews.Activities.MainActivity;
 
 /**
  * Created by ddutta on 6/25/2016.
