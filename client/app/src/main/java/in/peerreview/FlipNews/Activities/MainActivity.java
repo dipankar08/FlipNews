@@ -1,11 +1,15 @@
 package in.peerreview.FlipNews.Activities;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.ParcelUuid;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -14,6 +18,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+import android.view.MenuItem;
+
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -34,13 +40,14 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 
 import in.peerreview.FlipNews.BluetoothSync.DeviceListActivity;
+import in.peerreview.FlipNews.R;
 import in.peerreview.FlipNews.ServerProxy.BackendController;
 import in.peerreview.FlipNews.BluetoothSync.BluetoothConnector;
 import in.peerreview.FlipNews.BluetoothSync.BluetoothShare;
-import in.peerreview.FlipNews.R;
 import in.peerreview.FlipNews.Utils.Notification;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
+    private Toolbar toolbar;
     private ViewFlipper flipper;
     private int  currentApiVersion;
     private float initialX, initialY;
@@ -76,6 +83,9 @@ public class MainActivity extends Activity {
         gestureListener = new SwipeGestureListener(MainActivity.this);
         flipper.setOnTouchListener(gestureListener);
 
+        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);
+
         //getWindow().addFlags(WindowManager.LayoutParams.PREVENT_POWER_KEY);
         /*
         BluetoothShare bs = new BluetoothShare();
@@ -85,6 +95,34 @@ public class MainActivity extends Activity {
         */
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        // getMenuInflater().inflate(R.menu.truiton_view_flipper, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.options) {
+            setContentView(R.layout.settings);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void backMain(View view) {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    }
+
     public ViewFlipper getFlipper(){return flipper;}
 
     private void hideBars() {
@@ -148,12 +186,6 @@ public class MainActivity extends Activity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.truiton_view_flipper, menu);
-        return true;
-    }
     boolean is_up(float y1, float y2){
         return (y1 > y2 && (y1-y2) > 1);
     }
