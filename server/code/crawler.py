@@ -49,4 +49,6 @@ def save(allres):
         pickle.dump(allres, handle)
 
         
-#CrawlAll();
+def test():
+    UpdateDataBase()
+#test();

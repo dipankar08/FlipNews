@@ -2,7 +2,7 @@ import ABP
 import zeenews
 import pratidin
 import bartaman
-
+import eisamay
 
 config = {
     'bartaman': {
@@ -58,7 +58,20 @@ config = {
             {'categories':'entertainment','url':'http://sangbadpratidin.in/category/film-entertainment/'},
             {'categories':'lifestyle','url':'http://sangbadpratidin.in/category/life-style/'},          
             
-        ],       
-    
+        ],     
+    },
+
+    'eisamay': {
+        'title':'hello',
+        'handaler':eisamay.get_all_data_for_a_seed,
+        'seeds':[
+            {'categories':'calcutta','url':'http://eisamay.indiatimes.com/city/articlelist/15819618.cms'},
+            {'categories':'state','url':'http://eisamay.indiatimes.com/state/articlelist/15819609.cms'},
+            {'categories':'national','url':'http://eisamay.indiatimes.com/nation/articlelist/15819599.cms'},
+            {'categories':'international','url':'http://eisamay.indiatimes.com/international/articlelist/15819594.cms'},
+            {'categories':'entertainment','url':'http://eisamay.indiatimes.com/entertainment/articlelist/15819570.cms'},
+            {'categories':'lifestyle','url':'http://eisamay.indiatimes.com/lifestyle/articlelist/15992436.cms'},          
+            
+        ],     
     },
 }
