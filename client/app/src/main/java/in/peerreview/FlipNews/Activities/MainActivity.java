@@ -81,11 +81,9 @@ public class MainActivity extends Activity {
         gestureListener = new SwipeGestureListener(MainActivity.this);
         flipper.setOnTouchListener(gestureListener);
 
-        /*
-        Intent serviceIntent = new Intent();
-        serviceIntent.setAction("in.peerreview.FlipNews.Services.MyService");
-        startService(serviceIntent);
-        */
+
+        startService(new Intent(MainActivity.this,MyService.class));
+
         //getWindow().addFlags(WindowManager.LayoutParams.PREVENT_POWER_KEY);
         /*
         BluetoothShare bs = new BluetoothShare();
