@@ -18,13 +18,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.peerreview.FlipNews.Activities.MainActivity;
+import in.peerreview.FlipNews.Utils.Notification;
 
 /**
  * Created by ddutta on 6/19/2016.
  */
-public class CacheManager {
+public class ImageCacheManager {
 
-    static Map image_lookup_map = new HashMap();
+    private static final String IMAGES = "Images";
 
     public static void renderImage(ImageView bmImage, String url,String name){
         new DownloadImageTask(bmImage).execute(url,name);
@@ -37,15 +38,24 @@ public class CacheManager {
         }
 
         protected Bitmap doInBackground(String... urls) {
+            /* This function is done in backgruoud
+              The main purpose to downoad the image and store it by it's rand name to the disk.
+              If the file found in the image cache. Good Just retuirn it.
+             */
             String murl = urls[0];
-            String name = urls[1];
+            String name = urls[1]+ ".jpg";
             //downlaod the image for later user..
-            if(image_lookup_map.containsKey(murl)) {
-                return getBitMap((String) image_lookup_map.get(murl));
+            Log.d("DIPANKAR","Seraching Path in Cache"+name);
+            String existingImagePath = getPathIfPreDownloadedfromCache(name);
+            if(existingImagePath != null) {
+                Log.d("DIPANKAR","Found Images Path in Cache"+name);
+                return getBitMap(existingImagePath);
             }
+            Log.d("DIPANKAR","Not Found and we need to download the images"+name);
+
             String filepath =null;
             try {
-                Log.d("Downloading...",murl);
+                Log.d("DIPANKAR","Start Downloging Images..."+murl);
                 URL url = new URL(murl);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
@@ -54,10 +64,9 @@ public class CacheManager {
                 urlConnection.setReadTimeout(15000);
                 urlConnection.connect();
                // File SDCardRoot = Environment.getExternalStorageDirectory().getAbsoluteFile();
-                File fileWithinMyDir = MainActivity.getActivity().getApplicationContext().getFilesDir();
-                String filename = name+".jpg";
-                Log.i("Local filename:", "" + filename);
-                File file = new File(fileWithinMyDir, filename);
+                File fileWithinMyDir = new File(MainActivity.getActivity().getApplicationContext().getFilesDir()+"/"+IMAGES+"/");
+                Log.i("Local filename:", "" + name);
+                File file = new File(fileWithinMyDir, name);
                 if (file.createNewFile()) {
                     file.createNewFile();
                 }
@@ -70,7 +79,6 @@ public class CacheManager {
                 while ((bufferLength = inputStream.read(buffer)) > 0) {
                     fileOutput.write(buffer, 0, bufferLength);
                     downloadedSize += bufferLength;
-                    //Log.i("Progress:", "downloadedSize:" + downloadedSize + "totalSize:" + totalSize);
                 }
                 fileOutput.close();
                 if (downloadedSize == totalSize) filepath = file.getPath();
@@ -84,14 +92,27 @@ public class CacheManager {
                 filepath = null;
                 e.printStackTrace();
             }
+            //Notification.Log("File Path: "+filepath);
             if(filepath !=null) {
-                image_lookup_map.put(murl, filepath);
-                return getBitMap((String) image_lookup_map.get(murl));
+                return getBitMap(filepath);
+            } else {
+               Log.d("DIPANKAR","Error: Not able to generate image path");
+            }
+            return null;
+        }
+
+        private String getPathIfPreDownloadedfromCache(String name) {
+            File images[] = new File(MainActivity.getActivity().getApplicationContext().getFilesDir()+"/"+IMAGES+"/").listFiles();
+            for (File f : images){
+                if(f.getName().equals(name)){
+                    return f.getAbsolutePath();
+                }
             }
             return null;
         }
 
         private Bitmap getBitMap(String path) {
+            /* Build the bitmap iamge from file in disk*/
             try {
                 Log.d("getBitMap", path);
                 File sd = Environment.getExternalStorageDirectory();
