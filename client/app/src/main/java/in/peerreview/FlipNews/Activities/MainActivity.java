@@ -38,6 +38,7 @@ import in.peerreview.FlipNews.ServerProxy.BackendController;
 import in.peerreview.FlipNews.BluetoothSync.BluetoothConnector;
 import in.peerreview.FlipNews.BluetoothSync.BluetoothShare;
 import in.peerreview.FlipNews.R;
+import in.peerreview.FlipNews.Services.MyService;
 import in.peerreview.FlipNews.Utils.Notification;
 
 public class MainActivity extends Activity {
@@ -62,6 +63,10 @@ public class MainActivity extends Activity {
 
     private BluetoothAdapter mBluetoothAdapter;
 
+    public void startService(View view) {
+        startService(new Intent(getBaseContext(), MyService.class));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +81,9 @@ public class MainActivity extends Activity {
         gestureListener = new SwipeGestureListener(MainActivity.this);
         flipper.setOnTouchListener(gestureListener);
 
+
+        startService(new Intent(MainActivity.this,MyService.class));
+
         //getWindow().addFlags(WindowManager.LayoutParams.PREVENT_POWER_KEY);
         /*
         BluetoothShare bs = new BluetoothShare();
@@ -88,7 +96,7 @@ public class MainActivity extends Activity {
     public ViewFlipper getFlipper(){return flipper;}
 
     private void hideBars() {
-         currentApiVersion = Build.VERSION.SDK_INT;
+        currentApiVersion = Build.VERSION.SDK_INT;
 
         final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -151,7 +159,7 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.truiton_view_flipper, menu);
+        // getMenuInflater().inflate(R.menu.truiton_view_flipper, menu);
         return true;
     }
     boolean is_up(float y1, float y2){

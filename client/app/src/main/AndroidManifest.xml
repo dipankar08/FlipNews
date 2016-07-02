@@ -26,6 +26,8 @@
 
         </activity>
 
+        <service android:name="in.peerreview.FlipNews.Services.MyService" />
+
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
