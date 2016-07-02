@@ -85,6 +85,8 @@ public class MainActivity extends ActionBarActivity {
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_list_white_18dp);
 
         //getWindow().addFlags(WindowManager.LayoutParams.PREVENT_POWER_KEY);
         /*
@@ -114,6 +116,10 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.options) {
             setContentView(R.layout.settings);
+        }
+
+        if (id == android.R.id.home) {
+            setContentView(R.layout.categories);
         }
 
         return super.onOptionsItemSelected(item);

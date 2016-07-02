@@ -13,4 +13,10 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="Widget.Toolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <!-- 16dp padding on both sides of actionbar -->
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+    </style>
+
 </resources>
