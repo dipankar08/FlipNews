@@ -16,6 +16,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 import android.view.MenuItem;
@@ -47,12 +49,12 @@ import in.peerreview.FlipNews.BluetoothSync.BluetoothShare;
 import in.peerreview.FlipNews.Utils.Notification;
 
 public class MainActivity extends ActionBarActivity {
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
     private ViewFlipper flipper;
     private int  currentApiVersion;
     private float initialX, initialY;
     private static MainActivity sActivity = null;
-    SwipeGestureListener gestureListener;
+    private static GestureDetector gd = null;
     final String TAG ="MainActivity";
 
     BluetoothShare bs = new BluetoothShare();
@@ -82,23 +84,47 @@ public class MainActivity extends ActionBarActivity {
         sActivity = this;
         backendController.firstBootLoad();
         hideBars();
-        gestureListener = new SwipeGestureListener(MainActivity.this);
-        flipper.setOnTouchListener(gestureListener);
-
-        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_list_white_18dp);
-
-        //getWindow().addFlags(WindowManager.LayoutParams.PREVENT_POWER_KEY);
-        /*
-        BluetoothShare bs = new BluetoothShare();
-        bs.on();
-        bs.list();
-        bluetoothsetup();
-        */
+        initToolbar();
+        initGestureDetector();
         ActivityHelper.createImageCache();
 
+
+
+    }
+
+    private void SetupSettingButtonListners() {
+        View.OnClickListener myListner = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    //Add your API call here//
+                if(v.getId() == R.id.notification){
+                    //do something and add other if else..
+
+                }
+            }
+        };
+
+        ((Button) findViewById(R.id.notification)).setOnClickListener(myListner);
+    }
+
+    private void SetupCatButtonListners() {
+        View.OnClickListener myListner = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Add your API call here//
+                if(v.getId() == R.id.allNews){
+                    //do something and add other if else..
+                }
+            }
+        };
+
+        ((Button) findViewById(R.id.allNews)).setOnClickListener(myListner);
+        ((Button) findViewById(R.id.kolkata)).setOnClickListener(myListner);
+        ((Button) findViewById(R.id.state)).setOnClickListener(myListner);
+        ((Button) findViewById(R.id.india)).setOnClickListener(myListner);
+        ((Button) findViewById(R.id.international)).setOnClickListener(myListner);
+        ((Button) findViewById(R.id.sport)).setOnClickListener(myListner);
+        ((Button) findViewById(R.id.lifestyle)).setOnClickListener(myListner);
     }
 
     @Override
@@ -119,10 +145,12 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.options) {
             setContentView(R.layout.settings);
+            SetupSettingButtonListners();
         }
 
         if (id == android.R.id.home) {
             setContentView(R.layout.categories);
+            SetupCatButtonListners();
         }
 
         return super.onOptionsItemSelected(item);
@@ -195,15 +223,17 @@ public class MainActivity extends ActionBarActivity {
         return sActivity;
     }
 
-
+    //####################################  Touch Framwe work ################################################
     boolean is_up(float y1, float y2){
         return (y1 > y2 && (y1-y2) > 1);
     }
     boolean is_down(float y1, float y2){
         return (y1 < y2 && (y2 - y1) > 1);
     }
+
     @Override
     public boolean onTouchEvent(MotionEvent touchevent) {
+        gd.onTouchEvent(touchevent);
         switch (touchevent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 initialX = touchevent.getX();
@@ -248,71 +278,51 @@ public class MainActivity extends ActionBarActivity {
         Notification.Log("Showing IDX:" + flipper.getDisplayedChild());
     }
 
-    class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener implements
-            View.OnTouchListener {
-        Context context;
-        GestureDetector gDetector;
-        static final int SWIPE_MIN_DISTANCE = 120;
-        static final int SWIPE_MAX_OFF_PATH = 250;
-        static final int SWIPE_THRESHOLD_VELOCITY = 200;
-
-        public SwipeGestureListener() {
-            super();
-        }
-
-        public SwipeGestureListener(Context context) {
-            this(context, null);
-        }
-
-        public SwipeGestureListener(Context context, GestureDetector gDetector) {
-
-            if (gDetector == null)
-                gDetector = new GestureDetector(context, this);
-
-            this.context = context;
-            this.gDetector = gDetector;
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-                               float velocityY) {
-
-
-            if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
-                if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MAX_OFF_PATH
-                        || Math.abs(velocityY) < SWIPE_THRESHOLD_VELOCITY) {
-                    return false;
-                }
-                if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE) {
-                    Toast.makeText(MainActivity.this,   "BottomToTop  ", Toast.LENGTH_SHORT).show();
-                } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE) {
-                    Toast.makeText(MainActivity.this,   "topToBottom  ", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                if (Math.abs(velocityX) < SWIPE_THRESHOLD_VELOCITY) {
-                    return false;
-                }
-                if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE) {
-                    Toast.makeText(MainActivity.this,   "Right To left  ", Toast.LENGTH_SHORT).show();
-                } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE) {
-                    Toast.makeText(MainActivity.this,   "Left to right  ", Toast.LENGTH_SHORT).show();
-                }
-            }
-            return super.onFling(e1, e2, velocityX, velocityY);
-
-        }
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-
-            return gDetector.onTouchEvent(event);
-        }
-
-        public GestureDetector getDetector() {
-            return gDetector;
-        }
-
+    //###################################################################   Gusture Listner Implemetaion
+    private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    void initGestureDetector(){
+        gd = new GestureDetector(getApplicationContext(), new GestureListener());
     }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                return false; // Right to left
+            }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                return false; // Left to right
+            }
+
+            if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                return false; // Bottom to top
+            }  else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                return false; // Top to bottom
+            }
+            return false;
+        }
+        // event when double tap occurs
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            float x = e.getX();
+            float y = e.getY();
+
+            Log.d("Double Tap", "Tapped at: (" + x + "," + y + ")");
+            showToolbar();
+
+            return true;
+        }
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e)
+        {
+            Log.d("OnDoubleTapListener", "onSingleTapConfirmed");
+            hideToolbar();
+            return false;
+        }
+    }
+
+
+    //############################## Volume Key Operations .....................................
 
     //Key handlaer
     @Override
@@ -548,4 +558,20 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     };
+    //##############################  TOOL BAR ##########################################
+    private void initToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the mToolbar object
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_list_white_18dp);
+    }
+    private void hideToolbar() {
+        mToolbar.animate().translationY(-mToolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
+    }
+
+    private void showToolbar() {
+        mToolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
+    }
+
+    //####################################################################################
 }
