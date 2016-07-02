@@ -58,8 +58,9 @@ def hello_world():
             
     except Exception,e:
        print e
+       return Response(json.dumps({'result':[],'status':'error','msg':'Somethong goes wrong ! Talk to dipankar!'+str(e)}), mimetype ='application/json')
 #########################################################################       
 
 if __name__ == '__main__':
-    schedule()
-    app.run(host='0.0.0.0', port=5555, debug=True)
+    #schedule()
+    app.run(host='0.0.0.0', port=5555, debug=True,threaded=True)
