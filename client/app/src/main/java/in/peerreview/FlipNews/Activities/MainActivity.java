@@ -121,6 +121,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void backMain(View view) {
         startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     public ViewFlipper getFlipper(){return flipper;}
