@@ -62,6 +62,8 @@ public class MainActivity extends ActionBarActivity {
     private Button mPairedBtn;
     private Button mScanBtn,mSendBtn;
 
+    BackendController backendController = new BackendController();
+
 
     private ProgressDialog mProgressDlg;
 
@@ -78,7 +80,7 @@ public class MainActivity extends ActionBarActivity {
         flipper.setInAnimation(this, android.R.anim.fade_in);
         flipper.setOutAnimation(this, android.R.anim.fade_out);
         sActivity = this;
-        BackendController.firstBootLoad();
+        backendController.firstBootLoad();
         hideBars();
         gestureListener = new SwipeGestureListener(MainActivity.this);
         flipper.setOnTouchListener(gestureListener);
@@ -93,6 +95,7 @@ public class MainActivity extends ActionBarActivity {
         bs.list();
         bluetoothsetup();
         */
+        ActivityHelper.createImageCache();
 
     }
 
@@ -231,7 +234,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void flipperNext() {
         flipper.showNext();
-        BackendController.fixNext(flipper.getDisplayedChild());
+        backendController.fixNext(flipper.getDisplayedChild());
         Notification.Log("Showing IDX:" + flipper.getDisplayedChild());
     }
     private void flipperPrev() {

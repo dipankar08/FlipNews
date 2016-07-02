@@ -45,17 +45,17 @@ public class ImageCacheManager {
             String murl = urls[0];
             String name = urls[1]+ ".jpg";
             //downlaod the image for later user..
-            Log.d("DIPANKAR","Seraching Path in Cache"+name);
+            Log.d("Notification","Seraching Path in Cache"+name);
             String existingImagePath = getPathIfPreDownloadedfromCache(name);
             if(existingImagePath != null) {
-                Log.d("DIPANKAR","Found Images Path in Cache"+name);
+                Log.d("Notification","Found Images Path in Cache"+name);
                 return getBitMap(existingImagePath);
             }
-            Log.d("DIPANKAR","Not Found and we need to download the images"+name);
+            Log.d("Notification","Not Found and we need to download the images"+name);
 
             String filepath =null;
             try {
-                Log.d("DIPANKAR","Start Downloging Images..."+murl);
+                Log.d("Notification","Start Downloging Images..."+murl);
                 URL url = new URL(murl);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
@@ -96,7 +96,7 @@ public class ImageCacheManager {
             if(filepath !=null) {
                 return getBitMap(filepath);
             } else {
-               Log.d("DIPANKAR","Error: Not able to generate image path");
+               Log.d("Notification","Error: Not able to generate image path");
             }
             return null;
         }
