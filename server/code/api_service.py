@@ -18,6 +18,7 @@ store = database.Store(); #return single ton..
 
 
 ###############  Multi thread to get the data ##############
+"""
 import threading
 import crawler
 def schedule():
@@ -31,6 +32,7 @@ def schedule():
     print '*'*50
     # call f() again in 60 seconds
     threading.Timer(60*60*4, schedule).start() #Run every 4 hours
+"""
 ###############################################################
 
 
@@ -62,5 +64,4 @@ def hello_world():
 #########################################################################       
 
 if __name__ == '__main__':
-    #schedule()
     app.run(host='0.0.0.0', port=5555, debug=True,threaded=True)
