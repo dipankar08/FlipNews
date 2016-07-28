@@ -56,11 +56,11 @@ def hello_world():
         else:
             result = store.getByCat(query, page, limit)
 
-        return Response(json.dumps({'result':result}), mimetype ='application/json')
+        return Response(json.dumps({'result':result,'status':'OK','msg':'Data Returned with page'+str(page)+' and limit '+str(limit)+'.'}), mimetype ='application/json')
             
     except Exception,e:
        print e
-       return Response(json.dumps({'result':[],'status':'error','msg':'Somethong goes wrong ! Talk to dipankar!'+str(e)}), mimetype ='application/json')
+       return Response(json.dumps({'result':[],'status':'ERROR','msg':'Somethong goes wrong ! Talk to dipankar!'+str(e)}), mimetype ='application/json')
 #########################################################################       
 
 if __name__ == '__main__':
