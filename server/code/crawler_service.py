@@ -67,3 +67,7 @@ def hello_world():
 
 if __name__ == '__main__':
     schedule()
+<<<<<<< HEAD
+=======
+    #app.run(host='0.0.0.0', port=5555, debug=True,threaded=True)
+>>>>>>> 28757c2b01fbbdab4d576e9468598482c30da5ba

@@ -17,6 +17,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import in.peerreview.FlipNews.Activities.ActivityHelper;
 import in.peerreview.FlipNews.Activities.MainActivity;
 import in.peerreview.FlipNews.Utils.Notification;
 
@@ -24,8 +25,6 @@ import in.peerreview.FlipNews.Utils.Notification;
  * Created by ddutta on 6/19/2016.
  */
 public class ImageCacheManager {
-
-    private static final String IMAGES = "Images";
 
     public static void renderImage(ImageView bmImage, String url,String name){
         new DownloadImageTask(bmImage).execute(url,name);
@@ -64,7 +63,7 @@ public class ImageCacheManager {
                 urlConnection.setReadTimeout(15000);
                 urlConnection.connect();
                // File SDCardRoot = Environment.getExternalStorageDirectory().getAbsoluteFile();
-                File fileWithinMyDir = new File(MainActivity.getActivity().getApplicationContext().getFilesDir()+"/"+IMAGES+"/");
+                File fileWithinMyDir = ActivityHelper.getImageCache();   //new File(MainActivity.getActivity().getApplicationContext().getFilesDir()+"/"+IMAGES+"/");
                 Log.i("Local filename:", "" + name);
                 File file = new File(fileWithinMyDir, name);
                 if (file.createNewFile()) {
@@ -102,7 +101,7 @@ public class ImageCacheManager {
         }
 
         private String getPathIfPreDownloadedfromCache(String name) {
-            File images[] = new File(MainActivity.getActivity().getApplicationContext().getFilesDir()+"/"+IMAGES+"/").listFiles();
+            File images[] = ActivityHelper.getImageCache().listFiles();
             for (File f : images){
                 if(f.getName().equals(name)){
                     return f.getAbsolutePath();

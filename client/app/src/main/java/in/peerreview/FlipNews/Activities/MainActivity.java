@@ -43,6 +43,7 @@ import android.bluetooth.BluetoothDevice;
 
 import in.peerreview.FlipNews.BluetoothSync.DeviceListActivity;
 import in.peerreview.FlipNews.R;
+import in.peerreview.FlipNews.ServerProxy.BackendAPI;
 import in.peerreview.FlipNews.ServerProxy.BackendController;
 import in.peerreview.FlipNews.BluetoothSync.BluetoothConnector;
 import in.peerreview.FlipNews.BluetoothSync.BluetoothShare;
@@ -114,6 +115,8 @@ public class MainActivity extends ActionBarActivity {
                 //Add your API call here//
                 if(v.getId() == R.id.allNews){
                     //do something and add other if else..
+                    backendController.firstTimeNetworkLoad();
+
                 }
             }
         };

@@ -13,8 +13,8 @@ public class Notification {
     public static void Log(String msg){
         Toast.makeText(MainActivity.Get(),msg, Toast.LENGTH_LONG).show();
         Log.i("Notification",msg);
-
     }
+
     public static void showErrorAndExit(final String msg){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.Get());
         alertDialogBuilder.setMessage(msg+" Press No to exit.");

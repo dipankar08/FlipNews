@@ -48,9 +48,11 @@ class Store(object):
 
         
     def getByCat(self, tags = 'calcutta', page = 1,limit =10): #page 1...  
-        return [  norm(x)  for x in self.conn.find({'tags' : tags }).sort([("_id", pymongo.DESCENDING)]).skip(limit*(page-1)).limit(limit) ]
+        return [  norm(x)  for x in self.conn.find({'categories' : tags }).sort([("_id", pymongo.DESCENDING)]).skip(limit*(page-1)).limit(limit) ]
 
-        
+    def getBySource(self, tags = 'calcutta', page = 1,limit =10): #page 1...
+        return [  norm(x)  for x in self.conn.find({'source' : tags }).sort([("_id", pymongo.DESCENDING)]).skip(limit*(page-1)).limit(limit) ]
+
 def test():   
     #Test single ton
     s1 = Store()

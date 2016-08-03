@@ -23,7 +23,7 @@ public class BackendAPI {
     private static String TAG ="Notification";
 
 
-    public static void getData(String queury, int next_page, int limit , final IBackendAPIResultCallBack resultCallBack) throws JSONException {
+    public static void getData(String queury, int next_page, int limit , final IBackendAPIResultCallBack resultCallBack,boolean is_blocking ) throws JSONException {
 
         RequestParams params = new RequestParams();
         params.put("queury", queury);
@@ -43,6 +43,7 @@ public class BackendAPI {
                         JSONArray arr = response.getJSONArray("result");
 
                         //BackendController.processNetworkData(arr);
+                        Notification.Log("News retrived of length "+arr.length());
                         resultCallBack.onSuccess(arr);
 
                     } else{
