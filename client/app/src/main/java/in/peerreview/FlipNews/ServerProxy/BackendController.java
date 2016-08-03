@@ -92,10 +92,12 @@ public class BackendController implements IBackendAPIResultCallBack {
         textView1.setText(d.getTitle().trim());
         textView2.setText(d.getDetails().trim());
         Map logo_map = new HashMap() {{
-            put("Anadabazar",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
-            put("bartaman",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
-            put("sangbadpratidin",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
-            put("ZeeNews",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
+            put("Anadabazar",MainActivity.getActivity().getResources().getDrawable(R.drawable.anadabazar));
+            put("bartaman",MainActivity.getActivity().getResources().getDrawable(R.drawable.bartaman));
+            put("sangbadpratidin",MainActivity.getActivity().getResources().getDrawable(R.drawable.sangbadpratidin));
+            put("eisomoy",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
+            put("eisamay",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
+            put("ZeeNews",MainActivity.getActivity().getResources().getDrawable(R.drawable.zeenews));
         }};
         providerImage.setImageDrawable((Drawable) logo_map.get(d.getSource_name().trim()));
         Log.d("Dipankar",d.getSource_name().trim());
