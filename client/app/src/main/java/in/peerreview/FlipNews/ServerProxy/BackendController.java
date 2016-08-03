@@ -1,6 +1,7 @@
 package in.peerreview.FlipNews.ServerProxy;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import in.peerreview.FlipNews.Activities.MainActivity;
@@ -84,10 +88,17 @@ public class BackendController implements IBackendAPIResultCallBack {
         ImageCacheManager.renderImage((ImageView) view.findViewById(R.id.image),d.getHead_image(),d.getRand_id());
         TextView textView1 = (TextView)view.findViewById(R.id.text1);
         TextView textView2 = (TextView)view.findViewById(R.id.text2);
-        TextView textView3 = (TextView)view.findViewById(R.id.text3);
+        ImageView providerImage = (ImageView)view.findViewById(R.id.provider_logo);
         textView1.setText(d.getTitle().trim());
         textView2.setText(d.getDetails().trim());
-        textView3.setText("Powered by "+ d.getSource_name().trim());
+        Map logo_map = new HashMap() {{
+            put("Anadabazar",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
+            put("bartaman",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
+            put("sangbadpratidin",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
+            put("ZeeNews",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
+        }};
+        providerImage.setImageDrawable((Drawable) logo_map.get(d.getSource_name().trim()));
+        Log.d("Dipankar",d.getSource_name().trim());
 /*
         Typeface typeFace=Typeface.createFromAsset(getAssets(),"fonts/Durga.ttf");
         textView1.setTypeface(typeFace);
