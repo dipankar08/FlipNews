@@ -33,7 +33,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="  All News"
+        android:text="  All News-Reload"
         android:id="@+id/allNews"
         android:background="#000000"
         android:textColor="#FFFFFF"

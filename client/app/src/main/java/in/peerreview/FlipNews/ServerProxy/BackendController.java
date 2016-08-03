@@ -112,12 +112,17 @@ public class BackendController implements IBackendAPIResultCallBack {
             }
         }
     }
+    private void reset(){
+        next_page =1;
+        MainActivity.Get().getFlipper().removeAllViews();
+        fixNext(0);
+    }
 
     private void fecthNextSetOfpages() {
         Notification.Log("Loading : Page:"+next_page+" Limit: "+limit);
         try {
             if(is_data_fetch_in_progress == false ) {
-                BackendAPI.getData(queury, next_page, limit, this);
+                BackendAPI.getData(queury, next_page, limit, this,false);
                 is_data_fetch_in_progress = true;
             } else {
                 Notification.Log("is_data_fetch_in_progress ...");
@@ -129,6 +134,25 @@ public class BackendController implements IBackendAPIResultCallBack {
         }
     }
 
+    public  void firstTimeNetworkLoad() {
+        // this will call for the first time which load 50 data from beggining...
+
+        Notification.Log("Calling : firstTimeNetworkLoad");
+        try {
+            if(is_data_fetch_in_progress == false ) {
+                Notification.Log("Calling : Doing NEtwork Calls..");
+                current_news_list = new JSONArray();
+                BackendAPI.getData(queury, 1, 20, this,true/*UX Blocking..*/);
+                is_data_fetch_in_progress = true;
+            } else {
+                Notification.Log("is_data_fetch_in_progress ...");
+            }
+        }
+        catch (Exception e){
+            Notification.Log(e.toString());
+            is_data_fetch_in_progress = false;
+        }
+    }
     @Override
     public void onSuccess(JSONArray result) throws JSONException {
         current_news_list = concatArray(current_news_list,result);
