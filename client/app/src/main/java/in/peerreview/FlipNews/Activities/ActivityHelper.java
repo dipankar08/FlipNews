@@ -1,10 +1,10 @@
-package in.peerreview.FlipNews.Activities;
+package in.peerreview.flipnews.Activities;
 
 import android.os.Environment;
 
 import java.io.File;
 
-import in.peerreview.FlipNews.Utils.Notification;
+import in.peerreview.flipnews.Utils.Notification;
 
 /**
  * Created by ddutta on 7/2/2016.

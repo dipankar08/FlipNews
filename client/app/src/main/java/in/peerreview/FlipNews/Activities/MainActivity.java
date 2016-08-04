@@ -1,12 +1,9 @@
-package in.peerreview.FlipNews.Activities;
+package in.peerreview.flipnews.Activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Activity;
 import android.os.ParcelUuid;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -41,13 +38,13 @@ import android.widget.TextView;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 
-import in.peerreview.FlipNews.BluetoothSync.DeviceListActivity;
-import in.peerreview.FlipNews.R;
-import in.peerreview.FlipNews.ServerProxy.BackendAPI;
-import in.peerreview.FlipNews.ServerProxy.BackendController;
-import in.peerreview.FlipNews.BluetoothSync.BluetoothConnector;
-import in.peerreview.FlipNews.BluetoothSync.BluetoothShare;
-import in.peerreview.FlipNews.Utils.Notification;
+import in.peerreview.flipnews.BluetoothSync.DeviceListActivity;
+import in.peerreview.flipnews.R;
+import in.peerreview.flipnews.Reporting.Telemetry;
+import in.peerreview.flipnews.ServerProxy.BackendController;
+import in.peerreview.flipnews.BluetoothSync.BluetoothConnector;
+import in.peerreview.flipnews.BluetoothSync.BluetoothShare;
+import in.peerreview.flipnews.Utils.Notification;
 
 public class MainActivity extends ActionBarActivity {
     private Toolbar mToolbar;
@@ -89,8 +86,10 @@ public class MainActivity extends ActionBarActivity {
         initGestureDetector();
         ActivityHelper.createImageCache();
 
-
-
+        Telemetry.init();
+        Bundle params = new Bundle();
+        params.putString("called", "Dipankar");
+        Telemetry.log("app_started",params);
     }
 
     private void SetupSettingButtonListners() {

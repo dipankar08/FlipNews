@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "773949578190",
+    "firebase_url": "https://flipnews-dfb4c.firebaseio.com",
+    "project_id": "flipnews-dfb4c",
+    "storage_bucket": "flipnews-dfb4c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773949578190:android:f40605f08eff7e8f",
+        "android_client_info": {
+          "package_name": "in.peerreview.flipnews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773949578190-ih8vq6fs4drkr6f7mutkfno27lgk7dn1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4PoMbteOOViOZT1jKIRCFGMH0O0h6w9M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

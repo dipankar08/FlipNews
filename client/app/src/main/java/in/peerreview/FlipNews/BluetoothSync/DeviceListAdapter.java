@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews.BluetoothSync;
+package in.peerreview.flipnews.BluetoothSync;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import in.peerreview.FlipNews.R;
+import in.peerreview.flipnews.R;
 
 /**
  * Device list adapter.

@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews.ServerProxy;
+package in.peerreview.flipnews.ServerProxy;
 
 import android.util.Log;
 
@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
-import in.peerreview.FlipNews.Utils.Notification;
+import in.peerreview.flipnews.Utils.Notification;
 
 //################################  CallBack #################
 interface IBackendAPIResultCallBack {

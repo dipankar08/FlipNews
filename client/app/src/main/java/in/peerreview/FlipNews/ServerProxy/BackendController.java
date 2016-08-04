@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews.ServerProxy;
+package in.peerreview.flipnews.ServerProxy;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -22,12 +22,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
-import in.peerreview.FlipNews.Activities.MainActivity;
-import in.peerreview.FlipNews.R;
-import in.peerreview.FlipNews.Utils.Notification;
-import in.peerreview.FlipNews.storage.ImageCacheManager;
-import in.peerreview.FlipNews.storage.DataSource;
-import in.peerreview.FlipNews.storage.FileSaveLoad;
+import in.peerreview.flipnews.Activities.MainActivity;
+import in.peerreview.flipnews.R;
+import in.peerreview.flipnews.Utils.Notification;
+import in.peerreview.flipnews.storage.ImageCacheManager;
+import in.peerreview.flipnews.storage.DataSource;
+import in.peerreview.flipnews.storage.FileSaveLoad;
 
 /**
  * Created by ddutta on 6/19/2016.

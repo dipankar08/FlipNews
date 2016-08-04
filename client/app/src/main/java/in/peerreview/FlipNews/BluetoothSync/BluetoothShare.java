@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews.BluetoothSync;
+package in.peerreview.flipnews.BluetoothSync;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -7,8 +7,8 @@ import android.content.Intent;
 import java.util.ArrayList;
 import java.util.Set;
 
-import in.peerreview.FlipNews.Activities.MainActivity;
-import in.peerreview.FlipNews.Utils.Notification;
+import in.peerreview.flipnews.Activities.MainActivity;
+import in.peerreview.flipnews.Utils.Notification;
 
 /**
  * Created by ddutta on 6/26/2016.

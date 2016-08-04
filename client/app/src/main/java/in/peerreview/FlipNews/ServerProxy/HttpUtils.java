@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews.ServerProxy;
+package in.peerreview.flipnews.ServerProxy;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;

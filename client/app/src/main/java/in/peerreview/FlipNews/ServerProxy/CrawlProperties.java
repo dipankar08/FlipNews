@@ -1,8 +1,4 @@
-package in.peerreview.FlipNews.ServerProxy;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package in.peerreview.flipnews.ServerProxy;
 
 /**
  * Created by ddutta on 7/3/2016.

@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews;
+package in.peerreview.flipnews;
 
 import org.junit.Test;
 

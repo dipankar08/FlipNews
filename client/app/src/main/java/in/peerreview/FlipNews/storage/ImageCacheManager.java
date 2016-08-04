@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews.storage;
+package in.peerreview.flipnews.storage;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,12 +14,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
-import in.peerreview.FlipNews.Activities.ActivityHelper;
-import in.peerreview.FlipNews.Activities.MainActivity;
-import in.peerreview.FlipNews.Utils.Notification;
+import in.peerreview.flipnews.Activities.ActivityHelper;
 
 /**
  * Created by ddutta on 6/19/2016.

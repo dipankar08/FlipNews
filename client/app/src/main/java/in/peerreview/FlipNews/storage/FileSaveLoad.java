@@ -1,4 +1,4 @@
-package in.peerreview.FlipNews.storage;
+package in.peerreview.flipnews.storage;
 
 import android.util.Log;
 
@@ -9,8 +9,8 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import in.peerreview.FlipNews.Activities.MainActivity;
-import in.peerreview.FlipNews.Utils.Notification;
+import in.peerreview.flipnews.Activities.MainActivity;
+import in.peerreview.flipnews.Utils.Notification;
 
 /**
  * Created by ddutta on 6/25/2016.
