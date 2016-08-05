@@ -1,5 +1,6 @@
 package in.peerreview.flipnews.Activities;
 
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
@@ -44,25 +45,23 @@ import in.peerreview.flipnews.Reporting.Telemetry;
 import in.peerreview.flipnews.ServerProxy.BackendController;
 import in.peerreview.flipnews.BluetoothSync.BluetoothConnector;
 import in.peerreview.flipnews.BluetoothSync.BluetoothShare;
+import in.peerreview.flipnews.UIFragments.CoreFragmentAnimation;
 import in.peerreview.flipnews.Utils.Notification;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity  {
     private Toolbar mToolbar;
     private ViewFlipper flipper;
-    private int  currentApiVersion;
-    private float initialX, initialY;
+    private int currentApiVersion;
     private static MainActivity sActivity = null;
     private static GestureDetector gd = null;
-    final String TAG ="MainActivity";
+    final String TAG = "MainActivity";
 
     BluetoothShare bs = new BluetoothShare();
     //Test
     private TextView mStatusTv;
     private Button mActivateBtn;
     private Button mPairedBtn;
-    private Button mScanBtn,mSendBtn;
-
-    BackendController backendController = new BackendController();
+    private Button mScanBtn, mSendBtn;
 
 
     private ProgressDialog mProgressDlg;
@@ -71,16 +70,31 @@ public class MainActivity extends ActionBarActivity {
 
     private BluetoothAdapter mBluetoothAdapter;
 
+
+
+    public static MainActivity getActivity() {
+        return sActivity;
+    }
+
+    public static MainActivity Get() {
+        return sActivity;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        flipper = (ViewFlipper) findViewById(R.id.flipper);
-
-        flipper.setInAnimation(this, android.R.anim.fade_in);
-        flipper.setOutAnimation(this, android.R.anim.fade_out);
         sActivity = this;
-        backendController.firstBootLoad();
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+
+
+        //framments animation..
+        CoreFragmentAnimation.Get().setupFragments();
+        setupFlipper();
+
+
+        BackendController.Get().firstBootLoad();
         hideBars();
         initToolbar();
         initGestureDetector();
@@ -89,84 +103,39 @@ public class MainActivity extends ActionBarActivity {
         Telemetry.init();
         Bundle params = new Bundle();
         params.putString("called", "Dipankar");
-        Telemetry.log("app_started",params);
+        Telemetry.log("app_started", params);
     }
 
-    private void SetupSettingButtonListners() {
-        View.OnClickListener myListner = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    //Add your API call here//
-                if(v.getId() == R.id.notification){
-                    //do something and add other if else..
-
-                }
-            }
-        };
-
-        ((Button) findViewById(R.id.notification)).setOnClickListener(myListner);
+    private void setupFlipper() {
+        flipper = (ViewFlipper) CoreFragmentAnimation.Get().getView();
+        flipper.setInAnimation(this, android.R.anim.fade_in);
+        flipper.setOutAnimation(this, android.R.anim.fade_out);
     }
 
-    private void SetupCatButtonListners() {
-        View.OnClickListener myListner = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Add your API call here//
-                if(v.getId() == R.id.allNews){
-                    //do something and add other if else..
-                    backendController.firstTimeNetworkLoad();
-
-                }
-            }
-        };
-
-        ((Button) findViewById(R.id.allNews)).setOnClickListener(myListner);
-        ((Button) findViewById(R.id.kolkata)).setOnClickListener(myListner);
-        ((Button) findViewById(R.id.state)).setOnClickListener(myListner);
-        ((Button) findViewById(R.id.india)).setOnClickListener(myListner);
-        ((Button) findViewById(R.id.international)).setOnClickListener(myListner);
-        ((Button) findViewById(R.id.sport)).setOnClickListener(myListner);
-        ((Button) findViewById(R.id.lifestyle)).setOnClickListener(myListner);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        // getMenuInflater().inflate(R.menu.truiton_view_flipper, menu);
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.options) {
-            setContentView(R.layout.settings);
-            SetupSettingButtonListners();
-        }
-
-        if (id == android.R.id.home) {
-            setContentView(R.layout.categories);
-            SetupCatButtonListners();
-        }
-
+        GenericClickActions.Get().onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
     }
 
     public void backMain(View view) {
-        startActivity(new Intent(getApplicationContext(),MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        startActivity(new Intent(getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    public ViewFlipper getFlipper(){return flipper;}
+    public ViewFlipper getFlipper() {
+        return flipper;
+    }
 
     private void hideBars() {
-         currentApiVersion = Build.VERSION.SDK_INT;
+        currentApiVersion = Build.VERSION.SDK_INT;
 
         final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -175,8 +144,7 @@ public class MainActivity extends ActionBarActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         // This work only for android 4.4+
-        if(currentApiVersion >= Build.VERSION_CODES.KITKAT)
-        {
+        if (currentApiVersion >= Build.VERSION_CODES.KITKAT) {
 
             getWindow().getDecorView().setSystemUiVisibility(flags);
 
@@ -185,27 +153,23 @@ public class MainActivity extends ActionBarActivity {
             // show up and won't hide
             final View decorView = getWindow().getDecorView();
             decorView
-                    .setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener()
-                    {
+                    .setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
 
                         @Override
-                        public void onSystemUiVisibilityChange(int visibility)
-                        {
-                            if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
-                            {
+                        public void onSystemUiVisibilityChange(int visibility) {
+                            if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
                                 decorView.setSystemUiVisibility(flags);
                             }
                         }
                     });
         }
     }
+
     @SuppressLint("NewApi")
     @Override
-    public void onWindowFocusChanged(boolean hasFocus)
-    {
+    public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus)
-        {
+        if (currentApiVersion >= Build.VERSION_CODES.KITKAT && hasFocus) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -218,91 +182,38 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public static MainActivity getActivity(){
-        return sActivity;
-    }
-    public static MainActivity Get(){
-        return sActivity;
-    }
-
     //####################################  Touch Framwe work ################################################
-    boolean is_up(float y1, float y2){
-        return (y1 > y2 && (y1-y2) > 1);
-    }
-    boolean is_down(float y1, float y2){
-        return (y1 < y2 && (y2 - y1) > 1);
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent touchevent) {
         gd.onTouchEvent(touchevent);
-        switch (touchevent.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                initialX = touchevent.getX();
-                initialY = touchevent.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                float finalX = touchevent.getX();
-                float finalY = touchevent.getY();
-                if (is_up(initialY , finalY)  ) {
-                    if (flipper.getDisplayedChild() < flipper.getChildCount() -1) {
-                        flipperNext();
-                    }
-                    else {
-                        flipper.setDisplayedChild(0);
-                    }
-
-                } else if (is_down(initialY , finalY)  ) {
-                    if (flipper.getDisplayedChild() != 0) {
-                        flipperPrev();
-                    } else {
-                        flipper.setDisplayedChild(flipper.getChildCount() - 1);
-                    }
-                }
- /*TruitonFlipper.setInAnimation(this, R.anim.in_left);
- TruitonFlipper.setOutAnimation(this, R.anim.out_right);*/
-
- /*TruitonFlipper.setInAnimation(this, R.anim.in_right);
- TruitonFlipper.setOutAnimation(this, R.anim.out_left);*/
-
-                break;
-        }
         return true;
-    }
-
-    private void flipperNext() {
-        flipper.showNext();
-        backendController.fixNext(flipper.getDisplayedChild());
-        Notification.Log("Showing IDX:" + flipper.getDisplayedChild());
-    }
-    private void flipperPrev() {
-        flipper.showPrevious();
-        Notification.Log("Showing IDX:" + flipper.getDisplayedChild());
     }
 
     //###################################################################   Gusture Listner Implemetaion
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-    void initGestureDetector(){
+
+    void initGestureDetector() {
         gd = new GestureDetector(getApplicationContext(), new GestureListener());
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 return false; // Right to left
-            }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 return false; // Left to right
             }
 
-            if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+            if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
                 return false; // Bottom to top
-            }  else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+            } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
                 return false; // Top to bottom
             }
             return false;
         }
+
         // event when double tap occurs
         @Override
         public boolean onDoubleTap(MotionEvent e) {
@@ -314,9 +225,9 @@ public class MainActivity extends ActionBarActivity {
 
             return true;
         }
+
         @Override
-        public boolean onSingleTapConfirmed(MotionEvent e)
-        {
+        public boolean onSingleTapConfirmed(MotionEvent e) {
             Log.d("OnDoubleTapListener", "onSingleTapConfirmed");
             hideToolbar();
             return false;
@@ -330,29 +241,27 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        Log.d(TAG,"onKeyDown called");
+        Log.d(TAG, "onKeyDown called");
         Log.v(TAG, event.toString());
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
-            flipperNext();
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            FlipOperation.Get().flipperNext();
             return true;
-        }
-        else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
-            flipperPrev();
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            FlipOperation.Get().flipperPrev();
             return true;
-        }
-        else if (keyCode == KeyEvent.KEYCODE_POWER) {
+        } else if (keyCode == KeyEvent.KEYCODE_POWER) {
             // Do something here...
             event.startTracking(); // Needed to track long presses
             return true;
         }
         return false;
     }
+
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        Log.d(TAG,"onKeyUp called");
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+        Log.d(TAG, "onKeyUp called");
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             return false;
-        }
-        else if(keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
             return false;
         }
 
@@ -360,16 +269,16 @@ public class MainActivity extends ActionBarActivity {
     }
 
     //Life cycle
-    void bluetoothsetup(){
+    void bluetoothsetup() {
 
-        mStatusTv 			= (TextView) findViewById(R.id.tv_status);
-        mActivateBtn 		= (Button) findViewById(R.id.btn_enable);
-        mPairedBtn 			= (Button) findViewById(R.id.btn_view_paired);
-        mScanBtn 			= (Button) findViewById(R.id.btn_scan);
-        mSendBtn 			= (Button) findViewById(R.id.btn_send);
-        mBluetoothAdapter	= BluetoothAdapter.getDefaultAdapter();
+        mStatusTv = (TextView) findViewById(R.id.tv_status);
+        mActivateBtn = (Button) findViewById(R.id.btn_enable);
+        mPairedBtn = (Button) findViewById(R.id.btn_view_paired);
+        mScanBtn = (Button) findViewById(R.id.btn_scan);
+        mSendBtn = (Button) findViewById(R.id.btn_send);
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        mProgressDlg 		= new ProgressDialog(this);
+        mProgressDlg = new ProgressDialog(this);
 
         mProgressDlg.setMessage("Scanning...");
         mProgressDlg.setCancelable(false);
@@ -415,18 +324,18 @@ public class MainActivity extends ActionBarActivity {
             mSendBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
-                    try{
+                    try {
                         BluetoothAdapter blueAdapter = BluetoothAdapter.getDefaultAdapter();
                         if (blueAdapter != null) {
                             if (blueAdapter.isEnabled()) {
                                 Set<BluetoothDevice> bondedDevices = blueAdapter.getBondedDevices();
 
-                                if(bondedDevices.size() > 0) {
-                                    Object[] devices = (Object []) bondedDevices.toArray();
-                                    int position =0;
+                                if (bondedDevices.size() > 0) {
+                                    Object[] devices = (Object[]) bondedDevices.toArray();
+                                    int position = 0;
                                     BluetoothDevice device = (BluetoothDevice) devices[position];
                                     ParcelUuid[] uuids = device.getUuids();
-                                    BluetoothConnector bc = new BluetoothConnector(device,false,blueAdapter,null);
+                                    BluetoothConnector bc = new BluetoothConnector(device, false, blueAdapter, null);
                                     bc.connect();
 
                                 }
@@ -437,7 +346,7 @@ public class MainActivity extends ActionBarActivity {
                             }
                         }
 
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -473,6 +382,7 @@ public class MainActivity extends ActionBarActivity {
 
         registerReceiver(mReceiver, filter);
     }
+
     @Override
     public void onPause() {
         if (mBluetoothAdapter != null) {
@@ -560,6 +470,7 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     };
+
     //##############################  TOOL BAR ##########################################
     private void initToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the mToolbar object
@@ -567,6 +478,7 @@ public class MainActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_list_white_18dp);
     }
+
     private void hideToolbar() {
         mToolbar.animate().translationY(-mToolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
     }
@@ -576,4 +488,5 @@ public class MainActivity extends ActionBarActivity {
     }
 
     //####################################################################################
+
 }

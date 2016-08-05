@@ -1,36 +1,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:id="@+id/move_to_back_container">
 
 
     <include
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar" >
-
     </include>
-
-    <ViewFlipper
-        android:id="@+id/flipper"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal|bottom">
-
-        <!-- View #1 -->
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/mamatha" />
-
-        <!-- View #2 -->
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/buddhadeb" />
-    </ViewFlipper>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -79,5 +57,16 @@
             android:text="send devices" />
 
     </LinearLayout>
+
+    <!-- Comment out the below -->
+    <fragment class="in.peerreview.flipnews.UIFragments.Fragment2"
+        android:id="@+id/move_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View android:id="@+id/dark_hover_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black" />
 
 </FrameLayout>

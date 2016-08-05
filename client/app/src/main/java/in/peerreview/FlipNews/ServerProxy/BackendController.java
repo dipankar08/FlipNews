@@ -41,6 +41,13 @@ public class BackendController implements IBackendAPIResultCallBack {
 
     private static JSONArray current_news_list = new JSONArray();
 
+
+    private static BackendController sBackendController = new BackendController();
+    public static BackendController Get(){
+        return sBackendController;
+    }
+
+
     public void firstBootLoad(){
         try {
             JSONArray arr = FileSaveLoad.loadData();
