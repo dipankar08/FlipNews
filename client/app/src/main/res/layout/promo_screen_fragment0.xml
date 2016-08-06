@@ -1,0 +1,27 @@
+<!-- fragment_screen_slide_page.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:textColor="#ffffff"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+    <TextView
+        android:id="@+id/product_logo1"
+        android:layout_width="match_parent"
+        style="?android:textAppearanceLarge"
+        android:layout_height="wrap_content"
+        android:text="&#xf250;"
+        android:textSize="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.12"
+        android:focusable="false"
+        android:gravity="center_vertical|center_horizontal"
+        android:height="100dp"
+        android:textColor="#ffffff" />
+
+
+</LinearLayout>
