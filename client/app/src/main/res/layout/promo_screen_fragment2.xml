@@ -8,11 +8,99 @@
 
 
     <TextView
-        android:id="@+id/product_logo3"
-        android:layout_width="match_parent"
-        style="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"/>
+        android:text="Select new category"
+        android:paddingLeft="30dp"
+        android:paddingTop="30dp"
+        android:paddingBottom="20dp"
+        android:textSize="30dp"
+        android:textColor="#FFFFFF"
+        android:id="@+id/textView3" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="State"
+        android:textAllCaps="false"
+        style="?android:attr/borderlessButtonStyle"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="30dp"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorAccent"
+        android:id="@+id/state_but" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="National"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="30dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorAccent"
+        android:id="@+id/national_but" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="International"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="30dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorAccent"
+        android:id="@+id/international_but" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Science"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="30dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorAccent"
+        android:id="@+id/science_but" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Career"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="30dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorAccent"
+        android:id="@+id/career_but" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Entertainment"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="30dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorAccent"
+        android:id="@+id/Entertainment_but" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Health"
+        android:textAllCaps="false"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="30dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorAccent"
+        android:id="@+id/health_but" />
 
 
 </LinearLayout>
