@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 
 import in.peerreview.flipnews.R;
 
-public class Fragment1 extends Fragment {
+public class NewsCardDetailsFragment extends Fragment {
 
     View.OnClickListener clickListener;
     OnTextFragmentAnimationEndListener mListener;

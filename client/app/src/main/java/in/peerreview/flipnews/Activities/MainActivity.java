@@ -185,12 +185,13 @@ public class MainActivity extends ActionBarActivity  {
 
 
     //####################################  Touch Framwe work ################################################
+    /*
     @Override
     public boolean onTouchEvent(MotionEvent touchevent) {
-        gd.onTouchEvent(touchevent);
+       gd.onTouchEvent(touchevent);
         return true;
     }
-
+*/
     //###################################################################   Gusture Listner Implemetaion
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -202,6 +203,7 @@ public class MainActivity extends ActionBarActivity  {
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if( e1== null || e2 == null) return false;
             if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 return false; // Right to left
             } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {

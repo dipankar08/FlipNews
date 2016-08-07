@@ -18,7 +18,7 @@
     android:layout_height="match_parent"
     android:id="@+id/move_to_back_container">
 
-    <fragment class="in.peerreview.flipnews.UIFragments.Fragment1"
+    <fragment class="in.peerreview.flipnews.UIFragments.NewsCardDetailsFragment"
         android:id="@+id/move_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

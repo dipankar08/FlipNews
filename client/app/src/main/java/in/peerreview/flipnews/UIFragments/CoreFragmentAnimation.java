@@ -6,9 +6,9 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 
 import in.peerreview.flipnews.Activities.MainActivity;
@@ -19,8 +19,8 @@ import in.peerreview.flipnews.R;
  */
 public class CoreFragmentAnimation implements OnTextFragmentAnimationEndListener, FragmentManager.OnBackStackChangedListener{
     /* Fragments ...*/
-    Fragment2 mFragment2;
-    Fragment1 mFragment1;
+    NewsCardFragment newsCardFragment;
+    NewsCardDetailsFragment newsCardDetailsFragment;
 
     View mDarkHoverView;
 
@@ -28,6 +28,9 @@ public class CoreFragmentAnimation implements OnTextFragmentAnimationEndListener
     boolean mIsAnimating = false;
     private static Activity mActivity =  MainActivity.getActivity();
 
+    private enum CURRNET_FRAGMENT_NAME {
+
+    };
 
     private static CoreFragmentAnimation sCoreFragmentAnimation = new CoreFragmentAnimation();
     public static CoreFragmentAnimation Get(){
@@ -36,31 +39,35 @@ public class CoreFragmentAnimation implements OnTextFragmentAnimationEndListener
 
     public void setupFragments() {
 
-        mFragment2 = (Fragment2) mActivity.getFragmentManager().findFragmentById(R.id.move_fragment);
+        //Building all fragments/views
+        newsCardFragment = (NewsCardFragment) mActivity.getFragmentManager().findFragmentById(R.id.move_fragment);
+        newsCardDetailsFragment = new NewsCardDetailsFragment();
+        mDarkHoverView = mActivity.findViewById(R.id.dark_hover_view);
 
-        mFragment1 = new Fragment1();
+        //adding all lstners
+        //newsCardFragment.setClickListener(mClickListenerSwitchBetweenCardDetailsFragment);
+       // newsCardDetailsFragment.setClickListener(mClickListenerSwitchBetweenCardDetailsFragment);
+        //mDarkHoverView.setOnClickListener(mClickListenerSwitchBetweenCardDetailsFragment);
 
+        //additinal work
+        newsCardDetailsFragment.setOnTextFragmentAnimationEnd(this);
         mActivity.getFragmentManager().addOnBackStackChangedListener(this);
 
-        mFragment2.setClickListener(mClickListener);
-        mFragment1.setClickListener(mClickListener);
-        mFragment1.setOnTextFragmentAnimationEnd(this);
 
-        mDarkHoverView = mActivity.findViewById(R.id.dark_hover_view);
-            mDarkHoverView.setOnClickListener(mClickListener);
-            mDarkHoverView.setAlpha(0);
-
-
+        mDarkHoverView.setAlpha(0);
     }
 
-    View.OnClickListener mClickListener = new View.OnClickListener () {
+
+
+    // Fragment switch 1: Switching between Crad Details
+    View.OnClickListener mClickListenerSwitchBetweenCardDetailsFragment = new View.OnClickListener () {
         @Override
         public void onClick(View view) {
-            switchFragments();
+            switchBetweenCardDetailsFragment();
         }
     };
 
-    private void switchFragments () {
+    public void switchBetweenCardDetailsFragment() {
         if (mIsAnimating) {
             return;
         }
@@ -70,37 +77,23 @@ public class CoreFragmentAnimation implements OnTextFragmentAnimationEndListener
             mActivity.getFragmentManager().popBackStack();
         } else {
             mDidSlideOut = true;
-
             Animator.AnimatorListener listener = new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator arg0) {
                     FragmentTransaction transaction = mActivity.getFragmentManager().beginTransaction();
-                    transaction.setCustomAnimations(R.animator.slide_fragment_in, 0, 0,
-                            R.animator.slide_fragment_out);
-                    transaction.add(R.id.move_to_back_container, mFragment1);
+                    transaction.setCustomAnimations(R.animator.slide_fragment_in, 0, 0, R.animator.slide_fragment_out);
+                    transaction.add(R.id.move_to_back_container, newsCardDetailsFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }
             };
-            slideBack (listener);
+            slideBackCardDetails(listener);
         }
     }
-    @Override
-    public void onBackStackChanged() {
-        if (!mDidSlideOut) {
-            slideForward(null);
-        }
 
-    }
-
-    /**
-     * This method animates the image fragment into the background by both
-     * scaling and rotating the fragment's view, as well as adding a
-     * translucent dark hover view to inform the user that it is inactive.
-     */
-    public void slideBack(Animator.AnimatorListener listener)
+    public void slideBackCardDetails(Animator.AnimatorListener listener)
     {
-        View movingFragmentView = mFragment2.getView();
+        View movingFragmentView = newsCardFragment.getView();
 
         PropertyValuesHolder rotateX =  PropertyValuesHolder.ofFloat("rotationX", 40f);
         PropertyValuesHolder scaleX =  PropertyValuesHolder.ofFloat("scaleX", 0.8f);
@@ -118,16 +111,9 @@ public class CoreFragmentAnimation implements OnTextFragmentAnimationEndListener
         s.start();
     }
 
-    /**
-     * This method animates the image fragment into the foreground by both
-     * scaling and rotating the fragment's view, while also removing the
-     * previously added translucent dark hover view. Upon the completion of
-     * this animation, the image fragment regains focus since this method is
-     * called from the onBackStackChanged method.
-     */
-    public void slideForward(Animator.AnimatorListener listener)
+    public void slideForwardCardDetails(Animator.AnimatorListener listener)
     {
-        View movingFragmentView = mFragment2.getView();
+        View movingFragmentView = newsCardFragment.getView();
 
         PropertyValuesHolder rotateX =  PropertyValuesHolder.ofFloat("rotationX", 40f);
         PropertyValuesHolder scaleX =  PropertyValuesHolder.ofFloat("scaleX", 1.0f);
@@ -150,12 +136,20 @@ public class CoreFragmentAnimation implements OnTextFragmentAnimationEndListener
         s.start();
     }
 
+
+    @Override
+    public void onBackStackChanged() {
+        if (!mDidSlideOut) {
+            slideForwardCardDetails(null);
+        }
+
+    }
     public void onAnimationEnd() {
         mIsAnimating = false;
     }
 
     public View getView() {
-        return mFragment2.getView();
+         return newsCardFragment.getView();
     }
 
 

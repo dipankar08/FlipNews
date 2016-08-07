@@ -59,7 +59,7 @@
     </LinearLayout>
 
     <!-- Comment out the below -->
-    <fragment class="in.peerreview.flipnews.UIFragments.Fragment2"
+    <fragment class="in.peerreview.flipnews.UIFragments.NewsCardFragment"
         android:id="@+id/move_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
