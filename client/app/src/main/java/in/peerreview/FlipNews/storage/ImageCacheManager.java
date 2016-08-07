@@ -98,6 +98,7 @@ public class ImageCacheManager {
 
         private String getPathIfPreDownloadedfromCache(String name) {
             File images[] = ActivityHelper.getImageCache().listFiles();
+            if(images == null) return null;
             for (File f : images){
                 if(f.getName().equals(name)){
                     return f.getAbsolutePath();

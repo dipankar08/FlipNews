@@ -36,9 +36,6 @@ public class CoreFragmentAnimation implements OnTextFragmentAnimationEndListener
 
     public void setupFragments() {
 
-        mDarkHoverView = mActivity.findViewById(R.id.dark_hover_view);
-        mDarkHoverView.setAlpha(0);
-
         mFragment2 = (Fragment2) mActivity.getFragmentManager().findFragmentById(R.id.move_fragment);
 
         mFragment1 = new Fragment1();
@@ -48,7 +45,12 @@ public class CoreFragmentAnimation implements OnTextFragmentAnimationEndListener
         mFragment2.setClickListener(mClickListener);
         mFragment1.setClickListener(mClickListener);
         mFragment1.setOnTextFragmentAnimationEnd(this);
-        mDarkHoverView.setOnClickListener(mClickListener);
+
+        mDarkHoverView = mActivity.findViewById(R.id.dark_hover_view);
+            mDarkHoverView.setOnClickListener(mClickListener);
+            mDarkHoverView.setAlpha(0);
+
+
     }
 
     View.OnClickListener mClickListener = new View.OnClickListener () {

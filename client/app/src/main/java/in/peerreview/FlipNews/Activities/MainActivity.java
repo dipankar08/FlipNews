@@ -39,6 +39,8 @@ import android.widget.TextView;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import in.peerreview.flipnews.BluetoothSync.DeviceListActivity;
 import in.peerreview.flipnews.R;
 import in.peerreview.flipnews.Reporting.Telemetry;
@@ -86,7 +88,6 @@ public class MainActivity extends ActionBarActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         sActivity = this;
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
 
@@ -101,11 +102,10 @@ public class MainActivity extends ActionBarActivity  {
         initGestureDetector();
         ActivityHelper.createImageCache();
 
-        Telemetry.init();
-        Bundle params = new Bundle();
-        params.putString("called", "Dipankar");
-        Telemetry.log("app_started", params);
-        Notification.sendwelcomeNotification();
+
+        //test
+        Log.d("Dipankar",FirebaseInstanceId.getInstance().getToken());
+
     }
 
     private void setupFlipper() {
