@@ -34,9 +34,11 @@ public class ScreenSlidePageFragment extends Fragment {
             case 0:
                 FontAwesome.setIcon((TextView)rootView.findViewById( R.id.product_logo1),null);
                 break;
+            /*
             case 1:
                 FontAwesome.setIcon((TextView)rootView.findViewById( R.id.product_logo2),null);
                 break;
+            */
         }
         return rootView;
     }

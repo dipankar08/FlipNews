@@ -6,13 +6,17 @@
     android:layout_gravity="center"
     android:orientation="vertical">
 
-
     <TextView
-        android:id="@+id/product_logo4"
-        android:layout_width="match_parent"
-        style="?android:textAppearanceLarge"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"/>
+        android:text="We are fetching the latest news. Please hang tight for a while ..."
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="90dp"
+        android:paddingBottom="20dp"
+        android:textSize="25dp"
+        android:textColor="#FFFFFF"
+        android:id="@+id/textView3" />
 
 
 </LinearLayout>
