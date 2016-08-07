@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Set;
 
-import in.peerreview.flipnews.Utils.Notification;
+import in.peerreview.flipnews.Utils.Logging;
 
 /**
  * Created by ddutta on 6/26/2016.
@@ -41,9 +41,9 @@ public class SendBLEData {
                             inStream = socket.getInputStream();
                         }
 
-                        Notification.Log("No appropriate paired devices.");
+                        Logging.Log("No appropriate paired devices.");
                     } else {
-                        Notification.Log("Bluetooth is disabled.");
+                        Logging.Log("Bluetooth is disabled.");
                     }
              }
 
@@ -69,7 +69,7 @@ public class SendBLEData {
         while (true) {
             try {
                 bytes = inStream.read(buffer, bytes, BUFFER_SIZE - bytes);
-               // Notification.Log(bytes.toString());
+               // Logging.Log(bytes.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }

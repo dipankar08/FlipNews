@@ -4,7 +4,7 @@ import android.view.MotionEvent;
 import android.widget.ViewFlipper;
 
 import in.peerreview.flipnews.ServerProxy.BackendController;
-import in.peerreview.flipnews.Utils.Notification;
+import in.peerreview.flipnews.Utils.Logging;
 
 /**
  * Created by ddutta on 8/5/2016.
@@ -65,11 +65,11 @@ public class FlipOperation {
         ViewFlipper flipper = MainActivity.getActivity().getFlipper();
         flipper.showNext();
         BackendController.Get().fixNext(flipper.getDisplayedChild());
-        Notification.Log("Showing IDX:" + flipper.getDisplayedChild());
+        Logging.Log("Showing IDX:" + flipper.getDisplayedChild());
     }
     public void flipperPrev() {
         ViewFlipper flipper = MainActivity.getActivity().getFlipper();
         flipper.showPrevious();
-        Notification.Log("Showing IDX:" + flipper.getDisplayedChild());
+        Logging.Log("Showing IDX:" + flipper.getDisplayedChild());
     }
 }

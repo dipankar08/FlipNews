@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
-import in.peerreview.flipnews.Utils.Notification;
+import in.peerreview.flipnews.Utils.Logging;
 
 //################################  CallBack #################
 interface IBackendAPIResultCallBack {
@@ -20,7 +20,7 @@ interface IBackendAPIResultCallBack {
 
 
 public class BackendAPI {
-    private static String TAG ="Notification";
+    private static String TAG ="Logging";
 
 
     public static void getData(String queury, int next_page, int limit , final IBackendAPIResultCallBack resultCallBack,boolean is_blocking ) throws JSONException {
@@ -30,7 +30,7 @@ public class BackendAPI {
         params.put("page", next_page);
         params.put("limit", limit);
 
-        Log.d("Notification","Query ::::::::::::::::::::::::: "+params.toString());
+        Log.d("Logging","Query ::::::::::::::::::::::::: "+params.toString());
 
         HttpUtils.get("", params, new JsonHttpResponseHandler() {
             @Override
@@ -43,7 +43,7 @@ public class BackendAPI {
                         JSONArray arr = response.getJSONArray("result");
 
                         //BackendController.processNetworkData(arr);
-                        Notification.Log("News retrived of length "+arr.length());
+                        Logging.Log("News retrived of length "+arr.length());
                         resultCallBack.onSuccess(arr);
 
                     } else{
@@ -71,13 +71,13 @@ public class BackendAPI {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Notification.showErrorAndExit("Not able to received data from server, Error Code: "+statusCode);
+                Logging.showErrorAndExit("Not able to received data from server, Error Code: "+statusCode);
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Notification.showErrorAndExit("Not able to received data from server, Error Code: "+statusCode);
+                Logging.showErrorAndExit("Not able to received data from server, Error Code: "+statusCode);
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
         });

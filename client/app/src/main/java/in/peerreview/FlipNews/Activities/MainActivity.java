@@ -46,6 +46,7 @@ import in.peerreview.flipnews.ServerProxy.BackendController;
 import in.peerreview.flipnews.BluetoothSync.BluetoothConnector;
 import in.peerreview.flipnews.BluetoothSync.BluetoothShare;
 import in.peerreview.flipnews.UIFragments.CoreFragmentAnimation;
+import in.peerreview.flipnews.Utils.Logging;
 import in.peerreview.flipnews.Utils.Notification;
 
 public class MainActivity extends ActionBarActivity  {
@@ -104,6 +105,7 @@ public class MainActivity extends ActionBarActivity  {
         Bundle params = new Bundle();
         params.putString("called", "Dipankar");
         Telemetry.log("app_started", params);
+        Notification.sendwelcomeNotification();
     }
 
     private void setupFlipper() {
@@ -340,9 +342,9 @@ public class MainActivity extends ActionBarActivity  {
 
                                 }
 
-                                Notification.Log("No appropriate paired devices.");
+                                Logging.Log("No appropriate paired devices.");
                             } else {
-                                Notification.Log("Bluetooth is disabled.");
+                                Logging.Log("Bluetooth is disabled.");
                             }
                         }
 

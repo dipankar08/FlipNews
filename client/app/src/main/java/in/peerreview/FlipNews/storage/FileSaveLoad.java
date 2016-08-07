@@ -10,7 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import in.peerreview.flipnews.Activities.MainActivity;
-import in.peerreview.flipnews.Utils.Notification;
+import in.peerreview.flipnews.Utils.Logging;
 
 /**
  * Created by ddutta on 6/25/2016.
@@ -23,7 +23,7 @@ public class FileSaveLoad {
             ObjectOutputStream myObjectOutputStream = new ObjectOutputStream(myFileOutputStream);
             myObjectOutputStream.writeObject(arr.toString());
             myObjectOutputStream.close();
-            Notification.Log("Saved properly of data length "+arr.length());
+            Logging.Log("Saved properly of data length "+arr.length());
         }
         catch (Exception e)
         {
@@ -41,12 +41,12 @@ public class FileSaveLoad {
             myObjectOutputStream.close();
 
             JSONArray array = new JSONArray(response);
-            Notification.Log("File Load  properly with datalength"+array.length());
+            Logging.Log("File Load  properly with datalength"+array.length());
             return array;
         }
         catch (Exception e)
         {
-            Notification.Log("Error. No file Doest exist"+e.toString());
+            Logging.Log("Error. No file Doest exist"+e.toString());
         }
         return null;
     }

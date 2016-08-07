@@ -9,11 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,10 +16,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import cz.msebera.android.httpclient.Header;
 import in.peerreview.flipnews.Activities.MainActivity;
 import in.peerreview.flipnews.R;
-import in.peerreview.flipnews.Utils.Notification;
+import in.peerreview.flipnews.Utils.Logging;
 import in.peerreview.flipnews.storage.ImageCacheManager;
 import in.peerreview.flipnews.storage.DataSource;
 import in.peerreview.flipnews.storage.FileSaveLoad;
@@ -52,11 +46,11 @@ public class BackendController implements IBackendAPIResultCallBack {
         try {
             JSONArray arr = FileSaveLoad.loadData();
             if( arr == null){
-                Notification.Log(" Doing Network call");
+                Logging.Log(" Doing Network call");
                 fecthNextSetOfpages();
 
             } else {
-                Notification.Log("Loaded from file cache...");
+                Logging.Log("Loaded from file cache...");
                 current_news_list = arr;
                 renderData();
             }
@@ -70,7 +64,7 @@ public class BackendController implements IBackendAPIResultCallBack {
 
     private static void renderData() throws JSONException {
         JSONArray arr = current_news_list;
-        Notification.Log("renderData Index <"+(next_page -1)*limit+" , "+((next_page)* limit));
+        Logging.Log("renderData Index <"+(next_page -1)*limit+" , "+((next_page)* limit));
         for(int i = (next_page-1)*limit; i < (next_page)* limit ;i++){
             JSONObject ele = arr.getJSONObject(i);
             DataSource d= new DataSource(ele);
@@ -122,7 +116,7 @@ public class BackendController implements IBackendAPIResultCallBack {
 
     public void fixNext(int index) {
         if((current_news_list.length() - index) < 5 ){ // we need to do the next call.
-            Notification.Log("Calling for next page fetch of news..");
+            Logging.Log("Calling for next page fetch of news..");
             fecthNextSetOfpages();
         } else if((next_page -1) * limit -index < 5){
             try {
@@ -139,17 +133,17 @@ public class BackendController implements IBackendAPIResultCallBack {
     }
 
     private void fecthNextSetOfpages() {
-        Notification.Log("Loading : Page:"+next_page+" Limit: "+limit);
+        Logging.Log("Loading : Page:"+next_page+" Limit: "+limit);
         try {
             if(is_data_fetch_in_progress == false ) {
                 BackendAPI.getData(queury, next_page, limit, this,false);
                 is_data_fetch_in_progress = true;
             } else {
-                Notification.Log("is_data_fetch_in_progress ...");
+                Logging.Log("is_data_fetch_in_progress ...");
             }
         }
         catch (Exception e){
-            Notification.Log(e.toString());
+            Logging.Log(e.toString());
             is_data_fetch_in_progress = false;
         }
     }
@@ -157,19 +151,19 @@ public class BackendController implements IBackendAPIResultCallBack {
     public  void firstTimeNetworkLoad() {
         // this will call for the first time which load 50 data from beggining...
 
-        Notification.Log("Calling : firstTimeNetworkLoad");
+        Logging.Log("Calling : firstTimeNetworkLoad");
         try {
             if(is_data_fetch_in_progress == false ) {
-                Notification.Log("Calling : Doing NEtwork Calls..");
+                Logging.Log("Calling : Doing NEtwork Calls..");
                 current_news_list = new JSONArray();
                 BackendAPI.getData(queury, 1, 20, this,true/*UX Blocking..*/);
                 is_data_fetch_in_progress = true;
             } else {
-                Notification.Log("is_data_fetch_in_progress ...");
+                Logging.Log("is_data_fetch_in_progress ...");
             }
         }
         catch (Exception e){
-            Notification.Log(e.toString());
+            Logging.Log(e.toString());
             is_data_fetch_in_progress = false;
         }
     }
@@ -182,7 +176,7 @@ public class BackendController implements IBackendAPIResultCallBack {
 
     @Override
     public void onError(String msg) {
-        Notification.showErrorAndExit(msg);
+        Logging.showErrorAndExit(msg);
         is_data_fetch_in_progress = false;
     }
 }

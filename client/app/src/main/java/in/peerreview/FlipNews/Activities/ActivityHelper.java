@@ -4,7 +4,7 @@ import android.os.Environment;
 
 import java.io.File;
 
-import in.peerreview.flipnews.Utils.Notification;
+import in.peerreview.flipnews.Utils.Logging;
 
 /**
  * Created by ddutta on 7/2/2016.
@@ -18,13 +18,13 @@ public  class ActivityHelper {
     static void  createImageCache(){
         if( new File(MainActivity.getActivity().getApplicationContext().getFilesDir()+"/"+IMAGES+"/").exists() == false){
             if ( new File(MainActivity.getActivity().getApplicationContext().getFilesDir()+"/"+IMAGES+"/").mkdir() == true){
-                Notification.Log("Creted a new tem dir");
+                Logging.Log("Creted a new tem dir");
             }
         }
         File sdCard = Environment.getExternalStorageDirectory();
         if( new File(sdCard+"/"+FlipNewsDir+"/").exists() == false){
             if ( new File(sdCard+"/"+FlipNewsDir+"/").mkdir() == true){
-                Notification.Log("Creted a new tem dir in SDCARD");
+                Logging.Log("Creted a new tem dir in SDCARD");
             }
         }
     }

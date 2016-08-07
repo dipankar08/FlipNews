@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import in.peerreview.flipnews.Activities.MainActivity;
-import in.peerreview.flipnews.Utils.Notification;
+import in.peerreview.flipnews.Utils.Logging;
 
 /**
  * Created by ddutta on 6/26/2016.
@@ -23,17 +23,17 @@ public class BluetoothShare {
         if (!BA.isEnabled()) {
             Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
            MainActivity.Get().startActivityForResult(turnOn, 0);
-            Notification.Log("Turned on");
+            Logging.Log("Turned on");
         }
         else
         {
-            Notification.Log("Already on");
+            Logging.Log("Already on");
             //Toast.makeText(getApplicationContext(),"Already on", Toast.LENGTH_LONG).show();
         }
     }
     public void off(){
         BA.disable();
-        Notification.Log("Turned off");
+        Logging.Log("Turned off");
     }
     public  void visible(){
         Intent getVisible = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
@@ -45,7 +45,7 @@ public class BluetoothShare {
 
         for(BluetoothDevice bt : pairedDevices){
             list.add(bt.getName());
-            Notification.Log(bt.getName());
+            Logging.Log(bt.getName());
         }
     }
 
