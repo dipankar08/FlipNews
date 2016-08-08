@@ -57,7 +57,7 @@ public class NewsCardFragment extends Fragment {
                     @Override
                     public void onLongPress(MotionEvent e) {
                         Log.e("", "Longpress detected");
-                        CoreFragmentAnimation.Get().switchBetweenCardDetailsFragment();
+                        CoreFragmentAnimation.Get().pushCardDetailsFragment();
                     }
                     // event when double tap occurs
                     @Override
@@ -66,7 +66,7 @@ public class NewsCardFragment extends Fragment {
                         float y = e.getY();
 
                         Log.d("Double Tap", "Tapped at: (" + x + "," + y + ")");
-                        CoreFragmentAnimation.Get().switchBetweenCardDetailsFragment();
+                        CoreFragmentAnimation.Get().pushCardDetailsFragment();
 
                         return true;
                     }

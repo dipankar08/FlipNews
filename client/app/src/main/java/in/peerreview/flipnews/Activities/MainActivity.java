@@ -56,7 +56,6 @@ public class MainActivity extends ActionBarActivity  {
     private ViewFlipper flipper;
     private int currentApiVersion;
     private static MainActivity sActivity = null;
-    private static GestureDetector gd = null;
     final String TAG = "MainActivity";
 
     BluetoothShare bs = new BluetoothShare();
@@ -99,7 +98,6 @@ public class MainActivity extends ActionBarActivity  {
         BackendController.Get().firstBootLoad();
         hideBars();
         initToolbar();
-        initGestureDetector();
         ActivityHelper.createImageCache();
 
 
@@ -183,63 +181,6 @@ public class MainActivity extends ActionBarActivity  {
         }
     }
 
-
-    //####################################  Touch Framwe work ################################################
-    /*
-    @Override
-    public boolean onTouchEvent(MotionEvent touchevent) {
-       gd.onTouchEvent(touchevent);
-        return true;
-    }
-*/
-    //###################################################################   Gusture Listner Implemetaion
-    private static final int SWIPE_MIN_DISTANCE = 120;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-
-    void initGestureDetector() {
-        gd = new GestureDetector(getApplicationContext(), new GestureListener());
-    }
-
-    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if( e1== null || e2 == null) return false;
-            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                return false; // Right to left
-            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                return false; // Left to right
-            }
-
-            if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-                return false; // Bottom to top
-            } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-                return false; // Top to bottom
-            }
-            return false;
-        }
-
-        // event when double tap occurs
-        @Override
-        public boolean onDoubleTap(MotionEvent e) {
-            float x = e.getX();
-            float y = e.getY();
-
-            Log.d("Double Tap", "Tapped at: (" + x + "," + y + ")");
-            showToolbar();
-
-            return true;
-        }
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            Log.d("OnDoubleTapListener", "onSingleTapConfirmed");
-            hideToolbar();
-            return false;
-        }
-    }
-
-
-    //############################## Volume Key Operations .....................................
 
     //Key handlaer
     @Override

@@ -12,14 +12,14 @@ import android.view.ViewGroup;
 
 import in.peerreview.flipnews.R;
 
-public class NewsCardDetailsFragment extends Fragment {
+public class NewsActionsFragment extends Fragment {
 
     View.OnClickListener clickListener;
     OnTextFragmentAnimationEndListener mListener;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news_card_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_news_card_actions, container, false);
         view.setOnClickListener(clickListener);
 
         view.setOnTouchListener(new View.OnTouchListener() {
@@ -29,6 +29,7 @@ public class NewsCardDetailsFragment extends Fragment {
                 return true;
             }
         });
+
         return view;
     }
 
@@ -39,7 +40,7 @@ public class NewsCardDetailsFragment extends Fragment {
     @Override
     public Animator onCreateAnimator(int transit, boolean enter, int nextAnim)
     {
-        int id = enter ? R.animator.slide_fragment_in : R.animator.slide_fragment_out;
+        int id = enter ? R.animator.actions_slide_fragment_in : R.animator.actions_slide_fragment_out;
         final Animator anim = AnimatorInflater.loadAnimator(getActivity(), id);
         if (enter) {
             anim.addListener(new AnimatorListenerAdapter() {
@@ -56,4 +57,5 @@ public class NewsCardDetailsFragment extends Fragment {
     {
         mListener = listener;
     }
+
 }

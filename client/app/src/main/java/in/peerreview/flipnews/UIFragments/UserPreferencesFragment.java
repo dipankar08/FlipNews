@@ -6,29 +6,20 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import in.peerreview.flipnews.R;
 
-public class NewsCardDetailsFragment extends Fragment {
+public class UserPreferencesFragment extends Fragment {
 
     View.OnClickListener clickListener;
     OnTextFragmentAnimationEndListener mListener;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news_card_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_user_preferences, container, false);
         view.setOnClickListener(clickListener);
-
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                CoreFragmentAnimation.Get().backToMainFragment();
-                return true;
-            }
-        });
         return view;
     }
 
@@ -56,4 +47,6 @@ public class NewsCardDetailsFragment extends Fragment {
     {
         mListener = listener;
     }
+
 }
+
