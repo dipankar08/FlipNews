@@ -95,10 +95,11 @@ public class CoreFragmentAnimation implements OnTextFragmentAnimationEndListener
         View movingFragmentView = newsCardFragment.getView();
 
         PropertyValuesHolder rotateX =  PropertyValuesHolder.ofFloat("rotationX", 40f);
-        PropertyValuesHolder scaleX =  PropertyValuesHolder.ofFloat("scaleX", 0.8f);
-        PropertyValuesHolder scaleY =  PropertyValuesHolder.ofFloat("scaleY", 0.8f);
+        PropertyValuesHolder scaleX =  PropertyValuesHolder.ofFloat("scaleX", 0.5f);
+        PropertyValuesHolder scaleY =  PropertyValuesHolder.ofFloat("scaleY", 0.5f);
+        PropertyValuesHolder translateX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -0.5f);
 
-        ObjectAnimator movingFragmentAnimator = ObjectAnimator.ofPropertyValuesHolder(movingFragmentView, rotateX, scaleX, scaleY);
+        ObjectAnimator movingFragmentAnimator = ObjectAnimator.ofPropertyValuesHolder(movingFragmentView, rotateX, scaleX, scaleY,translateX);
         ObjectAnimator darkHoverViewAnimator = ObjectAnimator.ofFloat(mDarkHoverView, "alpha", 0.0f, 0.5f);
 
         ObjectAnimator movingFragmentRotator = ObjectAnimator.ofFloat(movingFragmentView, "rotationX", 0);
@@ -121,6 +122,7 @@ public class CoreFragmentAnimation implements OnTextFragmentAnimationEndListener
         PropertyValuesHolder rotateX =  PropertyValuesHolder.ofFloat("rotationX", 40f);
         PropertyValuesHolder scaleX =  PropertyValuesHolder.ofFloat("scaleX", 1.0f);
         PropertyValuesHolder scaleY =  PropertyValuesHolder.ofFloat("scaleY", 1.0f);
+       // PropertyValuesHolder translateX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, 0, 0.5f);
         ObjectAnimator movingFragmentAnimator = ObjectAnimator.ofPropertyValuesHolder(movingFragmentView, rotateX, scaleX, scaleY);
 
         ObjectAnimator darkHoverViewAnimator = ObjectAnimator.ofFloat(mDarkHoverView, "alpha", 0.5f, 0.0f);
