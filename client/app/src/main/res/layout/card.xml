@@ -54,6 +54,14 @@
             android:layout_alignParentBottom="true"
             android:id="@+id/below_btn"
             android:layout_below="@id/text2">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:id="@+id/news_count"
+                android:textColor="#ff00ff"
+                android:layout_alignParentLeft="true"
+                />
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="match_parent"

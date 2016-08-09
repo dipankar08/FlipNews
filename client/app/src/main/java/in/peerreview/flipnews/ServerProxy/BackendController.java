@@ -13,9 +13,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import in.peerreview.flipnews.Activities.FlipOperation;
 import in.peerreview.flipnews.Activities.MainActivity;
 import in.peerreview.flipnews.R;
 import in.peerreview.flipnews.Utils.Logging;
@@ -32,8 +35,8 @@ public class BackendController implements IBackendAPIResultCallBack {
     private static int next_page = 1;
     private static String queury ="";
     private static boolean is_data_fetch_in_progress = false;
+    JSONArray current_news_list = new JSONArray();
 
-    private static JSONArray current_news_list = new JSONArray();
 
 
     private static BackendController sBackendController = new BackendController();
@@ -41,6 +44,14 @@ public class BackendController implements IBackendAPIResultCallBack {
         return sBackendController;
     }
 
+    private void sendDataForRender(JSONArray arr) throws JSONException {
+        List<DataSource> dataSourceList = new ArrayList<DataSource>();
+        for (int i =0;i<arr.length();i++){
+            JSONObject ele = arr.getJSONObject(i);
+            dataSourceList.add( new DataSource(ele));
+        }
+        FlipOperation.renderData(dataSourceList);
+    }
 
     public void firstBootLoad(){
         try {
@@ -50,9 +61,10 @@ public class BackendController implements IBackendAPIResultCallBack {
                 fecthNextSetOfpages();
 
             } else {
-                Logging.Log("Loaded from file cache...");
-                current_news_list = arr;
-                renderData();
+                Logging.Log("Loaded from file cache... and let;s return pull data to FilpOperations.");
+                sendDataForRender(arr);
+                //Calculate Next page
+                next_page = arr.length()/limit;
             }
 
         } catch (JSONException e) {
@@ -62,16 +74,6 @@ public class BackendController implements IBackendAPIResultCallBack {
     }
 
 
-    private static void renderData() throws JSONException {
-        JSONArray arr = current_news_list;
-        Logging.Log("renderData Index <"+(next_page -1)*limit+" , "+((next_page)* limit));
-        for(int i = (next_page-1)*limit; i < (next_page)* limit ;i++){
-            JSONObject ele = arr.getJSONObject(i);
-            DataSource d= new DataSource(ele);
-            addMoreView(d);
-        }
-        next_page++;
-    }
     private static JSONArray concatArray(JSONArray... arrs)
             throws JSONException {
         JSONArray result = new JSONArray();
@@ -82,55 +84,9 @@ public class BackendController implements IBackendAPIResultCallBack {
         }
         return result;
     }
-    public static void addMoreView(DataSource d) {
-        LayoutInflater inflater = (LayoutInflater) MainActivity.Get().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view = inflater.inflate(R.layout.card, MainActivity.Get().getFlipper(), false);
-        ImageCacheManager.renderImage((ImageView) view.findViewById(R.id.image),d.getHead_image(),d.getRand_id());
-        TextView textView1 = (TextView)view.findViewById(R.id.text1);
-        TextView textView2 = (TextView)view.findViewById(R.id.text2);
-        ImageView providerImage = (ImageView)view.findViewById(R.id.provider_logo);
-        textView1.setText(d.getTitle().trim());
-        textView2.setText(d.getDetails().trim());
-        Map logo_map = new HashMap() {{
-            put("Anadabazar",MainActivity.getActivity().getResources().getDrawable(R.drawable.anadabazar));
-            put("bartaman",MainActivity.getActivity().getResources().getDrawable(R.drawable.bartaman));
-            put("sangbadpratidin",MainActivity.getActivity().getResources().getDrawable(R.drawable.sangbadpratidin));
-            put("eisomoy",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
-            put("eisamay",MainActivity.getActivity().getResources().getDrawable(R.drawable.eisomoy));
-            put("ZeeNews",MainActivity.getActivity().getResources().getDrawable(R.drawable.zeenews));
-        }};
-        providerImage.setImageDrawable((Drawable) logo_map.get(d.getSource_name().trim()));
-        Log.d("Dipankar",d.getSource_name().trim());
-/*
-        Typeface typeFace=Typeface.createFromAsset(getAssets(),"fonts/Durga.ttf");
-        textView1.setTypeface(typeFace);
-        Typeface typeFace2=Typeface.createFromAsset(getAssets(),"fonts/NikoshLightBan.ttf");
-        textView2.setTypeface(typeFace2);
 
-*/
-       // view.setOnTouchListener(gestureListener);
-        MainActivity.Get().getFlipper().addView(view);
-        MainActivity.Get().getFlipper().invalidate();
-    }
 
-    public void fixNext(int index) {
-        if((current_news_list.length() - index) < 5 ){ // we need to do the next call.
-            Logging.Log("Calling for next page fetch of news..");
-            fecthNextSetOfpages();
-        } else if((next_page -1) * limit -index < 5){
-            try {
-                renderData();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    private void reset(){
-        next_page =1;
-        MainActivity.Get().getFlipper().removeAllViews();
-        fixNext(0);
-    }
 
     private void fecthNextSetOfpages() {
         Logging.Log("Loading : Page:"+next_page+" Limit: "+limit);
@@ -155,7 +111,7 @@ public class BackendController implements IBackendAPIResultCallBack {
         try {
             if(is_data_fetch_in_progress == false ) {
                 Logging.Log("Calling : Doing NEtwork Calls..");
-                current_news_list = new JSONArray();
+
                 BackendAPI.getData(queury, 1, 20, this,true/*UX Blocking..*/);
                 is_data_fetch_in_progress = true;
             } else {
@@ -169,6 +125,7 @@ public class BackendController implements IBackendAPIResultCallBack {
     }
     @Override
     public void onSuccess(JSONArray result) throws JSONException {
+        sendDataForRender(result);
         current_news_list = concatArray(current_news_list,result);
         FileSaveLoad.storeData(current_news_list); //store the new list
         is_data_fetch_in_progress = false;
@@ -178,6 +135,11 @@ public class BackendController implements IBackendAPIResultCallBack {
     public void onError(String msg) {
         Logging.showErrorAndExit(msg);
         is_data_fetch_in_progress = false;
+    }
+
+    //Public API.
+    public void loadDataFromServer(){
+        fecthNextSetOfpages();
     }
 }
 

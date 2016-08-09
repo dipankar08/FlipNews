@@ -1,10 +1,25 @@
 package in.peerreview.flipnews.Activities;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import in.peerreview.flipnews.R;
 import in.peerreview.flipnews.ServerProxy.BackendController;
+import in.peerreview.flipnews.UIFragments.CoreFragmentAnimation;
 import in.peerreview.flipnews.Utils.Logging;
+import in.peerreview.flipnews.storage.DataSource;
+import in.peerreview.flipnews.storage.ImageCacheManager;
 
 /**
  * Created by ddutta on 8/5/2016.
@@ -15,13 +30,11 @@ public class FlipOperation {
     public static FlipOperation Get(){
         return sFlipOperation;
     }
-   // private static flipper = MainActivity.getActivity().getFlipper();
-   private float initialX, initialY;
 
+    private float initialX, initialY;
 
-    FlipOperation(){
+    private static IFlipOperation flipOperation = new MyTextFlipper();
 
-    }
     boolean is_up(float y1, float y2){
         return (y1 > y2 && (y1-y2) > 1);
     }
@@ -31,7 +44,6 @@ public class FlipOperation {
 
 
     public boolean delegateTouchEventsForFlip(MotionEvent touchevent) {
-        ViewFlipper flipper = MainActivity.getActivity().getFlipper();
         switch (touchevent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 initialX = touchevent.getX();
@@ -41,19 +53,9 @@ public class FlipOperation {
                 float finalX = touchevent.getX();
                 float finalY = touchevent.getY();
                 if (is_up(initialY , finalY)  ) {
-                    if (flipper.getDisplayedChild() < flipper.getChildCount() -1) {
-                        flipperNext();
-                    }
-                    else {
-                        flipper.setDisplayedChild(0);
-                    }
-
+                    flipOperation.Next();
                 } else if (is_down(initialY , finalY)  ) {
-                    if (flipper.getDisplayedChild() != 0) {
-                        flipperPrev();
-                    } else {
-                        flipper.setDisplayedChild(flipper.getChildCount() - 1);
-                    }
+                    flipOperation.Previous();
                 }
 
                 break;
@@ -61,15 +63,26 @@ public class FlipOperation {
         return true;
     }
 
-    public void flipperNext() {
-        ViewFlipper flipper = MainActivity.getActivity().getFlipper();
-        flipper.showNext();
-        BackendController.Get().fixNext(flipper.getDisplayedChild());
-        Logging.Log("Showing IDX:" + flipper.getDisplayedChild());
+    /**************************************************************************
+        APIS
+    ****************************************************************************/
+    public static void setupFlipper() {
+        flipOperation.setupFlipper();
     }
-    public void flipperPrev() {
-        ViewFlipper flipper = MainActivity.getActivity().getFlipper();
-        flipper.showPrevious();
-        Logging.Log("Showing IDX:" + flipper.getDisplayedChild());
+
+    public static void renderData(List<DataSource> d){
+        flipOperation.renderData(d);
+    }
+
+    public void reset(){
+        flipOperation.reset();
+    }
+
+    public void Next() {
+        flipOperation.Next();
+    }
+
+    public void Previous() {
+        flipOperation.Previous();
     }
 }

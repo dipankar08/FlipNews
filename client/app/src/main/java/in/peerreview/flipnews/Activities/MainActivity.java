@@ -9,10 +9,8 @@ import android.os.ParcelUuid;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -43,17 +41,15 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import in.peerreview.flipnews.BluetoothSync.DeviceListActivity;
 import in.peerreview.flipnews.R;
-import in.peerreview.flipnews.Reporting.Telemetry;
 import in.peerreview.flipnews.ServerProxy.BackendController;
 import in.peerreview.flipnews.BluetoothSync.BluetoothConnector;
 import in.peerreview.flipnews.BluetoothSync.BluetoothShare;
 import in.peerreview.flipnews.UIFragments.CoreFragmentAnimation;
 import in.peerreview.flipnews.Utils.Logging;
-import in.peerreview.flipnews.Utils.Notification;
 
 public class MainActivity extends ActionBarActivity  {
     private Toolbar mToolbar;
-    private ViewFlipper flipper;
+
     private int currentApiVersion;
     private static MainActivity sActivity = null;
     final String TAG = "MainActivity";
@@ -92,7 +88,7 @@ public class MainActivity extends ActionBarActivity  {
 
         //framments animation..
         CoreFragmentAnimation.Get().setupFragments();
-        setupFlipper();
+        FlipOperation.setupFlipper();
 
 
         BackendController.Get().firstBootLoad();
@@ -102,15 +98,11 @@ public class MainActivity extends ActionBarActivity  {
 
 
         //test
-        Log.d("Dipankar",FirebaseInstanceId.getInstance().getToken());
+//        Log.d("Dipankar",FirebaseInstanceId.getInstance().getToken());
 
     }
 
-    private void setupFlipper() {
-        flipper = (ViewFlipper) CoreFragmentAnimation.Get().getView();
-        flipper.setInAnimation(this, android.R.anim.fade_in);
-        flipper.setOutAnimation(this, android.R.anim.fade_out);
-    }
+
 
 
     @Override
@@ -130,9 +122,6 @@ public class MainActivity extends ActionBarActivity  {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    public ViewFlipper getFlipper() {
-        return flipper;
-    }
 
     private void hideBars() {
         currentApiVersion = Build.VERSION.SDK_INT;
@@ -189,10 +178,10 @@ public class MainActivity extends ActionBarActivity  {
         Log.d(TAG, "onKeyDown called");
         Log.v(TAG, event.toString());
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            FlipOperation.Get().flipperNext();
+            FlipOperation.Get().Previous();
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            FlipOperation.Get().flipperPrev();
+            FlipOperation.Get().Next();
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_POWER) {
             // Do something here...
