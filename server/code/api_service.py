@@ -50,7 +50,7 @@ def hello_world():
         query = '' if not request.args.get('query') else request.args.get('query')
         topic = '' if not request.args.get('topic') else request.args.get('topic')
         source = '' if not request.args.get('source') else request.args.get('source')
-        day = '' if not request.args.get('day') else request.args.get('day') #dd-mm-yyyy
+        day = '' if not request.args.get('date') else request.args.get('date') #dd-mm-yyyy
         global store
         result =[]
         if len(query.strip()) != 0:
