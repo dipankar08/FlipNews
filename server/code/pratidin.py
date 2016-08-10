@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 #Add your seed link here
 import pdb
 ROOT = 'http://zeenews.india.com'
-from masterConfig import mconfig
+
 
 def get_artical_info(url): #Working..
     try:
@@ -59,36 +59,5 @@ def get_all_artical_links(url):
         print 'Error in (get_all_artical_links): ',url,str(e)
         return None
  
- 
-#All Interface must implemnets this...
-import random,string
-def get_all_data_for_a_seed(seed):
-    try:
-        links = get_all_artical_links(seed['url'])
-        if not links:
-            return None
-        res = []
-        #pdb.set_trace()
-        ii =0;
-        for l in links:
-            ii = ii+1
-            if(ii > mconfig['max_news_in_each_cata'] ):
-                break;
-            ares = get_artical_info(l)
-            if not ares:
-                continue
-            ares['url'] = l
-            ares['source'] = 'sangbadpratidin'
-            ares['categories']= seed['categories']
-            ares['tags']= seed['categories']
-            ares['rand_id']= hashlib.sha224(ares['url']).hexdigest()#''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20)) 
-            res.append(ares)
-        return res
-    except Exception, e:
-        print 'Error(get_all_data_for_a_seed)',seed,str(e)
-        return None
- 
-         
-#test Public API
-#import pratidin; pratidin.get_artical_info('http://sangbadpratidin.in/staff-selection-commision/#.V25ei2h96Uk')
+
 

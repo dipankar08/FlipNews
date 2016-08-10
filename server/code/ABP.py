@@ -1,4 +1,4 @@
-import hashlib
+
 import requests
 from bs4 import BeautifulSoup 
 #Add your seed link here
@@ -8,6 +8,7 @@ seeds = {
     'state':'http://www.anandabazar.com/state',
     }
 from masterConfig import mconfig
+
 def get_artical_info(url):
     try:
         print 'getting',url
@@ -80,7 +81,7 @@ def get_all_data_for_a_seed(seed):
             ares['source'] = 'Anadabazar'
             ares['categories']= seed['categories']
             ares['tags']= seed['categories']
-            ares['rand_id']= hashlib.sha224(ares['url']).hexdigest()#''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20)) 
+            ares['rand_id']= hashlib.sha224(ares['url']).hexdigest() 
             res.append(ares)
         return res
     except Exception, e:

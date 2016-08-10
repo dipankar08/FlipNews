@@ -6,8 +6,9 @@ import eisamay
 
 config = {
     'bartaman': {
-        'title':'hello',
-        'handaler':bartaman.get_all_data_for_a_seed,
+        'name':'bartaman',
+        'handaler_info':bartaman.get_artical_info,
+        'handaler_list':bartaman.get_all_artical_links,
         'seeds':[ 
             {'categories':'calcutta','url':'http://zeenews.india.com/bengali/kolkata.html'},
             {'categories':'state','url':'http://zeenews.india.com/bengali/zila.html'},
@@ -18,8 +19,9 @@ config = {
     
     },
     'anandabazar': {
-        'title':'hello',
-        'handaler':ABP.get_all_data_for_a_seed,
+        'name':'anandabazar',
+        'handaler_info':ABP.get_artical_info,
+        'handaler_list':ABP.get_all_artical_links,
         'seeds':[
             {'categories':'science','url':'http://www.anandabazar.com/others/science'},
             {'categories':'calcutta','url':'http://www.anandabazar.com/calcutta'},
@@ -36,8 +38,9 @@ config = {
     
     },  
     'zeenews': {
-        'title':'hello',
-        'handaler':zeenews.get_all_data_for_a_seed,
+        'name':'zeenews',
+        'handaler_info':zeenews.get_artical_info,
+        'handaler_list':zeenews.get_all_artical_links,
         'seeds':[ 
             {'categories':'calcutta','url':'http://zeenews.india.com/bengali/kolkata.html'},
             {'categories':'state','url':'http://zeenews.india.com/bengali/zila.html'},
@@ -48,8 +51,9 @@ config = {
     
     },
     'sangbadpratidin': {
-        'title':'hello',
-        'handaler':pratidin.get_all_data_for_a_seed,
+        'name':'sangbadpratidin',
+        'handaler_info':pratidin.get_artical_info,
+        'handaler_list':pratidin.get_all_artical_links,
         'seeds':[
             {'categories':'calcutta','url':'http://sangbadpratidin.in/category/kolkata/'},
             {'categories':'state','url':'http://sangbadpratidin.in/category/state/'},
@@ -62,8 +66,9 @@ config = {
     },
 
     'eisamay': {
-        'title':'hello',
-        'handaler':eisamay.get_all_data_for_a_seed,
+        'name':'eisamay',
+        'handaler_info':eisamay.get_artical_info,
+        'handaler_list':eisamay.get_all_artical_links,
         'seeds':[
             {'categories':'calcutta','url':'http://eisamay.indiatimes.com/city/articlelist/15819618.cms'},
             {'categories':'state','url':'http://eisamay.indiatimes.com/state/articlelist/15819609.cms'},

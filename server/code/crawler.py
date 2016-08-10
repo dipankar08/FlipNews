@@ -1,5 +1,7 @@
 from sourceConfig import config
 from masterConfig import mconfig
+from common_parser import get_all_data_for_a_seed
+
 import pdb
 import pickle
 import database
@@ -10,13 +12,12 @@ def CrawlAll():
     for k,v in config.items():
         if k not in mconfig['allowled']:
             continue
-        seeds = v['seeds']
-        handaler = v['handaler']
-        for sd in seeds:
-            data = handaler(sd)
-            if data:
-                allres += data
-                
+        data = get_all_data_for_a_seed(v)
+        if data:
+            allres += data
+        else:
+            print 'Error: While retriveig ',k
+  
     print 'Total', len(allres); print '*'*50; 
     return allres
 
@@ -51,4 +52,9 @@ def save(allres):
         
 def test():
     UpdateDataBase()
-#test();
+    
+    
+def test1():
+    allres = CrawlAll()
+    pdb.set_trace()
+#test1();
