@@ -4,9 +4,9 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-public class HttpUtils {
-    private static final String BASE_URL = "http://peerreview.in:5555/news";
+import in.peerreview.flipnews.Configarations.GlobalAppConfigurations;
 
+public class HttpUtils {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
@@ -28,6 +28,6 @@ public class HttpUtils {
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
-        return BASE_URL + relativeUrl;
+        return GlobalAppConfigurations.BACKEND_API_URL + relativeUrl;
     }
 }

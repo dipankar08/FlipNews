@@ -1,4 +1,4 @@
-package in.peerreview.flipnews.Reporting;
+package in.peerreview.flipnews.Utils;
 
 import android.os.Bundle;
 

@@ -1,5 +1,7 @@
 package in.peerreview.flipnews.storage;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,6 +14,19 @@ public class DataSource {
     private final String rand_id;
     private String title;
     private String remore_url;
+    private String time;
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    private String date;
+
+    public String getEpoch() {
+        return epoch;
+    }
+
+    private String epoch;
 
     public String getHead_image() {
         return head_image;
@@ -46,11 +61,16 @@ public class DataSource {
     private String main_image_url;
 
     public  DataSource(JSONObject ele) throws JSONException {
-        this.title = ele.getString("title");
-        this.details = ele.getString("details").toString();
-        this.head_image = ele.getString("head_image").toString();
-        this.rand_id = ele.getString("rand_id").toString();
-        this.source_name = ele.getString("source");
-        this.remore_url = ele.getString("url");
+
+            this.title = ele.getString("title");
+            this.details = ele.getString("details").toString();
+            this.head_image = ele.getString("head_image").toString();
+            this.rand_id = ele.getString("rand_id").toString();
+            this.source_name = ele.getString("source");
+            this.remore_url = ele.getString("url");
+            this.date = ele.getString("date");
+            this.time = ele.getString("time");
+            this.epoch = ele.getString("epoch");
+
     }
 }
