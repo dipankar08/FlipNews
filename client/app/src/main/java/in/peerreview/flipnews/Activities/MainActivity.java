@@ -45,6 +45,7 @@ import in.peerreview.flipnews.ServerProxy.BackendController;
 import in.peerreview.flipnews.BluetoothSync.BluetoothConnector;
 import in.peerreview.flipnews.BluetoothSync.BluetoothShare;
 import in.peerreview.flipnews.UIFragments.CoreFragmentAnimation;
+import in.peerreview.flipnews.Utils.Experiment;
 import in.peerreview.flipnews.Utils.Logging;
 
 public class MainActivity extends ActionBarActivity  {
@@ -95,10 +96,7 @@ public class MainActivity extends ActionBarActivity  {
         hideBars();
         initToolbar();
         ActivityHelper.createImageCache();
-
-
-        //test
-//        Log.d("Dipankar",FirebaseInstanceId.getInstance().getToken());
+        Experiment.test();
 
     }
 
