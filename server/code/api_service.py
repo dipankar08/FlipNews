@@ -59,7 +59,7 @@ def hello_world():
             result = store.getByCat(topic, page, limit)
         if len(source.strip()) != 0:
             result = store.getBySource(source, page, limit)
-        if len(date.strip()) != 0:
+        if len(day.strip()) != 0:
             result = store.getByDate(day, 1, 500) # We want to get all the news for the day..
         else:
             result = store.get(page, limit)
