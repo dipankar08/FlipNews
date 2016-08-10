@@ -39,20 +39,23 @@ class Store(object):
             Store.conn.insert(data)
             return True
         else:
-            printf('Alread exits....')
+            printf('Info: Alread exits : '+url)
             return False
             
     #Pagination get: Tested
     def get(self, page = 1,limit =10): #page 1...
         return [  norm(x)  for x in Store.conn.find().sort([("_id", pymongo.DESCENDING)]).skip(limit*(page-1)).limit(limit)]
 
-        
     def getByCat(self, tags = 'calcutta', page = 1,limit =10): #page 1...  
         return [  norm(x)  for x in self.conn.find({'categories' : tags }).sort([("_id", pymongo.DESCENDING)]).skip(limit*(page-1)).limit(limit) ]
 
     def getBySource(self, tags = 'calcutta', page = 1,limit =10): #page 1...
         return [  norm(x)  for x in self.conn.find({'source' : tags }).sort([("_id", pymongo.DESCENDING)]).skip(limit*(page-1)).limit(limit) ]
-
+        
+    def getByDate(self, date = '08-10-2016', page = 1,limit =10): #page 1...
+        #pdb.set_trace()
+        return [  norm(x)  for x in self.conn.find({'date' : date }).sort([("_id", pymongo.DESCENDING)]).skip(limit*(page-1)).limit(limit) ]
+        
 def test():   
     #Test single ton
     s1 = Store()

@@ -50,6 +50,7 @@ def hello_world():
         query = '' if not request.args.get('query') else request.args.get('query')
         topic = '' if not request.args.get('topic') else request.args.get('topic')
         source = '' if not request.args.get('source') else request.args.get('source')
+        day = '' if not request.args.get('date') else request.args.get('date') #dd-mm-yyyy
         global store
         result =[]
         if len(query.strip()) != 0:
@@ -58,10 +59,12 @@ def hello_world():
             result = store.getByCat(topic, page, limit)
         if len(source.strip()) != 0:
             result = store.getBySource(source, page, limit)
+        if len(day.strip()) != 0:
+            result = store.getByDate(day, 1, 500) # We want to get all the news for the day..
         else:
             result = store.get(page, limit)
            
-        return Response(json.dumps({'result':result,'status':'OK','msg':'Data Returned with page'+str(page)+' and limit '+str(limit)+'.'}), mimetype ='application/json')
+        return Response(json.dumps({'result':result,'status':'OK','count':len(result),'msg':'Data Returned with page'+str(page)+' and limit '+str(limit)+'.'}), mimetype ='application/json')
             
     except Exception,e:
        print e
