@@ -9,6 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+import java.util.Map;
+
 import cz.msebera.android.httpclient.Header;
 import in.peerreview.flipnews.Utils.Logging;
 
@@ -23,14 +26,22 @@ public class BackendAPI {
     private static String TAG ="Logging";
 
 
-    public static void getData(String queury, int next_page, int limit , final IBackendAPIResultCallBack resultCallBack,boolean is_blocking ) throws JSONException {
+    public static void getData(Map<String, String> queryList, int next_page, int limit , final IBackendAPIResultCallBack resultCallBack, boolean is_blocking ) throws JSONException {
 
         RequestParams params = new RequestParams();
-        params.put("queury", queury);
+
+        if(queryList != null) {
+            for (Map.Entry<String, String> entry : queryList.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                params.put(key, value);
+            }
+        }
+
         params.put("page", next_page);
         params.put("limit", limit);
 
-        Log.d("Logging","Query ::::::::::::::::::::::::: "+params.toString());
+        Log.d("Dipankar","BackendAPI.getdata: "+params.toString());
 
         HttpUtils.get("", params, new JsonHttpResponseHandler() {
             @Override
@@ -65,7 +76,7 @@ public class BackendAPI {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
 
-                resultCallBack.onError("Not able to received data from server, Error Code: "+statusCode);
+                resultCallBack.onError("Not able to received data from server, Error Code: "+statusCode+"Message:"+throwable.getMessage());
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
 

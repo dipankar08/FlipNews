@@ -32,13 +32,15 @@ public class MyTextFlipper implements IFlipOperation {
 
     @Override
     public void Next() {
-        if(cur_idx >= 0 && cur_idx < dataSourceList.size() -1){
+        if(dataSourceList.size() - cur_idx < CUTOFF) {
+            BackendController.Get().loadDataFromServer();
+        }
+
+        if(cur_idx >= 0 && cur_idx <= dataSourceList.size() -1){
             renderItem();
             cur_idx++;
 
-            if(dataSourceList.size() - cur_idx < CUTOFF) {
-                BackendController.Get().loadDataFromServer();
-            }
+
 
         } else{
 
@@ -47,9 +49,9 @@ public class MyTextFlipper implements IFlipOperation {
 
     @Override
     public void Previous() {
-        if(cur_idx > 0 && cur_idx < dataSourceList.size()){
-            renderItem();
+        if(cur_idx >= 1 && cur_idx <= dataSourceList.size()){
             cur_idx--;
+            renderItem();
 
         } else{
 
@@ -76,7 +78,7 @@ public class MyTextFlipper implements IFlipOperation {
 
         ((TextView) conatiner.findViewById(R.id.text1)).setText(d.getTitle().trim());
         ((TextView) conatiner.findViewById(R.id.text2)).setText(d.getDetails().trim());
-        ((TextView) conatiner.findViewById(R.id.news_count)).setText(cur_idx+"/"+dataSourceList.size());
+        ((TextView) conatiner.findViewById(R.id.news_count)).setText((cur_idx+1)+"/"+dataSourceList.size());
 
         ImageView providerImage = (ImageView) conatiner.findViewById(R.id.provider_logo);
         Map logo_map = new HashMap() {{
