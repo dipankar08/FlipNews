@@ -60,34 +60,5 @@ def get_all_artical_links(url):
         return None
  
  
-#All Interface must implemnets this...
-import random,string
-def get_all_data_for_a_seed(seed):
-    try:
-        links = get_all_artical_links(seed['url'])
-        if not links:
-            return None
-        res = []
-        #pdb.set_trace()
-        ii = 0
-        for l in links:
-            ii = ii + 1
-            if(ii > mconfig['max_news_in_each_cata'] ):
-                break;
-            ares = get_artical_info(l)
-            if not ares:
-                continue
-            ares['url'] = l
-            ares['source'] = 'Anadabazar'
-            ares['categories']= seed['categories']
-            ares['tags']= seed['categories']
-            ares['rand_id']= hashlib.sha224(ares['url']).hexdigest() 
-            res.append(ares)
-        return res
-    except Exception, e:
-        print 'Error(get_all_data_for_a_seed)',seed,str(e)
-        return None
- 
-         
-#test Public API
+
 

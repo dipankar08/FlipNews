@@ -13,7 +13,7 @@ def buildNormalizedArticalData(config,adt):
 
     adt['source'] = config.get('name')
     
-    today = datetime.datetime.today()
+    today = datetime.datetime.utcnow() + datetime.timedelta(hours=5,minutes=30)
     adt['date'] = today.strftime('%d-%m-%Y')
     adt['time'] = today.strftime('%I:%M %p')
     adt['epoch'] = time.time()
