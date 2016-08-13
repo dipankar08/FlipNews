@@ -70,4 +70,8 @@ public class FlipOperation {
     public void Previous() {
         flipOperation.Previous();
     }
+    public void showDetails() {
+        flipOperation.fillDetails();
+    }
+
 }

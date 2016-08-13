@@ -36,9 +36,10 @@
         <in.peerreview.flipnews.Custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/subtitle_text"
             android:textColor="#50ffffff"
-            android:layout_gravity="center"
-            android:text="100 Older news"
+            android:gravity="center"
+            android:text="100 Older news.............\n..............."
             foo:customFont="fonts/Raleway-Light.ttf"
             android:padding="10dp"
             android:textSize="25dp"

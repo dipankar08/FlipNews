@@ -91,21 +91,47 @@
             android:textSize="20dp"
             foo:customFont="fonts/fontawesome.ttf"/>
     </LinearLayout>
-    <ImageView
-        android:layout_width="match_parent"
-        android:id="@+id/source_logo"
-        android:src="@drawable/sangbadpratidin"
-        android:layout_marginBottom="5dp"
-        android:layout_height="50dp" />
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
-        <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="match_parent"
+            android:id="@+id/source_logo"
+            android:paddingTop="10dp"
+            android:src="@drawable/sangbadpratidin"
+            android:layout_marginBottom="20dp"
+            android:layout_height="80dp" />
+        <in.peerreview.flipnews.Custom.CustomTextView
+            android:layout_width="match_parent"
+            android:id="@+id/news_title"
+            android:textSize="30dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            foo:customFont="fonts/kalpurush.ttf"
+            android:text="Some news text"/>
+        <in.peerreview.flipnews.Custom.CustomTextView
+            android:layout_width="match_parent"
+            android:id="@+id/news_time"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            foo:customFont="fonts/kalpurush.ttf"
+            android:text="Some news text"/>
+
+        <in.peerreview.flipnews.Custom.CustomTextView
             android:layout_width="match_parent"
             android:id="@+id/full_news"
+            android:textSize="20dp"
+            android:padding="10dp"
             android:layout_height="wrap_content"
             android:text="Some news text"/>
+    </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>

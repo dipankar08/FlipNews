@@ -46,18 +46,17 @@
         <TextView android:text="Some text"
             android:id="@+id/text1"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:padding="3dp"
+            android:layout_height="wrap_content"
             android:textSize="28sp"
+            android:padding="10dp"
             android:textAlignment="center"
             />
-
         <TextView android:text="Some text\n hello"
+            android:layout_marginTop="80dp"
             android:id="@+id/text2"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1.0"
-            android:layout_marginTop="50dp"
             android:textSize="18sp"
             android:padding="8dp"
             android:lineSpacingExtra="5dp"
@@ -90,7 +89,7 @@
                 android:id="@+id/bookmark"
                 android:text="&#xe866;"
                 android:textColor="@color/white"
-                android:textSize="23dp"
+                android:textSize="21dp"
                 foo:customFont="fonts/MaterialIcons-Regular.ttf"/>
             <in.peerreview.flipnews.Custom.CustomTextView
                 android:layout_width="wrap_content"
@@ -101,7 +100,7 @@
                 android:id="@+id/read"
                 android:text="&#xe876;"
                 android:textColor="@color/white"
-                android:textSize="23dp"
+                android:textSize="21dp"
                 foo:customFont="fonts/MaterialIcons-Regular.ttf"/>
             <in.peerreview.flipnews.Custom.CustomTextView
                 android:layout_width="wrap_content"
@@ -112,7 +111,7 @@
                 android:padding="15dp"
                 android:text="&#xe80d;"
                 android:textColor="@color/white"
-                android:textSize="23dp"
+                android:textSize="21dp"
                 foo:customFont="fonts/MaterialIcons-Regular.ttf"/>
             </LinearLayout>
         <LinearLayout
@@ -131,7 +130,7 @@
                 android:id="@+id/details_btn"
                 android:text="&#xe25a;"
                 android:textColor="@color/white"
-                android:textSize="23dp"
+                android:textSize="21dp"
                 foo:customFont="fonts/MaterialIcons-Regular.ttf"/>
 
             <ImageButton

@@ -39,6 +39,12 @@ public class DataSource {
     public String getTitle() {
         return title;
     }
+    public String getTime() {
+        return time;
+    }
+    public String getDate() {
+        return date;
+    }
 
     public String getRemore_url() {
         return remore_url;

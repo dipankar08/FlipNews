@@ -62,6 +62,7 @@ public class MyTextFlipper implements IFlipOperation {
             if( cur_idx == workingDataSourceList.size() ){
                 View v =  MyFragmentManager.Get().getView(3);
                 ((TextView)v.findViewById(R.id.date_text)).setText(date_Key);
+                ((TextView)v.findViewById(R.id.subtitle_text)).setText(date_Key);
 
                 MyFragmentManager.Get().show(3);
                 if(dataSourceHistory.get(date_Key) == null){
@@ -71,6 +72,8 @@ public class MyTextFlipper implements IFlipOperation {
                 workingDataSourceList = dataSourceHistory.get(date_Key);
                 targetDateOffset++;
                 cur_idx = 0;
+
+                ((TextView)v.findViewById(R.id.subtitle_text)).setText("We have "+workingDataSourceList.size()+" older news to read...\nClick Next to start.");
             }
         }
 
@@ -105,6 +108,17 @@ public class MyTextFlipper implements IFlipOperation {
     public void reset() {
 
     }
+
+    @Override
+    public void fillDetails() {
+        DataSource d = workingDataSourceList.get(cur_idx);
+        View v = MyFragmentManager.Get().getView(2);
+        SimpleUtils.setProvidersLogo(((ImageView)v.findViewById(R.id.source_logo)),d.getSource_name());
+        ((TextView)v.findViewById(R.id.full_news)).setText(d.getDetails().trim());
+        ((TextView)v.findViewById(R.id.news_title)).setText(d.getTitle().trim());
+        ((TextView)v.findViewById(R.id.news_time)).setText(d.getTime() +"  -  " +d.getDate());
+    }
+
     public void renderItem(){
         //Crash fix: Sometime the fragmnet is not yet infutaed,. In that case Let;s retry or else just reyrn.
         if(conatiner == null ){

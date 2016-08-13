@@ -13,4 +13,5 @@ public interface IFlipOperation {
     public void setupFlipper();
     public void renderData(List<DataSource> d);
     public void reset();
+    public void fillDetails();
 }
