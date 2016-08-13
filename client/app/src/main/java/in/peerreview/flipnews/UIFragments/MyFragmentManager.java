@@ -22,8 +22,9 @@ public class MyFragmentManager {
     private Fragment2 mFragment2;
     private Fragment3 mFragment3;
     private Fragment4 mFragment4;
-    private Stack<Fragment> mStackFragments;
 
+    private Stack<Fragment> mStackFragments;
+    ArrayList<Fragment> fragmentArrayList = null;
 
 
     public static MyFragmentManager Get() {
@@ -38,6 +39,13 @@ public class MyFragmentManager {
         this.mFragment1 = new Fragment1();
         this.mFragment2 = new Fragment2();
         this.mFragment3 = new Fragment3();
+
+        fragmentArrayList = new ArrayList<Fragment>();
+        fragmentArrayList.add(this.mFragment1);
+        fragmentArrayList.add(this.mFragment2);
+        fragmentArrayList.add(this.mFragment3);
+        fragmentArrayList.add(this.mFragment4);
+
         this.mStackFragments = new Stack();
         FragmentTransaction trans = this.sActivity.getFragmentManager().beginTransaction();
 
@@ -54,11 +62,7 @@ public class MyFragmentManager {
     }
 
     public void show(int id) {
-        ArrayList<Fragment> fragmentArrayList = new ArrayList<Fragment>();
-        fragmentArrayList.add(this.mFragment1);
-        fragmentArrayList.add(this.mFragment2);
-        fragmentArrayList.add(this.mFragment3);
-        fragmentArrayList.add(this.mFragment4);
+
         this.showFragment((Fragment)fragmentArrayList.get(id - 1));
     }
 
@@ -86,8 +90,10 @@ public class MyFragmentManager {
         }
     }
 
-    public View getView() {
-
+    public View getView( ) {
         return this.mFragment1.getView();
+    }
+    public View getView(int id) {
+        return fragmentArrayList.get(id - 1).getView();
     }
 }

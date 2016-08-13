@@ -40,24 +40,25 @@ public class BackendController implements IBackendAPIResultCallBack {
 
 
     private static BackendController sBackendController = new BackendController();
-    private static int dateOffset = 0;
+
 
     public static BackendController Get(){
         return sBackendController;
     }
 
-    private void sendDataForRender(JSONArray arr) throws JSONException {
+    private List<DataSource> getDataSourceFromJson(JSONArray arr) throws JSONException {
         List<DataSource> dataSourceList = new ArrayList<DataSource>();
         try {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject ele = arr.getJSONObject(i);
                 dataSourceList.add(new DataSource(ele));
             }
-            FlipOperation.renderData(dataSourceList);
+            return dataSourceList;
         } catch(Exception e){
             Log.d("Dipankar ","Error in building DataSource "+e.getMessage());
         }
 
+        return null;
     }
 
     public void firstBootLoad(){
@@ -69,7 +70,8 @@ public class BackendController implements IBackendAPIResultCallBack {
 
             } else {
                 Logging.Log("Loaded from file cache... and let;s return pull data to FilpOperations.");
-                sendDataForRender(arr);
+
+                FlipOperation.renderData(getDataSourceFromJson(arr));
                 //Calculate Next page
                 next_page = arr.length()/limit;
             }
@@ -133,7 +135,7 @@ public class BackendController implements IBackendAPIResultCallBack {
     }
     @Override
     public void onSuccess(JSONArray result) throws JSONException {
-        sendDataForRender(result);
+        getDataSourceFromJson(result);
         current_news_list = concatArray(current_news_list,result);
         FileSaveLoad.storeData(current_news_list); //store the new list
         is_data_fetch_in_progress = false;
@@ -150,20 +152,20 @@ public class BackendController implements IBackendAPIResultCallBack {
 
 
     //calling By dates and no cache...
-    private void fecthNextSetOfpagesBydates() {
+    public void getdataFromServerByDate(final String date ,final IProcessData callback) { //SimpleUtils.getDateFormat(dateOffset)
         try {
             if(is_data_fetch_in_progress == false ) {
                 Map<String,String> query = new HashMap<String,String>();
-                query.put("date",SimpleUtils.getDateFormat(dateOffset));
+                query.put("date",date);
                 BackendAPI.getData(query, //query
                         next_page,
                         limit,
                         new IBackendAPIResultCallBack() {
                             @Override
                             public void onSuccess(JSONArray result) throws JSONException {
-                                sendDataForRender(result);
+                               // //USE CALLBACK
                                 is_data_fetch_in_progress = false;
-                                dateOffset++;
+                                callback.process(getDataSourceFromJson(result));
                             }
 
                             @Override
@@ -183,9 +185,5 @@ public class BackendController implements IBackendAPIResultCallBack {
         }
     }
 
-    //Public API.
-    public void loadDataFromServer(){
-        fecthNextSetOfpagesBydates();
-    }
 }
 

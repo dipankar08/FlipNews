@@ -2,9 +2,12 @@ package in.peerreview.flipnews.Activities;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +16,9 @@ import java.util.Map;
 
 import in.peerreview.flipnews.R;
 import in.peerreview.flipnews.ServerProxy.BackendController;
+import in.peerreview.flipnews.ServerProxy.IProcessData;
 import in.peerreview.flipnews.UIFragments.MyFragmentManager;
+import in.peerreview.flipnews.Utils.SimpleUtils;
 import in.peerreview.flipnews.storage.DataSource;
 import in.peerreview.flipnews.storage.ImageCacheManager;
 
@@ -22,33 +27,62 @@ import in.peerreview.flipnews.storage.ImageCacheManager;
  */
 public class MyTextFlipper implements IFlipOperation {
 
-    private static int cur_idx = 0;
-    private static int CUTOFF = 5;
-    private static List<DataSource>  dataSourceList = new ArrayList<DataSource>();
-
     private static ViewGroup conatiner;
+
+    private static int cur_idx = 0;
+    private static int targetDateOffset = 0;
+    private static int CUTOFF = 15;
+
+    Map<String,List<DataSource>> dataSourceHistory = new HashMap<String,List<DataSource>>();
+    private static List<DataSource>  workingDataSourceList = new ArrayList<DataSource>();
+
 
 
     @Override
     public void Next() {
-        if(dataSourceList.size() - cur_idx < CUTOFF) {
-            BackendController.Get().loadDataFromServer();
+        //We Meet the condition to fatch the data...
+        if(workingDataSourceList.size() - cur_idx < CUTOFF) {
+            final String date_Key = SimpleUtils.getDateFormat(targetDateOffset);
+
+            //if data is missing..download it from server
+            if(dataSourceHistory.get(SimpleUtils.getDateFormat(targetDateOffset)) == null) {
+                BackendController.Get().getdataFromServerByDate(date_Key, new IProcessData() {
+                    @Override
+                    public void process(List<DataSource> lst) {
+                        dataSourceHistory.put(date_Key, lst);
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+
+                    }
+                });
+            }
+            //last entry .. Just switch to new promocode and do somthing...
+            if( cur_idx == workingDataSourceList.size() ){
+                View v =  MyFragmentManager.Get().getView(3);
+                ((TextView)v.findViewById(R.id.date_text)).setText(date_Key);
+
+                MyFragmentManager.Get().show(3);
+                if(dataSourceHistory.get(date_Key) == null){
+                    Log.d("Dipankar","We are really doing some wrong and we must do something...");
+                    return;
+                }
+                workingDataSourceList = dataSourceHistory.get(date_Key);
+                targetDateOffset++;
+                cur_idx = 0;
+            }
         }
 
-        if(cur_idx >= 0 && cur_idx <= dataSourceList.size() -1){
+        if(cur_idx >= 0 && cur_idx <= workingDataSourceList.size() -1){
             renderItem();
             cur_idx++;
-
-
-
-        } else{
-
         }
     }
 
     @Override
     public void Previous() {
-        if(cur_idx >= 1 && cur_idx <= dataSourceList.size()){
+        if(cur_idx >= 1 && cur_idx <= workingDataSourceList.size()){
             cur_idx--;
             renderItem();
 
@@ -64,7 +98,7 @@ public class MyTextFlipper implements IFlipOperation {
 
     @Override
     public void renderData(List<DataSource> d) {
-        dataSourceList.addAll(d);
+        //workingDataSourceList.addAll(d);
     }
 
     @Override
@@ -81,12 +115,12 @@ public class MyTextFlipper implements IFlipOperation {
             return;
         }
 
-        DataSource d = dataSourceList.get(cur_idx);
+        DataSource d = workingDataSourceList.get(cur_idx);
         ImageCacheManager.renderImage((ImageView) conatiner.findViewById(R.id.image), d.getHead_image(), d.getRand_id());
 
         ((TextView) conatiner.findViewById(R.id.text1)).setText(d.getTitle().trim());
         ((TextView) conatiner.findViewById(R.id.text2)).setText(d.getDetails().trim());
-        ((TextView) conatiner.findViewById(R.id.news_count)).setText((cur_idx+1)+"/"+dataSourceList.size());
+        ((TextView) conatiner.findViewById(R.id.news_count)).setText((cur_idx+1)+"/"+workingDataSourceList.size());
 
         ImageView providerImage = (ImageView) conatiner.findViewById(R.id.provider_logo);
         Map logo_map = new HashMap() {{

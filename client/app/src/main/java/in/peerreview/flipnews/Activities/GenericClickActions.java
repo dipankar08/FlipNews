@@ -28,6 +28,8 @@ public class GenericClickActions {
                 MyFragmentManager.Get().show(2);
             case R.id.back_to_card_btn:
                 MyFragmentManager.Get().show(1);
+            case R.id.next_btn:
+                MyFragmentManager.Get().show(1);
             default:
                 break;
         }
