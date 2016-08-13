@@ -5,69 +5,22 @@
     android:orientation="vertical"
     android:id="@+id/move_to_back_container">
 
-
+    <!--
     <include
         android:id="@+id/tool_bar"
         layout="@layout/tool_bar" >
     </include>
+    -->
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
+
+    <!-- The Main Content View -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:padding="@dimen/activity_vertical_margin">
-
-        <TextView
-            android:id="@+id/tv_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="17sp"
-            android:textColor="#ff0000"
-            android:text="text_bluetooth_off" />
-
-        <Button
-            android:id="@+id/btn_enable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="text_enable" />
-
-        <Button
-            android:id="@+id/btn_view_paired"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:enabled="false"
-            android:text="text_view_paired" />
-
-        <Button
-            android:id="@+id/btn_scan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:enabled="false"
-            android:text="text_scan_devices" />
-        <Button
-            android:id="@+id/btn_send"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="send devices" />
-
-    </LinearLayout>
-
-    <!-- Comment out the below -->
-    <fragment class="in.peerreview.flipnews.UIFragments.NewsCardFragment"
-        android:id="@+id/move_fragment"
-        android:layout_width="match_parent"
+        android:background="@color/green10"
         android:layout_height="match_parent" />
 
-    <View android:id="@+id/dark_hover_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black" />
+
 
 </FrameLayout>

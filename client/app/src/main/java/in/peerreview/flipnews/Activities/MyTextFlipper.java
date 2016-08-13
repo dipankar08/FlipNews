@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.Map;
 
 import in.peerreview.flipnews.R;
 import in.peerreview.flipnews.ServerProxy.BackendController;
-import in.peerreview.flipnews.UIFragments.CoreFragmentAnimation;
+import in.peerreview.flipnews.UIFragments.MyFragmentManager;
 import in.peerreview.flipnews.storage.DataSource;
 import in.peerreview.flipnews.storage.ImageCacheManager;
 
@@ -60,7 +59,7 @@ public class MyTextFlipper implements IFlipOperation {
 
     @Override
     public void setupFlipper() {
-        conatiner = (ViewGroup) CoreFragmentAnimation.Get().getView();
+        conatiner = (ViewGroup) MyFragmentManager.Get().getView();
     }
 
     @Override
@@ -73,6 +72,15 @@ public class MyTextFlipper implements IFlipOperation {
 
     }
     public void renderItem(){
+        //Crash fix: Sometime the fragmnet is not yet infutaed,. In that case Let;s retry or else just reyrn.
+        if(conatiner == null ){
+            conatiner = (ViewGroup) MyFragmentManager.Get().getView();
+        }
+        if(conatiner == null){
+            Log.d("Dipankar", "Layout is not yet influted");
+            return;
+        }
+
         DataSource d = dataSourceList.get(cur_idx);
         ImageCacheManager.renderImage((ImageView) conatiner.findViewById(R.id.image), d.getHead_image(), d.getRand_id());
 

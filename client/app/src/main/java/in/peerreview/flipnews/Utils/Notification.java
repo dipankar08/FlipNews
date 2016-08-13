@@ -28,7 +28,7 @@ public class Notification {
 
         //Create Notification using NotificationCompat.Builder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(sActivity);
-        builder.setSmallIcon(R.drawable.mamatha);
+        builder.setSmallIcon(R.drawable.blank);
         builder.setTicker("Welcome");
         builder.setContentTitle("Sample Title");
         builder.setWhen(System.currentTimeMillis());
@@ -39,7 +39,7 @@ public class Notification {
         intent.putExtra("title", "hello");
         intent.putExtra("text", "world");
         PendingIntent pIntent = PendingIntent.getActivity(sActivity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(R.drawable.mamatha, "Action Button", pIntent);
+        builder.addAction(R.drawable.blank, "Action Button", pIntent);
         builder.setContentIntent(pIntent);
 
         // Dismiss Notification

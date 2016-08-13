@@ -32,7 +32,7 @@ public class ScreenSlidePageFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate( layoutId, container, false);
         switch(page){
             case 0:
-                FontAwesome.setIcon((TextView)rootView.findViewById( R.id.product_logo1),null);
+               // FontAwesome.setIcon((TextView)rootView.findViewById( R.id.product_logo1),null);
                 break;
             /*
             case 1:

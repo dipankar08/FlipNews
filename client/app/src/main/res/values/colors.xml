@@ -5,9 +5,15 @@
     <color name="colorAccent">#FF4081</color>
 
 
-    <color name="red">#ff0000</color>
-    <color name="black">#000000</color>
     <color name="white">#ffffff</color>
-    <color name="green">#00ff00</color>
+
+
+    <color name="green2">#2E7D32</color>
+    <color name="green3">#388E3C</color>
+    <color name="green4">#43A047</color>
+    <color name="green10">#E8F5E9</color>
+
+
+    <color name="trans">#00000000</color>
 
 </resources>

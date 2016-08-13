@@ -1,7 +1,6 @@
 package in.peerreview.flipnews.Utils;
 
 import android.graphics.Typeface;
-import android.view.View;
 import android.widget.TextView;
 
 import in.peerreview.flipnews.LaunchActivity.LaunchActivity;
@@ -12,7 +11,7 @@ import in.peerreview.flipnews.LaunchActivity.LaunchActivity;
 public class FontAwesome {
     private static Typeface font;
     public static void setup(){
-        font = Typeface.createFromAsset(LaunchActivity.Get().getAssets(), "fonts/fontawesome-webfont.ttf" );
+        font = Typeface.createFromAsset(LaunchActivity.Get().getAssets(), "fonts/fontawesome.ttf");
     }
     public static void setIcon(TextView v, String iconId){
         if(v == null) return;

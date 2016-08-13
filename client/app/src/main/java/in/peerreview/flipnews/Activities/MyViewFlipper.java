@@ -1,24 +1,12 @@
 package in.peerreview.flipnews.Activities;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import in.peerreview.flipnews.R;
-import in.peerreview.flipnews.ServerProxy.BackendController;
-import in.peerreview.flipnews.UIFragments.CoreFragmentAnimation;
+import in.peerreview.flipnews.UIFragments.MyFragmentManager;
 import in.peerreview.flipnews.Utils.Logging;
 import in.peerreview.flipnews.storage.DataSource;
-import in.peerreview.flipnews.storage.ImageCacheManager;
 
 /**
  * Created by ddutta on 8/9/2016.
@@ -46,7 +34,7 @@ public class MyViewFlipper implements IFlipOperation {
     }
 
     public void setupFlipper() {
-        flipper = (ViewFlipper) CoreFragmentAnimation.Get().getView();
+        flipper = (ViewFlipper) MyFragmentManager.Get().getView();
         flipper.setInAnimation(MainActivity.Get(), android.R.anim.fade_in);
         flipper.setOutAnimation(MainActivity.Get(), android.R.anim.fade_out);
     }
