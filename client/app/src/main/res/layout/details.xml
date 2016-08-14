@@ -13,18 +13,9 @@
         android:orientation="horizontal"
         android:background="@color/green4">
         <in.peerreview.flipnews.Custom.CustomTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/mybutton"
-            android:onClick="quickActionBtnClicked"
+            style="@style/MyButtonStyle.FontAwesome"
             android:id="@+id/back_to_card_btn"
-            android:padding="15dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="&#xf060;"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            foo:customFont="fonts/fontawesome.ttf"/>
+            android:text="&#xf060;"/>
         <in.peerreview.flipnews.Custom.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

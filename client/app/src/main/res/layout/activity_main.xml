@@ -21,6 +21,4 @@
         android:background="@color/green10"
         android:layout_height="match_parent" />
 
-
-
 </FrameLayout>

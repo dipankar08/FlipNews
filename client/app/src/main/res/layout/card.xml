@@ -17,25 +17,19 @@
             android:scaleType="centerCrop"
             android:src="@drawable/blank" />
         <in.peerreview.flipnews.Custom.CustomTextView
+            style="@style/MyButtonStyle"
             android:id="@+id/toc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="left|top"
-            android:padding="10dp"
             android:text="&#xe164;"
             android:textColor="@color/green4"
-            android:textSize="30dp"
-            foo:customFont="fonts/MaterialIcons-Regular.ttf"/>
+            android:textSize="30dp"/>
         <in.peerreview.flipnews.Custom.CustomTextView
+            style="@style/MyButtonStyle"
             android:id="@+id/settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_gravity="right|top"
-            android:padding="10dp"
-            android:text="&#xe8b8;"
+             android:text="&#xe8b8;"
             android:textColor="@color/green4"
-            android:textSize="30dp"
-            foo:customFont="fonts/MaterialIcons-Regular.ttf"/>
+            android:textSize="30dp"/>
     </FrameLayout>
 
     <RelativeLayout
@@ -75,45 +69,25 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:id="@+id/btn_groups">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-            <in.peerreview.flipnews.Custom.CustomTextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/mybutton"
-                android:onClick="quickActionBtnClicked"
-                android:padding="15dp"
-                android:id="@+id/bookmark"
-                android:text="&#xe866;"
-                android:textColor="@color/white"
-                android:textSize="21dp"
-                foo:customFont="fonts/MaterialIcons-Regular.ttf"/>
-            <in.peerreview.flipnews.Custom.CustomTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/mybutton"
-                android:onClick="quickActionBtnClicked"
-                android:padding="15dp"
-                android:id="@+id/read"
-                android:text="&#xe876;"
-                android:textColor="@color/white"
-                android:textSize="21dp"
-                foo:customFont="fonts/MaterialIcons-Regular.ttf"/>
-            <in.peerreview.flipnews.Custom.CustomTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/mybutton"
-                android:onClick="quickActionBtnClicked"
-                android:id="@+id/share"
-                android:padding="15dp"
-                android:text="&#xe80d;"
-                android:textColor="@color/white"
-                android:textSize="21dp"
-                foo:customFont="fonts/MaterialIcons-Regular.ttf"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <in.peerreview.flipnews.Custom.CustomTextView
+                    style="@style/MyButtonStyle"
+                    android:id="@+id/bookmark"
+                    android:text="&#xe866;"/>
+                <in.peerreview.flipnews.Custom.CustomTextView
+                    style="@style/MyButtonStyle"
+                    android:id="@+id/read"
+                    android:text="&#xe876;"/>
+                <in.peerreview.flipnews.Custom.CustomTextView
+                    style="@style/MyButtonStyle"
+                    android:id="@+id/share"
+                    android:text="&#xe80d;"/>
             </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -122,16 +96,9 @@
             android:gravity="right"
             android:orientation="horizontal">
             <in.peerreview.flipnews.Custom.CustomTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/mybutton"
-                android:onClick="quickActionBtnClicked"
-                android:padding="15dp"
+                style="@style/MyButtonStyle"
                 android:id="@+id/details_btn"
-                android:text="&#xe25a;"
-                android:textColor="@color/white"
-                android:textSize="21dp"
-                foo:customFont="fonts/MaterialIcons-Regular.ttf"/>
+                android:text="&#xe25a;"/>
 
             <ImageButton
                 android:layout_width="100dp"

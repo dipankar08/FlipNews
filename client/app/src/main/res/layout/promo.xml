@@ -39,7 +39,7 @@
             android:id="@+id/subtitle_text"
             android:textColor="#50ffffff"
             android:gravity="center"
-            android:text="100 Older news.............\n..............."
+            android:text="100 Older news............."
             foo:customFont="fonts/Raleway-Light.ttf"
             android:padding="10dp"
             android:textSize="25dp"
@@ -52,32 +52,16 @@
             android:id="@+id/below_btn"
             android:layout_below="@id/text2">
             <in.peerreview.flipnews.Custom.CustomTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/mybutton"
-                android:onClick="quickActionBtnClicked"
+                style="@style/MyButtonStyle.FontAwesome"
                 android:id="@+id/previous_btn"
-                android:padding="20dp"
                 android:layout_weight="1"
-                android:text="&#xf104;"
-                android:textColor="@color/white"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                foo:customFont="fonts/fontawesome.ttf"/>
+                android:text="&#xf104;"/>
             <in.peerreview.flipnews.Custom.CustomTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/mybutton"
-                android:onClick="quickActionBtnClicked"
+                style="@style/MyButtonStyle.FontAwesome"
                 android:id="@+id/next_btn"
                 android:layout_weight="1"
                 android:text="&#xf105;"
-                android:padding="20dp"
-                android:textColor="@color/white"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                android:gravity="right"
-                foo:customFont="fonts/fontawesome.ttf"/>
+                android:gravity="right"/>
         </LinearLayout>
 
 </RelativeLayout>

@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +59,7 @@ public class MyTextFlipper implements IFlipOperation {
             //last entry .. Just switch to new promocode and do somthing...
             if( cur_idx == workingDataSourceList.size() ){
                 View v =  MyFragmentManager.Get().getView(3);
-                ((TextView)v.findViewById(R.id.date_text)).setText(date_Key);
+                ((TextView)v.findViewById(R.id.date_text)).setText(SimpleUtils.getDateReadable(targetDateOffset));
                 ((TextView)v.findViewById(R.id.subtitle_text)).setText(date_Key);
 
                 MyFragmentManager.Get().show(3);
@@ -110,13 +108,18 @@ public class MyTextFlipper implements IFlipOperation {
     }
 
     @Override
-    public void fillDetails() {
+    public boolean fillDetails() {
+        if(cur_idx < 0 || workingDataSourceList.size() == 0  ){
+            Log.d("Dipankar","The data is not yet loaded");
+            return false;
+        }
         DataSource d = workingDataSourceList.get(cur_idx);
         View v = MyFragmentManager.Get().getView(2);
         SimpleUtils.setProvidersLogo(((ImageView)v.findViewById(R.id.source_logo)),d.getSource_name());
         ((TextView)v.findViewById(R.id.full_news)).setText(d.getDetails().trim());
         ((TextView)v.findViewById(R.id.news_title)).setText(d.getTitle().trim());
         ((TextView)v.findViewById(R.id.news_time)).setText(d.getTime() +"  -  " +d.getDate());
+        return true;
     }
 
     public void renderItem(){

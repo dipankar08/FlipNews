@@ -26,7 +26,6 @@ public class GenericClickActions {
                 break;
             case R.id.details_btn:
                 FlipOperation.Get().showDetails();
-                MyFragmentManager.Get().show(2);
                 break;
             case R.id.back_to_card_btn:
                 MyFragmentManager.Get().show(1);

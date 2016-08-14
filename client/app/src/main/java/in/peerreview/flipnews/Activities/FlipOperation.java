@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 
 import java.util.List;
 
+import in.peerreview.flipnews.UIFragments.MyFragmentManager;
 import in.peerreview.flipnews.storage.DataSource;
 
 /**
@@ -71,7 +72,9 @@ public class FlipOperation {
         flipOperation.Previous();
     }
     public void showDetails() {
-        flipOperation.fillDetails();
+        if( flipOperation.fillDetails() == true){
+            MyFragmentManager.Get().show(2);
+        }
     }
 
 }

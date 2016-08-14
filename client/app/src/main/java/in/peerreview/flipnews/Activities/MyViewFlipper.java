@@ -74,8 +74,8 @@ public class MyViewFlipper implements IFlipOperation {
     }
 
     @Override
-    public void fillDetails() {
-
+    public boolean fillDetails() {
+        return false;
     }
 
     /*    public void fixNext(int index) {
