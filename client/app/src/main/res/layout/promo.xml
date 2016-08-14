@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:foo="http://schemas.android.com/apk/res/in.peerreview.flipnews"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:background="@color/green4"
     android:layout_height="match_parent">

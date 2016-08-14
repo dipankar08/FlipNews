@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -16,26 +15,13 @@ import android.widget.Toast;
 import android.view.MenuItem;
 
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 
-import android.graphics.Color;
-
-import android.app.ProgressDialog;
-
-import android.widget.Button;
-import android.widget.TextView;
-
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-
+import in.peerreview.flipnews.ExternalPartner.FaceBookShare;
 import in.peerreview.flipnews.R;
 import in.peerreview.flipnews.ServerProxy.BackendController;
-import in.peerreview.flipnews.BluetoothSync.BluetoothShare;
 import in.peerreview.flipnews.UIFragments.MyFragmentManager;
 import in.peerreview.flipnews.Utils.Experiment;
-import in.peerreview.flipnews.Utils.ShareNews;
 
 public class MainActivity extends ActionBarActivity  {
 
@@ -106,7 +92,12 @@ public class MainActivity extends ActionBarActivity  {
             CompleteonCreate();
         }
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int responseCode, Intent data)
+    {
+        FaceBookShare.Get().onActivityResult(requestCode, responseCode, data);
+        super.onActivityResult(requestCode, responseCode, data);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);

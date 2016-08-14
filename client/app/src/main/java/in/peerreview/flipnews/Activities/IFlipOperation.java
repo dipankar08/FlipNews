@@ -14,4 +14,6 @@ public interface IFlipOperation {
     public void renderData(List<DataSource> d);
     public void reset();
     public boolean fillDetails();
+    /* Will return the current DataShouce which is showing in the app */
+    public DataSource getCurrentNew();
 }

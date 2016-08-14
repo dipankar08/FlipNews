@@ -78,6 +78,11 @@ public class MyViewFlipper implements IFlipOperation {
         return false;
     }
 
+    @Override
+    public DataSource getCurrentNew() {
+        return null;
+    }
+
     /*    public void fixNext(int index) {
         if((current_news_list.length() - index) < 5 ){ // we need to do the next call.
             Logging.Log("Calling for next page fetch of news..");

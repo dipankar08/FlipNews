@@ -1,14 +1,14 @@
 package in.peerreview.flipnews.Activities;
 
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 
+import in.peerreview.flipnews.ExternalPartner.FaceBookShare;
 import in.peerreview.flipnews.R;
-import in.peerreview.flipnews.ServerProxy.BackendController;
 import in.peerreview.flipnews.UIFragments.MyFragmentManager;
-import in.peerreview.flipnews.Utils.ShareNews;
+import in.peerreview.flipnews.Utils.Experiment;
+import in.peerreview.flipnews.Utils.SimpleUtils;
 
 /**
  * Created by ddutta on 8/5/2016.
@@ -22,17 +22,24 @@ public class GenericClickActions {
             case R.id.bookmark:
                 break;
             case R.id.share:
-                ShareNews.share();
+                SimpleUtils.share();
                 break;
             case R.id.details_btn:
                 FlipOperation.Get().showDetails();
                 break;
             case R.id.back_to_card_btn:
                 MyFragmentManager.Get().show(1);
+                break;
             case R.id.next_btn:
                 MyFragmentManager.Get().show(1);
-            default:
                 break;
+            case R.id.experiment:
+                Experiment.test();
+                FaceBookShare.Get().share();
+                break;
+
+            default:
+                Toast.makeText(MainActivity.Get().getApplicationContext(),"The action is not part of this alpha version",Toast.LENGTH_SHORT).show();
         }
     }
 

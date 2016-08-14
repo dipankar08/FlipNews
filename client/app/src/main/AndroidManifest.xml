@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="in.peerreview.flipnews">
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,15 +24,8 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="in.peerreview.flipnews.BluetoothSync.DeviceListActivity"
-            android:label="@string/app_name">
 
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
 
-        </activity>
 
         <!-- Fire base services -->
         <service
@@ -48,7 +42,24 @@
             </intent-filter>
         </service>
 
+        <!-- Facebook share -->
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
+        //to use login or share add this
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name">
+        </activity>
+
+        //replace 1234 below with your Facebook App Id
+        <provider android:authorities="com.facebook.app.FacebookContentProvider169634213458780"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true">
+        </provider>
     </application>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

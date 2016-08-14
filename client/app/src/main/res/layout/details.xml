@@ -1,6 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:foo="http://schemas.android.com/apk/res/in.peerreview.flipnews"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="0dp"
@@ -134,9 +134,10 @@
         <in.peerreview.flipnews.Custom.CustomTextView
             android:layout_width="match_parent"
             android:id="@+id/full_news"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:padding="10dp"
             android:layout_height="wrap_content"
+            android:lineSpacingExtra="6dp"
             android:text="Some news text"/>
     </LinearLayout>
 

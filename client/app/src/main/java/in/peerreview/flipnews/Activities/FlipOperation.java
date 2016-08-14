@@ -77,4 +77,8 @@ public class FlipOperation {
         }
     }
 
+    public DataSource getCurrentNew(){
+        return flipOperation.getCurrentNew();
+    }
+
 }

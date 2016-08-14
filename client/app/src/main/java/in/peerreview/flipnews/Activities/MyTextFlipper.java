@@ -177,6 +177,14 @@ public class MyTextFlipper implements IFlipOperation {
         return true;
     }
 
+    @Override
+    public DataSource getCurrentNew() {
+        if(workingDataSourceList.size() > cur_idx && !workingDataSourceList.isEmpty() && cur_idx != None){
+            return workingDataSourceList.get(cur_idx);
+        }
+        return null;
+    }
+
     public void renderItem(){
         //Crash fix: Sometime the fragmnet is not yet infutaed,. In that case Let;s retry or else just reyrn.
         if(conatiner == null ){

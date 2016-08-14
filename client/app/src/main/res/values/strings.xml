@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">FlipNews</string>
+    <string name="facebook_app_id">169634213458780</string>
 
     <!-- Fragments -->
 
