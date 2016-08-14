@@ -27,68 +27,122 @@ public class MyTextFlipper implements IFlipOperation {
 
     private static ViewGroup conatiner;
 
-    private static int cur_idx = 0;
-    private static int targetDateOffset = 0;
-    private static int CUTOFF = 15;
+    private static final int None = -100;
+
+    private int cur_idx = None;
+    private int targetDateOffset = 0;
+    private static final int CUTOFF = 15;
+
+
 
     Map<String,List<DataSource>> dataSourceHistory = new HashMap<String,List<DataSource>>();
     private static List<DataSource>  workingDataSourceList = new ArrayList<DataSource>();
+    private boolean m_isPromoFragmnetShowing = false;
 
+    private boolean verifyWorkingSetAndDownload(){
+        final String date_Key = SimpleUtils.getDateFormat(targetDateOffset);
+        if((cur_idx == None || workingDataSourceList.size() - cur_idx < CUTOFF ) //meet cutoff
+                && dataSourceHistory.get(SimpleUtils.getDateFormat(targetDateOffset)) == null ) { // doent exist
+            BackendController.Get().getdataFromServerByDate(date_Key, new IProcessData() {
+                @Override
+                public void process(List<DataSource> lst) {
+                    dataSourceHistory.put(date_Key, lst);
+                }
+
+                @Override
+                public void onError(String msg) {
+
+                }
+            });
+
+        }
+        return true;
+    }
+
+    private boolean verifyMovingToNextWorkingSet() {
+
+        final String date_Key = SimpleUtils.getDateFormat(targetDateOffset);
+
+        if( cur_idx == workingDataSourceList.size() -1 ){
+            cur_idx = None;
+        }
+
+        if(cur_idx == None){ // last entry or on first boot.
+            View v =  MyFragmentManager.Get().getView(3);
+
+            ((TextView)v.findViewById(R.id.date_text)).setText(SimpleUtils.getDateReadable(targetDateOffset));
+            ((TextView)v.findViewById(R.id.subtitle_text)).setText("Loading...");
+
+            MyFragmentManager.Get().show(3);
+            m_isPromoFragmnetShowing = true;
+
+            if(dataSourceHistory.get(date_Key) == null){
+                Log.d("Dipankar","We are really doing some wrong and we must do something...");
+                return true;
+            }
+            workingDataSourceList = dataSourceHistory.get(date_Key);
+            targetDateOffset++;
+            cur_idx = -1;
+
+            ((TextView)v.findViewById(R.id.subtitle_text)).setText("We have "+workingDataSourceList.size()+" older news.");
+
+            return true;
+        } else { // we need to move to next set,
+            m_isPromoFragmnetShowing = false;
+            MyFragmentManager.Get().show(1);
+        }
+        return false; // not moving...
+    }
+
+    private boolean verifyMovingToPreviousWorkingSet(){
+        final String date_Key = SimpleUtils.getDateFormat(targetDateOffset-2);
+
+        if( cur_idx == 0){
+            cur_idx = None;
+        }
+
+        if(cur_idx == None){ // last entry or on first boot.
+            View v =  MyFragmentManager.Get().getView(3);
+
+            ((TextView)v.findViewById(R.id.date_text)).setText(SimpleUtils.getDateReadable(targetDateOffset -2 ));
+            ((TextView)v.findViewById(R.id.subtitle_text)).setText("Loading...");
+
+            MyFragmentManager.Get().show(3);
+            m_isPromoFragmnetShowing = true;
+
+            if(dataSourceHistory.get(date_Key) == null){
+                Log.d("Dipankar","We are really doing some wrong and we must do something...");
+                return true;
+            }
+            workingDataSourceList = dataSourceHistory.get(date_Key);
+            targetDateOffset--;
+            cur_idx = workingDataSourceList.size();
+
+            ((TextView)v.findViewById(R.id.subtitle_text)).setText("We have "+workingDataSourceList.size()+" older news.");
+
+            return true;
+        } else { // we need to move to next set,
+            m_isPromoFragmnetShowing = false;
+            MyFragmentManager.Get().show(1);
+        }
+        return false; // not moving...
+    }
 
 
     @Override
     public void Next() {
-        //We Meet the condition to fatch the data...
-        if(workingDataSourceList.size() - cur_idx < CUTOFF) {
-            final String date_Key = SimpleUtils.getDateFormat(targetDateOffset);
-
-            //if data is missing..download it from server
-            if(dataSourceHistory.get(SimpleUtils.getDateFormat(targetDateOffset)) == null) {
-                BackendController.Get().getdataFromServerByDate(date_Key, new IProcessData() {
-                    @Override
-                    public void process(List<DataSource> lst) {
-                        dataSourceHistory.put(date_Key, lst);
-                    }
-
-                    @Override
-                    public void onError(String msg) {
-
-                    }
-                });
-            }
-            //last entry .. Just switch to new promocode and do somthing...
-            if( cur_idx == workingDataSourceList.size() ){
-                View v =  MyFragmentManager.Get().getView(3);
-                ((TextView)v.findViewById(R.id.date_text)).setText(SimpleUtils.getDateReadable(targetDateOffset));
-                ((TextView)v.findViewById(R.id.subtitle_text)).setText(date_Key);
-
-                MyFragmentManager.Get().show(3);
-                if(dataSourceHistory.get(date_Key) == null){
-                    Log.d("Dipankar","We are really doing some wrong and we must do something...");
-                    return;
-                }
-                workingDataSourceList = dataSourceHistory.get(date_Key);
-                targetDateOffset++;
-                cur_idx = 0;
-
-                ((TextView)v.findViewById(R.id.subtitle_text)).setText("We have "+workingDataSourceList.size()+" older news to read...\nClick Next to start.");
-            }
-        }
-
-        if(cur_idx >= 0 && cur_idx <= workingDataSourceList.size() -1){
-            renderItem();
+        verifyWorkingSetAndDownload();
+        if(verifyMovingToNextWorkingSet() == false){
             cur_idx++;
+            renderItem();
         }
     }
 
     @Override
     public void Previous() {
-        if(cur_idx >= 1 && cur_idx <= workingDataSourceList.size()){
+        if(verifyMovingToPreviousWorkingSet() == false){
             cur_idx--;
             renderItem();
-
-        } else{
-
         }
     }
 
@@ -119,6 +173,7 @@ public class MyTextFlipper implements IFlipOperation {
         ((TextView)v.findViewById(R.id.full_news)).setText(d.getDetails().trim());
         ((TextView)v.findViewById(R.id.news_title)).setText(d.getTitle().trim());
         ((TextView)v.findViewById(R.id.news_time)).setText(d.getTime() +"  -  " +d.getDate());
+        ImageCacheManager.renderImage((ImageView) v.findViewById(R.id.source_image), d.getHead_image(), d.getRand_id());
         return true;
     }
 
@@ -131,6 +186,7 @@ public class MyTextFlipper implements IFlipOperation {
             Log.d("Dipankar", "Layout is not yet influted");
             return;
         }
+        if(cur_idx > workingDataSourceList.size()-1 ) return;
 
         DataSource d = workingDataSourceList.get(cur_idx);
         ImageCacheManager.renderImage((ImageView) conatiner.findViewById(R.id.image), d.getHead_image(), d.getRand_id());
