@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -16,6 +17,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.share.ShareApi;
+import com.facebook.share.Sharer;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 
@@ -97,7 +99,22 @@ public class FaceBookShare {
                 .setContentUrl(Uri.parse("https://play.google.com/apps/testing/in.peerreview.flipnews"))
                 .build();
 
-        ShareApi.share(content, null);
+        ShareApi.share(content, new FacebookCallback<Sharer.Result>() {
+            @Override
+            public void onCancel() {
+                Log.d("Dipankar","share:: onCancel called");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d("Dipankar","share:: FacebookException called" + error.getMessage());
+            }
+
+            @Override
+            public void onSuccess(Sharer.Result result) {
+                Toast.makeText(sActivity.getApplicationContext(),"News sucessfully post in your facebook wall",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void onActivityResult(int requestCode, int responseCode, Intent data)
