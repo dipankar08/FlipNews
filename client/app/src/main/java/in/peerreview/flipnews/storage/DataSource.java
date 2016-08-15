@@ -9,9 +9,9 @@ import org.json.JSONObject;
  * Created by ddutta on 6/19/2016.
  */
 public class DataSource {
-    private final String details;
-    private final String head_image;
-    private final String rand_id;
+    private  String details;
+    private  String head_image;
+    private  String rand_id;
     private String title;
     private String remore_url;
     private String time;
@@ -66,6 +66,10 @@ public class DataSource {
     private String source_name;
     private String main_image_url;
 
+    public DataSource(String title) {
+        this.title = title;
+    }
+
     public  DataSource(JSONObject ele) throws JSONException {
 
             this.title = ele.getString("title");
@@ -77,6 +81,22 @@ public class DataSource {
             this.date = ele.getString("date");
             this.time = ele.getString("time");
             this.epoch = ele.getString("epoch");
+
+    }
+
+    public DataSource(String main_image_url, String details, String head_image, String rand_id, String title, String remore_url, String time, String date, String epoch, String source_name) {
+        this.main_image_url = main_image_url;
+        this.details = details;
+        this.head_image = head_image;
+        this.rand_id = rand_id;
+        this.title = title;
+        this.remore_url = remore_url;
+        this.time = time;
+        this.date = date;
+        this.epoch = epoch;
+        this.source_name = source_name;
+    }
+    public DataSource(){
 
     }
 }

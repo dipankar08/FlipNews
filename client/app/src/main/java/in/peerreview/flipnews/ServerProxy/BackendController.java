@@ -23,6 +23,7 @@ import in.peerreview.flipnews.Activities.MainActivity;
 import in.peerreview.flipnews.R;
 import in.peerreview.flipnews.Utils.Logging;
 import in.peerreview.flipnews.Utils.SimpleUtils;
+import in.peerreview.flipnews.storage.DataBaseProxy;
 import in.peerreview.flipnews.storage.ImageCacheManager;
 import in.peerreview.flipnews.storage.DataSource;
 import in.peerreview.flipnews.storage.FileSaveLoad;
@@ -30,7 +31,7 @@ import in.peerreview.flipnews.storage.FileSaveLoad;
 /**
  * Created by ddutta on 6/19/2016.
  */
-public class BackendController implements IBackendAPIResultCallBack {
+public class BackendController {
 
     private static int limit = 10;
     private static int next_page = 1;
@@ -101,75 +102,22 @@ public class BackendController implements IBackendAPIResultCallBack {
         Logging.Log("Loading : Page:"+next_page+" Limit: "+limit);
         try {
             if(is_data_fetch_in_progress == false ) {
-                BackendAPI.getData(null, next_page, limit, this,false);
-                is_data_fetch_in_progress = true;
-            } else {
-                Logging.Log("is_data_fetch_in_progress ...");
-            }
-        }
-        catch (Exception e){
-            Logging.Log(e.toString());
-            is_data_fetch_in_progress = false;
-        }
-    }
-
-
-    public  void firstTimeNetworkLoad() {
-        // this will call for the first time which load 50 data from beggining...
-
-        Logging.Log("Calling : firstTimeNetworkLoad");
-        try {
-            if(is_data_fetch_in_progress == false ) {
-                Logging.Log("Calling : Doing NEtwork Calls..");
-
-                BackendAPI.getData(null, 1, 20, this,true/*UX Blocking..*/);
-                is_data_fetch_in_progress = true;
-            } else {
-                Logging.Log("is_data_fetch_in_progress ...");
-            }
-        }
-        catch (Exception e){
-            Logging.Log(e.toString());
-            is_data_fetch_in_progress = false;
-        }
-    }
-    @Override
-    public void onSuccess(JSONArray result) throws JSONException {
-        getDataSourceFromJson(result);
-        current_news_list = concatArray(current_news_list,result);
-        FileSaveLoad.storeData(current_news_list); //store the new list
-        is_data_fetch_in_progress = false;
-        next_page++;
-    }
-
-    @Override
-    public void onError(String msg) {
-        Logging.showErrorAndExit(msg);
-        is_data_fetch_in_progress = false;
-    }
-
-
-
-
-    //calling By dates and no cache...
-    public void getdataFromServerByDate(final String date ,final IProcessData callback) { //SimpleUtils.getDateFormat(dateOffset)
-        try {
-            if(is_data_fetch_in_progress == false ) {
-                Map<String,String> query = new HashMap<String,String>();
-                query.put("date",date);
-                BackendAPI.getData(query, //query
+                BackendAPI.getData(null,
                         next_page,
                         limit,
                         new IBackendAPIResultCallBack() {
                             @Override
                             public void onSuccess(JSONArray result) throws JSONException {
-                               // //USE CALLBACK
+                                getDataSourceFromJson(result);
+                                current_news_list = concatArray(current_news_list,result);
+                                FileSaveLoad.storeData(current_news_list); //store the new list
                                 is_data_fetch_in_progress = false;
-                                callback.process(getDataSourceFromJson(result));
+                                next_page++;
                             }
 
                             @Override
                             public void onError(String msg) {
+                                Logging.showErrorAndExit(msg);
                                 is_data_fetch_in_progress = false;
                             }
                         },
@@ -177,6 +125,58 @@ public class BackendController implements IBackendAPIResultCallBack {
                 is_data_fetch_in_progress = true;
             } else {
                 Logging.Log("is_data_fetch_in_progress ...");
+            }
+        }
+        catch (Exception e){
+            Logging.Log(e.toString());
+            is_data_fetch_in_progress = false;
+        }
+    }
+
+    //calling By dates and no cache...
+    public void getdataFromServerByDate(final String date1 ,final IProcessData callback) { //SimpleUtils.getDateFormat(dateOffset)
+        try {
+            if(is_data_fetch_in_progress == false ) {
+                //Check if it can found on DB
+                List<DataSource> list = DataBaseProxy.Get().getData(new String[]{date1});
+                if(list != null){
+                    Log.d("Dipankar","Found data from Cache. No need for Networking call.");
+                    callback.process(list);
+                    return;
+                }
+                Log.d("Dipankar","Not Found data from Cache. Need for Networking call.");
+
+                //Doing network calls....
+                Map<String,String> query = new HashMap<String,String>();
+                query.put("date",date1);
+                BackendAPI.getData(query, //query
+                        next_page,
+                        limit,
+                        new IBackendAPIResultCallBack() {
+                            @Override
+                            public void onSuccess(JSONArray result) throws JSONException {
+                                Log.d("Dipankar","BackendAPI: Get data on sucess");
+                                List<DataSource> list = getDataSourceFromJson(result);
+                                if(list != null){
+
+                                    if( DataBaseProxy.Get().setData(new String[]{date1},list) == true){
+                                        Log.d("Dipankar","Data cached properly...");
+                                    }
+                                    callback.process(list);
+                                }
+                                is_data_fetch_in_progress = false;
+                            }
+
+                            @Override
+                            public void onError(String msg) {
+                                Log.d("Dipankar","BackendAPI: Get data onError");
+                                is_data_fetch_in_progress = false;
+                            }
+                        },
+                        false);
+                is_data_fetch_in_progress = true;
+            } else {
+                Log.d("Dipankar","getdataFromServerByDate: We are retiveing data in progress..");
             }
         }
         catch (Exception e){

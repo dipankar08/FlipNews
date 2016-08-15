@@ -22,6 +22,7 @@ import in.peerreview.flipnews.R;
 import in.peerreview.flipnews.ServerProxy.BackendController;
 import in.peerreview.flipnews.UIFragments.MyFragmentManager;
 import in.peerreview.flipnews.Utils.Experiment;
+import in.peerreview.flipnews.storage.DataBaseProxy;
 
 public class MainActivity extends ActionBarActivity  {
 
@@ -201,6 +202,9 @@ public class MainActivity extends ActionBarActivity  {
 
     @Override
     public void onPause() {
+        //Write all unionization here.. OnDestroy is not getting called..
+        DataBaseProxy.Get().destroy();
+
         super.onPause();
     }
 
