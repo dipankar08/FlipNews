@@ -72,7 +72,7 @@ public class MyFragmentManager {
             return;
         }
         FragmentTransaction trans = this.sActivity.getFragmentManager().beginTransaction();
-        trans.setCustomAnimations(R.animator.slide_in, R.animator.slide_out, R.animator.slide_in, R.animator.slide_out);
+       // trans.setCustomAnimations(R.animator.slide_in, R.animator.slide_out, R.animator.slide_in, R.animator.slide_out);
         fragment.getView().bringToFront();
         this.mCurrentFragment.getView().bringToFront();
         trans.hide(this.mCurrentFragment);
