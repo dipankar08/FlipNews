@@ -7,7 +7,6 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.snappydb.DB;
-import com.snappydb.DBFactory;
 import com.snappydb.SnappyDB;
 import com.snappydb.SnappydbException;
 
@@ -63,7 +62,7 @@ public class DataBaseProxy implements IDatabaseOperations{
         if (snappydb != null) {
             try {
                 snappydb.close();
-                snappydb.destroy();
+                //snappydb.destroy();
                 snappydb = null;
                 Log.d("Dipankar","DataBaseProxy: destroy passed.");
             } catch (SnappydbException e) {
