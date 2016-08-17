@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import in.peerreview.flipnews.Activities.ActivityHelper;
+import in.peerreview.flipnews.Utils.L;
 
 /**
  * Created by ddutta on 6/19/2016.
@@ -40,58 +41,63 @@ public class ImageCacheManager {
             String murl = urls[0];
             String name = urls[1]+ ".jpg";
             //downlaod the image for later user..
-            Log.d("Logging","Seraching Path in Cache"+name);
+            L.d("Seraching Path in Cache"+name);
             String existingImagePath = getPathIfPreDownloadedfromCache(name);
             if(existingImagePath != null) {
-                Log.d("Logging","Found Images Path in Cache"+name);
+                L.d("Found Images Path in Cache"+name);
                 return getBitMap(existingImagePath);
             }
-            Log.d("Logging","Not Found and we need to download the images"+name);
+            L.d("Not Found and we need to download the images"+name);
 
             String filepath =null;
             try {
-                Log.d("Logging","Start Downloging Images..."+murl);
+                L.d("Start Downloging Images..." + murl);
                 URL url = new URL(murl);
+                /*
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.setDoOutput(true);
                 urlConnection.setConnectTimeout(15000);
                 urlConnection.setReadTimeout(15000);
                 urlConnection.connect();
-               // File SDCardRoot = Environment.getExternalStorageDirectory().getAbsoluteFile();
+                */
+                InputStream is = null;
+                try {
+                    is = url.openStream();
+                } catch (Exception e) {
+                    L.d("Not able read Image URL data . Please investigate -->" + murl);
+                    return null;
+                }
                 File fileWithinMyDir = ActivityHelper.getImageCache();   //new File(MainActivity.getActivity().getApplicationContext().getFilesDir()+"/"+IMAGES+"/");
                 Log.i("Local filename:", "" + name);
                 File file = new File(fileWithinMyDir, name);
                 if (file.createNewFile()) {
                     file.createNewFile();
                 }
-                FileOutputStream fileOutput = new FileOutputStream(file);
-                InputStream inputStream = urlConnection.getInputStream();
-                int totalSize = urlConnection.getContentLength();
-                int downloadedSize = 0;
-                byte[] buffer = new byte[1024];
-                int bufferLength = 0;
-                while ((bufferLength = inputStream.read(buffer)) > 0) {
-                    fileOutput.write(buffer, 0, bufferLength);
-                    downloadedSize += bufferLength;
+                FileOutputStream os = new FileOutputStream(file);
+
+                byte[] b = new byte[2048];
+                int length;
+
+                while ((length = is.read(b)) != -1) {
+                    os.write(b, 0, length);
                 }
-                fileOutput.close();
-                if (downloadedSize == totalSize) filepath = file.getPath();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                filepath = null;
-                e.printStackTrace();
+                filepath = file.getAbsolutePath();
+
+                is.close();
+                os.close();
+
 
             } catch (Exception e) {
                 filepath = null;
+                L.d("Error: Not able to generate image path"+e.getMessage());
                 e.printStackTrace();
             }
-            //Logging.Log("File Path: "+filepath);
+
             if(filepath !=null) {
                 return getBitMap(filepath);
             } else {
-               Log.d("Logging","Error: Not able to generate image path");
+
             }
             return null;
         }

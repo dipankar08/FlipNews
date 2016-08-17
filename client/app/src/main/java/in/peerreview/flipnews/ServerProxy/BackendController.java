@@ -21,6 +21,7 @@ import java.util.Map;
 import in.peerreview.flipnews.Activities.FlipOperation;
 import in.peerreview.flipnews.Activities.MainActivity;
 import in.peerreview.flipnews.R;
+import in.peerreview.flipnews.Utils.L;
 import in.peerreview.flipnews.Utils.Logging;
 import in.peerreview.flipnews.Utils.SimpleUtils;
 import in.peerreview.flipnews.storage.DataBaseProxy;
@@ -66,11 +67,11 @@ public class BackendController {
         try {
             JSONArray arr = FileSaveLoad.loadData();
             if( arr == null){
-                Logging.Log(" Doing Network call");
+                L.d(" Doing Network call");
                 fecthNextSetOfpages();
 
             } else {
-                Logging.Log("Loaded from file cache... and let;s return pull data to FilpOperations.");
+                L.d("Loaded from file cache... and let;s return pull data to FilpOperations.");
 
                 FlipOperation.renderData(getDataSourceFromJson(arr));
                 //Calculate Next page
@@ -99,7 +100,7 @@ public class BackendController {
 
 
     private void fecthNextSetOfpages() {
-        Logging.Log("Loading : Page:"+next_page+" Limit: "+limit);
+        L.d("Loading : Page:"+next_page+" Limit: "+limit);
         try {
             if(is_data_fetch_in_progress == false ) {
                 BackendAPI.getData(null,
@@ -124,11 +125,11 @@ public class BackendController {
                         false);
                 is_data_fetch_in_progress = true;
             } else {
-                Logging.Log("is_data_fetch_in_progress ...");
+                L.d("is_data_fetch_in_progress ...");
             }
         }
         catch (Exception e){
-            Logging.Log(e.toString());
+            L.d(e.toString());
             is_data_fetch_in_progress = false;
         }
     }
@@ -140,11 +141,11 @@ public class BackendController {
                 //Check if it can found on DB
                 List<DataSource> list = DataBaseProxy.Get().getData(new String[]{date1});
                 if(list != null){
-                    Log.d("Dipankar","Found data from Cache. No need for Networking call.");
+                    L.d("Found data from Cache. No need for Networking call.");
                     callback.process(list);
                     return;
                 }
-                Log.d("Dipankar","Not Found data from Cache. Need for Networking call.");
+                L.d("Not Found data from Cache. Need for Networking call.");
 
                 //Doing network calls....
                 Map<String,String> query = new HashMap<String,String>();
@@ -155,12 +156,12 @@ public class BackendController {
                         new IBackendAPIResultCallBack() {
                             @Override
                             public void onSuccess(JSONArray result) throws JSONException {
-                                Log.d("Dipankar","BackendAPI: Get data on sucess");
+                                L.d("BackendAPI: Get data on sucess");
                                 List<DataSource> list = getDataSourceFromJson(result);
                                 if(list != null){
 
                                     if( DataBaseProxy.Get().setData(new String[]{date1},list) == true){
-                                        Log.d("Dipankar","Data cached properly...");
+                                        L.d("Data cached properly...");
                                     }
                                     callback.process(list);
                                 }
@@ -169,18 +170,18 @@ public class BackendController {
 
                             @Override
                             public void onError(String msg) {
-                                Log.d("Dipankar","BackendAPI: Get data onError");
+                                L.d("BackendAPI: Get data onError");
                                 is_data_fetch_in_progress = false;
                             }
                         },
                         false);
                 is_data_fetch_in_progress = true;
             } else {
-                Log.d("Dipankar","getdataFromServerByDate: We are retiveing data in progress..");
+                L.d("getdataFromServerByDate: We are retiveing data in progress..");
             }
         }
         catch (Exception e){
-            Logging.Log(e.toString());
+            L.d(e.toString());
             is_data_fetch_in_progress = false;
         }
     }

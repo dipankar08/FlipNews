@@ -5,6 +5,7 @@ package in.peerreview.flipnews.UIFragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -68,11 +69,16 @@ public class MyFragmentManager {
 
     private void showFragment(Fragment fragment) {
 
+
+        Log.d("Dipankar","MyFragmentManager::MyshowFragment::  Switching fragmnet In:"+fragment.getTag()+", Out:"+mCurrentFragment.getTag());
         if (fragment.isVisible()) {
             return;
         }
         FragmentTransaction trans = this.sActivity.getFragmentManager().beginTransaction();
-       // trans.setCustomAnimations(R.animator.slide_in, R.animator.slide_out, R.animator.slide_in, R.animator.slide_out);
+        trans.setCustomAnimations(R.animator.slide_in, R.animator.slide_out, R.animator.slide_in, R.animator.slide_out);
+        //trans.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+
+
         fragment.getView().bringToFront();
         this.mCurrentFragment.getView().bringToFront();
         trans.hide(this.mCurrentFragment);
