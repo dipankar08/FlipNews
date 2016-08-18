@@ -2,7 +2,11 @@ package in.peerreview.flipnews.Activities;
 
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -11,6 +15,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 import android.view.MenuItem;
 
@@ -22,6 +27,7 @@ import in.peerreview.flipnews.R;
 import in.peerreview.flipnews.ServerProxy.BackendController;
 import in.peerreview.flipnews.UIFragments.MyFragmentManager;
 import in.peerreview.flipnews.Utils.Experiment;
+import in.peerreview.flipnews.Utils.ImageProcessing;
 import in.peerreview.flipnews.storage.DataBaseProxy;
 
 public class MainActivity extends ActionBarActivity  {
@@ -62,7 +68,19 @@ public class MainActivity extends ActionBarActivity  {
         //initToolbar();
         ActivityHelper.createImageCache();
         Experiment.test();
+        setImageTheme();
+    }
 
+    //setImage Theme
+    private void setImageTheme(){
+        FrameLayout layout =(FrameLayout)findViewById(R.id.move_to_back_container);
+        final int sdk = android.os.Build.VERSION.SDK_INT;
+        Drawable drawable = new BitmapDrawable(ImageProcessing.getGaussianBlurImage(BitmapFactory.decodeResource(getResources(), R.drawable.flower)));
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+           layout.setBackgroundDrawable( drawable);
+        } else {
+            layout.setBackground(drawable);
+        }
     }
 
     //Permisstion Work..

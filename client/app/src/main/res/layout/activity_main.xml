@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff0033"
     android:orientation="vertical"
+    android:scaleType="centerCrop"
     android:id="@+id/move_to_back_container">
 
     <!--
@@ -15,10 +15,12 @@
 
 
     <!-- The Main Content View -->
+
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:background="@color/green10"
+        android:background="@color/trans"
         android:layout_height="match_parent" />
+
 
 </FrameLayout>
