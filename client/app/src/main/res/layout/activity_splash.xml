@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/gradient_background">
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/logo" />
+
+    <in.peerreview.flipnews.Custom.CustomTextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:textSize="40dp"
+        android:textColor="@color/white"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        foo:customFont="fonts/Raleway-Light.ttf"
+        android:text="FlipNews" />
+
+</RelativeLayout>

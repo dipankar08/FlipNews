@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity  {
         //initToolbar();
         ActivityHelper.createImageCache();
         Experiment.test();
-        setImageTheme();
+        //setImageTheme(); This will not be used..
     }
 
     //setImage Theme
