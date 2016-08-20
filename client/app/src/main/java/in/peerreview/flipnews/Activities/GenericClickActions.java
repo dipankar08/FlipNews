@@ -1,5 +1,6 @@
 package in.peerreview.flipnews.Activities;
 
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -37,7 +38,9 @@ public class GenericClickActions {
                 Experiment.test();
                 FaceBookShare.Get().share();
                 break;
-
+            case R.id.more_image_btn:
+                MyFragmentManager.Get().toggle(5);
+                break;
             default:
                 Toast.makeText(MainActivity.Get().getApplicationContext(),"The action is not part of this alpha version",Toast.LENGTH_SHORT).show();
         }

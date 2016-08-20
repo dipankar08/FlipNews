@@ -1,19 +1,29 @@
 package in.peerreview.flipnews.UIFragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
+import android.widget.FrameLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import in.peerreview.flipnews.Activities.FlipOperation;
+import in.peerreview.flipnews.Activities.MainActivity;
 import in.peerreview.flipnews.R;
 
 public class Fragment1 extends Fragment {
+
+    private static List<FrameLayout> mFragmentContainers = new ArrayList<FrameLayout>();
+    private float mLastPosY;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,8 +33,10 @@ public class Fragment1 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //Influte
         View v = inflater.inflate(R.layout.fragment1, container, false);
 
+        // Understing the touch events..
         final GestureDetector gesture = new GestureDetector(getActivity(),
                 new GestureDetector.SimpleOnGestureListener() {
 
@@ -65,7 +77,54 @@ public class Fragment1 extends Fragment {
                 return gesture.onTouchEvent(event);
             }
         });
+
+        // Adding all nested Fragments...
+        mFragmentContainers.add((FrameLayout)v.findViewById(R.id.fragment4Container));
+        mFragmentContainers.add((FrameLayout)v.findViewById(R.id.fragment5Container));
+        FragmentTransaction trans = MainActivity.Get().getSupportFragmentManager().beginTransaction();
+        for( FrameLayout f: mFragmentContainers ){
+            trans.add(f.getId(), new Fragment4(), "Fragment4");
+        }
+        trans.commit();
+
         return v;
     }
 
+    public void showFragment(int id){
+        if(id == 0 ){
+            OvershootInterpolator interpolator =  new OvershootInterpolator(5);
+            mFragmentContainers.get(id).animate().setInterpolator(interpolator).translationY(mFragmentContainers.get(0).getHeight() - 200).setDuration(500);
+        }
+        if(id == 1 ){
+            //OvershootInterpolator interpolator =  new OvershootInterpolator(5);
+            //mFragmentContainers.get(0).animate().setInterpolator(interpolator).(mFragmentContainers.get(0).getHeight() - 200).setDuration(500);
+            mFragmentContainers.get(id).setVisibility(View.VISIBLE);
+        }
+    }
+    public void hideFragment(int id){
+        if(id == 0 ){
+            OvershootInterpolator interpolator =  new OvershootInterpolator(5);
+            mFragmentContainers.get(id).animate().setInterpolator(interpolator).translationY( mFragmentContainers.get(0).getHeight()).setDuration(500);
+        }
+        if(id == 1 ){
+            mFragmentContainers.get(id).setVisibility(View.GONE);
+        }
+    }
+
+    public void toggleFragment(int id){
+        if(id == 0){
+            if(mFragmentContainers.get(id).getTranslationY() == mFragmentContainers.get(0).getHeight()){
+                showFragment(id);
+            } else{
+                hideFragment(id);
+            }
+        }
+        else if(id == 1 ){
+           if (mFragmentContainers.get(id).getVisibility() == View.VISIBLE){
+               hideFragment(id);
+           } else{
+               showFragment(id);
+           }
+        }
+    }
 }

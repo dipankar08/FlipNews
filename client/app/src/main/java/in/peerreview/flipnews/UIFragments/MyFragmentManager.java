@@ -3,8 +3,10 @@ package in.peerreview.flipnews.UIFragments;
 
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,7 +18,7 @@ import java.util.Stack;
 public class MyFragmentManager {
 
     private static MyFragmentManager sCoreFragmentAnimation = null;
-    public Activity sActivity;
+    public FragmentActivity sActivity;
     private FrameLayout mFragmentContainer;
     private Fragment mCurrentFragment;
     private Fragment1 mFragment1;
@@ -35,7 +37,7 @@ public class MyFragmentManager {
         return sCoreFragmentAnimation;
     }
 
-    public void setup(Activity mActivity) {
+    public void setup(FragmentActivity mActivity) {
         this.sActivity = mActivity;
         this.mFragment1 = new Fragment1();
         this.mFragment2 = new Fragment2();
@@ -48,7 +50,7 @@ public class MyFragmentManager {
         fragmentArrayList.add(this.mFragment4);
 
         this.mStackFragments = new Stack();
-        FragmentTransaction trans = this.sActivity.getFragmentManager().beginTransaction();
+        FragmentTransaction trans = this.sActivity.getSupportFragmentManager().beginTransaction();
 
         trans.add(R.id.fragment_container, (Fragment)this.mFragment3, "Fragment3");
         trans.hide((Fragment)this.mFragment3);
@@ -63,8 +65,23 @@ public class MyFragmentManager {
     }
 
     public void show(int id) {
-
+        if(id >= 4){ //Fragment 4.. all the belows to Fragment1
+            mFragment1.showFragment(id-4);
+            return;
+        }
         this.showFragment((Fragment)fragmentArrayList.get(id - 1));
+    }
+    public void hide(int id) {
+        if(id >= 4){ //Fragment 4.. all the belows to Fragment1
+            mFragment1.hideFragment(id-4);
+            return;
+        }
+    }
+    public void toggle(int id) {
+        if(id >= 4) { //Fragment 4.. all the belows to Fragment1
+            mFragment1.toggleFragment(id - 4);
+            return;
+        }
     }
 
     private void showFragment(Fragment fragment) {
@@ -74,8 +91,8 @@ public class MyFragmentManager {
         if (fragment.isVisible()) {
             return;
         }
-        FragmentTransaction trans = this.sActivity.getFragmentManager().beginTransaction();
-        trans.setCustomAnimations(R.animator.slide_in, R.animator.slide_out, R.animator.slide_in, R.animator.slide_out);
+        FragmentTransaction trans = this.sActivity.getSupportFragmentManager().beginTransaction();
+        //trans.setCustomAnimations(R.animator.slide_in, R.animator.slide_out, R.animator.slide_in, R.animator.slide_out);
         //trans.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
 
 

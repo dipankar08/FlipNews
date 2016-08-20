@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -9,4 +9,23 @@
         android:id="@+id/card"
         layout="@layout/card"
         xmlns:android="http://schemas.android.com/apk/res/android" />
-</RelativeLayout>
+    <FrameLayout
+        android:id="@+id/fragment4Container"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="#E2E2E2"
+        android:layout_gravity="bottom"
+        android:translationY="400dp" />
+    <FrameLayout
+        android:id="@+id/fragment5Container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ff00ee"
+        android:layout_marginBottom="150dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+         />
+</FrameLayout>

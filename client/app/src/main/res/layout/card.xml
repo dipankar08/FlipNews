@@ -25,6 +25,13 @@
             android:textSize="30dp"/>
         <in.peerreview.flipnews.Custom.CustomTextView
             style="@style/MyButtonStyle"
+            android:id="@+id/more_image_btn"
+            android:layout_gravity="left|bottom"
+            android:text="&#xe164;"
+            android:textColor="@color/green4"
+            android:textSize="30dp"/>
+        <in.peerreview.flipnews.Custom.CustomTextView
+            style="@style/MyButtonStyle"
             android:id="@+id/settings"
             android:layout_gravity="right|top"
              android:text="&#xe8b8;"

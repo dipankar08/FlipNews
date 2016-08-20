@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -30,7 +31,7 @@ import in.peerreview.flipnews.Utils.Experiment;
 import in.peerreview.flipnews.Utils.ImageProcessing;
 import in.peerreview.flipnews.storage.DataBaseProxy;
 
-public class MainActivity extends ActionBarActivity  {
+public class MainActivity extends FragmentActivity {
 
     private int currentApiVersion;
     private static MainActivity sActivity = null;
