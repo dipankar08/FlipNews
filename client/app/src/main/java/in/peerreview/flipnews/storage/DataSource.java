@@ -2,8 +2,12 @@ package in.peerreview.flipnews.storage;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ddutta on 6/19/2016.
@@ -15,6 +19,37 @@ public class DataSource {
     private String title;
     private String remore_url;
     private String time;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    private String url;
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    private List<String> images;
+    private List<String> video;
+
+    public List<String>  getVideo() {
+        return video;
+    }
+
+    public void setVideo(List<String>  video) {
+        this.video = video;
+    }
+
+
 
     public void setDate(String date) {
         this.date = date;
@@ -72,6 +107,7 @@ public class DataSource {
 
     public  DataSource(JSONObject ele) throws JSONException {
 
+            this.url = ele.getString("url");
             this.title = ele.getString("title");
             this.details = ele.getString("details").toString();
             this.head_image = ele.getString("head_image").toString();
@@ -81,6 +117,27 @@ public class DataSource {
             this.date = ele.getString("date");
             this.time = ele.getString("time");
             this.epoch = ele.getString("epoch");
+            if(ele.has("video")) {
+                JSONArray jsonArray = ele.getJSONArray("video");
+                if (jsonArray != null && jsonArray.length() > 0) {
+                    this.video = new ArrayList<String>();
+                    int len = jsonArray.length();
+                    for (int i=0;i<len;i++){
+                        this.video.add(jsonArray.get(i).toString());
+                    }
+                }
+            }
+        if(ele.has("images")) {
+            JSONArray jsonArray = ele.getJSONArray("images");
+            if (jsonArray != null && jsonArray.length() > 0) {
+                this.images = new ArrayList<String>();
+                int len = jsonArray.length();
+                for (int i=0;i<len;i++){
+                    this.images.add(jsonArray.get(i).toString());
+                }
+            }
+        }
+
 
     }
 

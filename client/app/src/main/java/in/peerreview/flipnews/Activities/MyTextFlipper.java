@@ -1,6 +1,10 @@
 package in.peerreview.flipnews.Activities;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import in.peerreview.flipnews.R;
 import in.peerreview.flipnews.ServerProxy.BackendController;
@@ -167,13 +172,24 @@ public class MyTextFlipper implements IFlipOperation {
             Log.d("Dipankar","The data is not yet loaded");
             return false;
         }
-        DataSource d = workingDataSourceList.get(cur_idx);
+        final DataSource d = workingDataSourceList.get(cur_idx);
         View v = MyFragmentManager.Get().getView(2);
-        SimpleUtils.setProvidersLogo(((ImageView)v.findViewById(R.id.source_logo)),d.getSource_name());
+        ImageView logo = ((ImageView)v.findViewById(R.id.source_logo));
+        SimpleUtils.setProvidersLogo(logo, d.getSource_name());
         ((TextView)v.findViewById(R.id.full_news)).setText(d.getDetails().trim());
         ((TextView)v.findViewById(R.id.news_title)).setText(d.getTitle().trim());
         ((TextView)v.findViewById(R.id.news_time)).setText(d.getTime() +"  -  " +d.getDate());
         ImageCacheManager.renderImage((ImageView) v.findViewById(R.id.source_image), d.getHead_image(), d.getRand_id());
+        logo.setOnClickListener(null);
+        logo.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse(d.getUrl()));
+                MainActivity.Get().startActivity(intent);
+            }
+        });
         return true;
     }
 
@@ -214,6 +230,14 @@ public class MyTextFlipper implements IFlipOperation {
         }};
 
         providerImage.setImageDrawable((Drawable) logo_map.get(d.getSource_name().trim()));
+
+
+        //fill Video and other extra images.
+        Map x = new ArrayMap<String, Object>();
+        x.put("video",d.getVideo());
+        x.put("url",d.getRand_id());
+        x.put("images",d.getImages());
+        MyFragmentManager.Get().setFragmentData(5,x);
 
 
 

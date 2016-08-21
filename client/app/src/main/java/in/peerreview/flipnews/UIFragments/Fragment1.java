@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -11,14 +12,23 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import in.peerreview.flipnews.Activities.FlipOperation;
 import in.peerreview.flipnews.Activities.MainActivity;
 import in.peerreview.flipnews.R;
+import in.peerreview.flipnews.Utils.L;
 
 public class Fragment1 extends Fragment {
 
@@ -81,10 +91,11 @@ public class Fragment1 extends Fragment {
         // Adding all nested Fragments...
         mFragmentContainers.add((FrameLayout)v.findViewById(R.id.fragment4Container));
         mFragmentContainers.add((FrameLayout)v.findViewById(R.id.fragment5Container));
+
         FragmentTransaction trans = MainActivity.Get().getSupportFragmentManager().beginTransaction();
-        for( FrameLayout f: mFragmentContainers ){
-            trans.add(f.getId(), new Fragment4(), "Fragment4");
-        }
+        trans.add(mFragmentContainers.get(0).getId(), new Fragment4(), "Fragment4");
+        trans.add(mFragmentContainers.get(1).getId(), new Fragment5(), "Fragment5");
+
         trans.commit();
 
         return v;
@@ -125,6 +136,53 @@ public class Fragment1 extends Fragment {
            } else{
                showFragment(id);
            }
+        }
+    }
+
+    public void setFragmentData(int id, Map<String,Object> data){
+        FrameLayout cur = mFragmentContainers.get(id);
+        if(id == 0 ) {
+
+        }
+        else if( id == 1 ){
+            //webview
+
+            FrameLayout video_frame = (FrameLayout) cur.getRootView().findViewById(R.id.video_frame);
+            FrameLayout image_frame = (FrameLayout) cur.getRootView().findViewById(R.id.image_frame);
+
+            List<String> video = (List<String>) data.get("video");
+            List<String> images = (List<String>) data.get("images");
+            if(video != null && video.size() > 0) {
+                WebView browser = (WebView) cur.getRootView().findViewById(R.id.video);
+                browser.setWebViewClient(new WebViewClient());
+                L.d("<<<<< "+data.get("video"));
+                browser.getSettings().setJavaScriptEnabled(true);
+                browser.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                browser.loadUrl(video.get(0));
+                video_frame.setVisibility(View.VISIBLE);
+                image_frame.setVisibility(View.GONE);
+            } else{
+                /*
+                L.d("<<<<< "+data.get("images"));
+                ViewPager mPager = (ViewPager) cur.getRootView().findViewById(R.id.image_pager);//(ViewPager) findViewById(R.id.pager);
+                mPager.removeAllViews();
+                for(String im : images)
+                {
+                    ImageView image = new ImageView(MainActivity.Get());
+                    image.setLayoutParams(new android.view.ViewGroup.LayoutParams(80,60));
+                    image.setMaxHeight(200);
+                    image.setMaxWidth(200);
+
+                    // Adds the view to the layout
+                    mPager.addView(image);
+                }
+                //mPager.addView();
+                //((CirclePageIndicator)cur.getRootView().findViewById(R.id.image_viewpager_indicator)).setViewPager(mPager);
+                */
+                image_frame.setVisibility(View.VISIBLE);
+                video_frame.setVisibility(View.GONE);
+
+            }
         }
     }
 }

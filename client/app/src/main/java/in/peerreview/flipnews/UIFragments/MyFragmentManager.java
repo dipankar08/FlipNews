@@ -13,6 +13,8 @@ import android.widget.FrameLayout;
 
 import in.peerreview.flipnews.R;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Stack;
 
 public class MyFragmentManager {
@@ -83,6 +85,13 @@ public class MyFragmentManager {
             return;
         }
     }
+    public void setFragmentData(int id,Map<String, Object> map) {
+        if(id >= 4) { //Fragment 4.. all the belows to Fragment1
+            mFragment1.setFragmentData(id - 4,map); // pases ad index 0,1,2..
+            return;
+        }
+    }
+
 
     private void showFragment(Fragment fragment) {
 
