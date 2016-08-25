@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request,render_template
 import pickle
 import pdb
 import json
@@ -69,7 +69,23 @@ def hello_world():
     except Exception,e:
        print e
        return Response(json.dumps({'result':[],'status':'ERROR','msg':'Somethong goes wrong ! Talk to dipankar!'+str(e)}), mimetype ='application/json')
-#########################################################################       
+#########################################################################     
+
+@app.route("/reports", methods=['POST'])
+def post_crash(): 
+    data = dict(request.args)
+    res = store.insert_crash( data)
+    if(res == True):
+        return Response(json.dumps({'status':'OK'}));
+    else:
+        return Response(json.dumps({'status':'ERROR'}));
+    
+@app.route("/reports", methods=['GET'])
+def get_reports(): 
+    
+    crashs = store.get_crash(1,1000)
+    count = len(crashs)
+    return render_template('reports.html',**locals())      
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5555, debug=True,threaded=True)

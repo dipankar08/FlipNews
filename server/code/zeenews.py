@@ -1,34 +1,51 @@
 import hashlib
 import requests
+import Spider
 from bs4 import BeautifulSoup 
 #Add your seed link here
 import pdb
 ROOT = 'http://zeenews.india.com'
 from masterConfig import mconfig
 
-def get_artical_info(url): #Working..
+
+def get_artical_info(url):
     try:
-        print 'getting',url
-        html = requests.get(url)
-        if html.status_code != 200:
-            print 'Error: Can;t retrive artical'
+        #Build the soup from URL
+        soup = Spider.buildSoup(url)
+        if soup == None :
             return None
-        #pdb.set_trace();
-        soup = BeautifulSoup(html.text)
-         
-        story_container =  soup.find("div", { "class" : "connrtund" }) 
-     
-        title = story_container.find('div',{'class':'full-story-head'}).text
-        date =  story_container.find("div", { "class" : "writer" }).text
-        details = ''.join( [ p.text for p in story_container.find("div", { "class" : "full-con" }).find_all('p')])
-        #pdb.set_trace()
-        images = [ m.get('src') for m in story_container.find("div", { "class" : "full-con" }).find_all('img') if m.get('src').endswith('jpg')]
-        head_image = images[0] if len(images) > 0 else None
-        return {'title':title,'date':date,'details':details,'images':images,'head_image':head_image}
+        
+        #define the prory to retrive from soup.
+        info2 = {
+                    'title':['.full-story-head','text','JOIN'],
+                    'date':['.writer','text','JOIN'],
+                    'details':['.full-con p','text','JOIN'],
+                    'images':['.full-con img','src'],
+                    'video':['iframe','src']
+                }
+                
+        #Get the info from soup.
+        x = Spider.getAttrListForXPath(soup,'div.connrtund', None,info2)
+        if x == None:
+            return None
+        info = x[0]
+        
+        #Make some modification on info.
+        if info.get('images') != None:
+            new =[]
+            for f in info['images']:
+                if f.startswith('/'):
+                    new.append(ROOT+ f)
+                else:
+                    new.append(f)
+            info['images'] = new
+            info['head_image'] = new[0]
+        
+        return info
     except Exception, e:
         print 'Error in (get_artical_info): ',url,str(e)
         return None
- 
+
 def get_all_artical_links(url):
     try:
         print 'getting',url
@@ -55,35 +72,10 @@ def get_all_artical_links(url):
         print 'Error in Group',url,str(e)
         return None
  
- 
-#All Interface must implemnets this...
-import random,string
-def get_all_data_for_a_seed(seed):
-    try:
-        links = get_all_artical_links(seed['url'])
-        if not links:
-            return None
-        res = []
-        #pdb.set_trace()
-        ii =0;
-        for l in links:
-            ii = ii+1
-            if(ii > mconfig['max_news_in_each_cata'] ):
-                break;
-            ares = get_artical_info(l)
-            if not ares:
-                continue
-            ares['url'] = l
-            ares['source'] = 'ZeeNews'
-            ares['categories']= seed['categories']
-            ares['tags']= seed['categories']
-            ares['rand_id']=hashlib.sha224(ares['url']).hexdigest()# ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20)) 
-            res.append(ares)
-        return res
-    except Exception, e:
-        print 'Error(get_all_data_for_a_seed)',seed,str(e)
-        return None
- 
-         
-#test Public API
+def test():
+    i = get_artical_info('http://zeenews.india.com/bengali/lifestyle/fight-for-saving-friends-life_147105.html')
+    pdb.set_trace()
+    
+    
+#test();
 
