@@ -1,13 +1,45 @@
 <html>
 <head>
 <link href="https://fonts.googleapis.com/css?family=Exo+2:300" rel="stylesheet">
+<style>
+table,tr,td,td{
+    width: 800px;
+    margin: 10px auto;
+    border: 1px solid;
+    padding: 5px;
+    border-collapse: collapse;
+}
+
+</style>
 </head>
 <body style="font-family: 'Exo 2', sans-serif;;width: 100%;height:100%;background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);margin:0;padding:0;color:rgba(255,255,255,0.9)">
     <div style="height:100%;width:35%;display:inline">
         <p style="font-size: 80px; text-align: center; margin: 50px;"> Java Crash<p>
         <p style="font-size: 150px; text-align: center; margin: 50px;">{{count}}<p>  
     </div>
-    <div style="height:100%;width:65%;display:inline">    
+    <div style="display:block"> 
+        <table>
+           <tr style="    font-weight: bold; color: white;;">
+                <td>SL</td>
+                <td>Excepton Type</td>
+                <td>File/LineNo.</td>
+                <td>Device ID</td>
+                <td>Device Name</td>
+                <td>Reporting time</td>
+            </tr>
+           {% for crash in crashes %}
+           <tr>
+                <td>{{loop.index}}</td>
+                <td>{{ crash.Exception_type }}</td>
+                <td>{{ crash.Exception_pinToFile }}::{{ crash.Exception_pinToLine }}</td>
+                <td>{{ crash.DEVICE_ID }}</td>
+                <td>{{ crash.DEVICE_NAME }}</td>
+                <td>{{ crash.REPORT_DATE }}</td>
+            </tr>
+            {% else %}
+            <tr><td>Unbelievable.  No entries here so far</td></tr>
+            {% endfor %}
+        </table>
     </div>
 </body>
 

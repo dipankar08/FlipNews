@@ -73,7 +73,7 @@ def hello_world():
 
 @app.route("/reports", methods=['POST'])
 def post_crash(): 
-    data = dict(request.args)
+    data = dict(request.json)
     res = store.insert_crash( data)
     if(res == True):
         return Response(json.dumps({'status':'OK'}));
@@ -82,9 +82,9 @@ def post_crash():
     
 @app.route("/reports", methods=['GET'])
 def get_reports(): 
-    
-    crashs = store.get_crash(1,1000)
-    count = len(crashs)
+    #pdb.set_trace()
+    crashes = store.get_crash(1,1000)
+    count = len(crashes)
     return render_template('reports.html',**locals())      
 
 if __name__ == '__main__':
