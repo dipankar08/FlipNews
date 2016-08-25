@@ -8,14 +8,21 @@ import android.content.pm.Signature;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -149,6 +156,88 @@ public class SimpleUtils {
 
         } catch (NoSuchAlgorithmException e) {
 
+        }
+    }
+    //extractLogToFile
+    private String extractLogToFile()
+    {
+        PackageManager manager = MainActivity.Get().getPackageManager();
+        PackageInfo info = null;
+        try {
+            info = manager.getPackageInfo (MainActivity.Get().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e2) {
+        }
+        String model = Build.MODEL;
+        if (!model.startsWith(Build.MANUFACTURER))
+            model = Build.MANUFACTURER + " " + model;
+
+        // Make file name - file must be saved to external storage or it wont be readable by
+        // the email app.
+        String path = Environment.getExternalStorageDirectory() + "/" + "MyApp/";
+        String fullName = path + "adblogs.txt";
+
+        // Extract to file.
+        File file = new File (fullName);
+        InputStreamReader reader = null;
+        FileWriter writer = null;
+        try
+        {
+            // For Android 4.0 and earlier, you will get all app's log output, so filter it to
+            // mostly limit it to your app's output.  In later versions, the filtering isn't needed.
+            String cmd = (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) ?
+                    "logcat -d -v time MyApp:v dalvikvm:v System.err:v *:s" :
+                    "logcat -d -v time";
+
+            // get input stream
+            Process process = Runtime.getRuntime().exec(cmd);
+            reader = new InputStreamReader (process.getInputStream());
+
+            // write output stream
+            writer = new FileWriter (file);
+            writer.write ("Android version: " +  Build.VERSION.SDK_INT + "\n");
+            writer.write ("Device: " + model + "\n");
+            writer.write ("App version: " + (info == null ? "(null)" : info.versionCode) + "\n");
+
+            char[] buffer = new char[10000];
+            do
+            {
+                int n = reader.read (buffer, 0, buffer.length);
+                if (n == -1)
+                    break;
+                writer.write (buffer, 0, n);
+            } while (true);
+
+            reader.close();
+            writer.close();
+        }
+        catch (Exception e)
+        {
+            if (writer != null)
+                try {
+                    writer.close();
+                } catch (Exception e1) {
+                }
+            if (reader != null)
+                try {
+                    reader.close();
+                } catch (Exception e1) {
+                }
+
+            // You might want to write a failure message to the log here.
+            return null;
+        }
+
+        return fullName;
+    }
+    public static JSONObject getSystemInfo() {
+        try {
+            JSONObject obj = new JSONObject();
+
+            obj.put("DEVICE_ID", Settings.Secure.getString(MainActivity.Get().getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+
+            return obj;
+        } catch (JSONException e) {
+            return null;
         }
     }
 
