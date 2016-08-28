@@ -16,7 +16,7 @@ def get_artical_info(url):
         
         #define the prory to retrive from soup.
         info2 = {
-                    'title':['h1','text'],
+                    'title':['h1','text','NO_LIST_IF_ONE'],
                     'date':['.publish_date','text'],
                     'details':['.articleBody','text'],
                     'images':['img','src'],
@@ -44,36 +44,59 @@ def get_artical_info(url):
     except Exception, e:
         print 'Error in (get_artical_info): ',url,str(e)
         return None
- 
+
+def first_page_parser(url):
+    pdb.set_trace();
+    try:
+        #Build the soup from URL
+        soup = Spider.buildSoup(url)
+        if soup == None :
+            return None
+            
+        #Get the info from soup.
+        x1 = Spider.getAttrListForXPath(soup,'div.leadstoryheading', None,{'url':['a','href']})
+        
+        #Process:
+        res =[ ]
+        for link in x1:
+            s = link.get('url')[0]
+            if s.startswith('/'):
+                res.append(ROOT+s)
+                
+        return res;        
+    except Exception, e:
+        print '[ERROR] get_all_artical_links_first_page',url,str(e)
+        return None
+            
 def get_all_artical_links(url):
     try:
-        print 'getting',url
-        html = requests.get(url)
-        if html.status_code != 200:
-            print 'Error: Can;t retrive artical'
+        #Build the soup from URL
+        soup = Spider.buildSoup(url)
+        if soup == None :
             return None
-        #pdb.set_trace();
-        soup = BeautifulSoup(html.text)
-         
-        links =[]
- 
-        x = soup.find("div", { "class" : "leadstory-section" })
-        if x: links.append(x.find('a').get('href'))
- 
-        x = soup.find("div", { "class" : "sectionstory-inside" })
-        if x:
-            links += list (set([ y.get('href') for y in x.find_all('a') if 'javascript' not in y.get('href')]))
-        global ROOT
-        return [ ROOT + l for l in links if l[0] == '/']
-                  
-         
+            
+        #Get the info from soup.
+        x1 = Spider.getAttrListForXPath(soup,'div.leadstory-section-heading', None,{'url':['a','href']})
+        x2 = Spider.getAttrListForXPath(soup,'div.sectionstoryinside-sub', None,{'url':['a','href']})
+        
+        #Process:
+        res =[ ]
+        for link in x1+x2:
+            s = link.get('url')[0]
+            if s.startswith('/'):
+                res.append(ROOT+s)
+                
+        return res;  
     except Exception, e:
         print 'Error in Group',url,str(e)
         return None
         
         
 def test():
-    i = get_artical_info('http://www.anandabazar.com/entertainment/i-didn-t-know-i-am-so-seductive-says-swastika-mukherjee-dgtl-1.459800#')
+    #i = get_artical_info('http://www.anandabazar.com/entertainment/i-didn-t-know-i-am-so-seductive-says-swastika-mukherjee-dgtl-1.459800#')
+    #i = first_page_parser("http://www.anandabazar.com");
+    i = get_all_artical_links("http://www.anandabazar.com/calcutta");
+    print i
     pdb.set_trace()
     
     

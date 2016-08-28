@@ -26,14 +26,19 @@ def get_all_data_for_a_seed(config):
     #pdb.set_trace()
     try:
         res = []        
-        for seed in config['seeds']:        
-            artical_url_list = config['handaler_list'](seed['url'])
+        for seed in config['seeds']:
+            #find the parser to find all urls in the seeds
+            parser = config['handaler_list'] if seed.get('parser') == None else seed.get('parser') 
+            artical_url_list = parser(seed['url'])
             if artical_url_list:
                #Process artical list
                ii =0
                for artical_url in artical_url_list:
+                    #Find if max number of articla per seed is retrieved till now.
                     ii = ii + 1
-                    if(ii > mconfig['max_news_in_each_cata'] ):
+                    if(seed.get('max_count') != None and ii > seed.get('max_count')):
+                        break;                        
+                    if(ii > mconfig['max_news_in_each_cata']):
                         break;
                     
                     artical_data = config['handaler_info'](artical_url)

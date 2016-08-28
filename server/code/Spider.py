@@ -56,8 +56,8 @@ def getAttrListForXPath(soup, xpath, info = None, info2 = None):
                         if v[2] == 'NO_LIST_IF_ONE' and len(val[k]) == 1:
                             val[k] = val[k][0]
                         #if item is a list of string just apply join and get string.
-                        if v[2] == 'JOIN':
-                            val[k] = '\n'.join(val[k].strip()).strip()  
+                        if v[2] == 'JOIN' and val[k] != None:
+                            val[k] = '\n'.join([ m.strip() for m in val[k]]).strip()  
                             
                         
                     

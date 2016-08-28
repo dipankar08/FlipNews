@@ -3,7 +3,8 @@ import zeenews
 import pratidin
 import bartaman
 import eisamay
-
+import oneindia
+import healthbarta
 config = {
     'bartaman': {
         'name':'bartaman',
@@ -23,6 +24,7 @@ config = {
         'handaler_info':ABP.get_artical_info,
         'handaler_list':ABP.get_all_artical_links,
         'seeds':[
+            {'categories':'firstpage','url':'http://www.anandabazar.com','parser':ABP.first_page_parser,'max_count':100},
             {'categories':'science','url':'http://www.anandabazar.com/others/science'},
             {'categories':'calcutta','url':'http://www.anandabazar.com/calcutta'},
             {'categories':'state','url':'http://www.anandabazar.com/state'},
@@ -78,5 +80,41 @@ config = {
             {'categories':'lifestyle','url':'http://eisamay.indiatimes.com/lifestyle/articlelist/15992436.cms'},          
             
         ],     
+    },
+    'oneindia': {
+        'name':'oneindia',
+        'handaler_info':oneindia.parse_artical,
+        'handaler_list':oneindia.parse_artical_list,
+        'seeds':[
+            {'categories':'firstpage','url':'http://bengali.oneindia.com/news/','parser':oneindia.parse_first_page_list,'max_count':100},
+            #{'categories':'science','url':''},
+            {'categories':'calcutta','url':'http://bengali.oneindia.com/news/kolkata/'},
+            {'categories':'state','url':'http://bengali.oneindia.com/news/west-bengal/'},
+            {'categories':'national','url':'http://bengali.oneindia.com/news/india/'},
+            {'categories':'international','url':'http://bengali.oneindia.com/news/international/'},
+            {'categories':'sports','url':'http://bengali.oneindia.com/news/sports/'},
+            {'categories':'entertainment','url':'http://bengali.oneindia.com/movies/'},
+            #{'categories':'business','url':''},
+            {'categories':'lifestyle','url':'http://bengali.oneindia.com/lifestyle/'},
+            #{'categories':'girls','url':''},           
+            {'categories':'travel','url':'http://bengali.oneindia.com/travel/'},           
+            {'categories':'features','url':'http://bengali.oneindia.com/news/features/'},           
+            {'categories':'cookery','url':'http://bengali.oneindia.com/cookery/'}, 
+        ],    
+    }, 
+    'healthbarta': {
+        'name':'healthbarta',
+        'handaler_info':healthbarta.parse_artical,
+        'handaler_list':healthbarta.parse_artical_list,
+        'seeds':[
+            {'categories':'firstpage','url':'http://www.healthbarta.com/','parser':healthbarta.parse_first_page_list,'max_count':100},
+            {'categories':'food','url':'http://www.healthbarta.com/food-nutrition/'},
+            {'categories':'women','url':'http://www.healthbarta.com/womens-health/'},
+            {'categories':'men','url':'http://www.healthbarta.com/mens-health/'},
+            {'categories':'beauty','url':'http://www.healthbarta.com/health-and-beauty/'},
+            {'categories':'disease','url':'http://www.healthbarta.com/disease/'},
+            {'categories':'relationships','url':'http://www.healthbarta.com/love-relationships/'},
+            {'categories':'treatment','url':'http://www.healthbarta.com/family-treatment/'},
+        ],    
     },
 }
