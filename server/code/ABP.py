@@ -46,7 +46,7 @@ def get_artical_info(url):
         return None
 
 def first_page_parser(url):
-    pdb.set_trace();
+    #pdb.set_trace();
     try:
         #Build the soup from URL
         soup = Spider.buildSoup(url)
